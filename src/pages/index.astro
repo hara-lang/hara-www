@@ -69,26 +69,28 @@ const hopliteHello = runtimeEvidence.http_measurements?.find(
 const hopliteRequests = hopliteHello?.requests_per_second == null
   ? "Pending"
   : Math.round(hopliteHello.requests_per_second).toLocaleString("en-US");
-const evidenceDate = new Date(languageEvidence.environment.timestamp).toLocaleDateString(
-  "en-AU",
-  { day: "numeric", month: "short", year: "numeric" }
-);
 ---
 <SiteLayout
   title="Hara — Start simple. Build forever."
-  description="Start simple. Build forever. Hara is a modern Lisp for learning to build software from first principles."
+  description="Install Hara with Homebrew or open the Playground and start exploring the language in your browser."
 >
   <main>
     <Motif kind="edge" class="hero">
       <div class="hero-copy">
         <p class="hara-kicker">A small language · a serious runtime</p>
         <h1>Start simple.<br /><span>Build forever.</span></h1>
-        <p>Hara is a modern Lisp for learning to build software from first principles. Start with one visible rule, work live in the browser, and keep the same language as the system grows.</p>
+        <p>Bring Hara to your terminal with Homebrew, or open the Playground and start experimenting right away. The same small language stays with you as your project grows.</p>
+        <div class="hero-install" aria-labelledby="install-hara-title">
+          <div class="hero-install-heading">
+            <strong id="install-hara-title">Install Hara</strong>
+            <span>Homebrew · macOS and Linux</span>
+          </div>
+          <code>brew install hara-lang/tap/hara</code>
+        </div>
         <div class="actions">
-          <a class="button primary" href="https://playground.hara-lang.org/">Try Hara</a>
+          <a class="button primary" href="https://playground.hara-lang.org/">Open the Playground</a>
           <a class="button" href="/docs/start/orientation/">Start learning</a>
         </div>
-        <small>Current figures below are generated from committed, checksum-verified benchmark evidence published on {evidenceDate}. <a href="/benchmarks/">Inspect the complete results.</a></small>
       </div>
     </Motif>
 
@@ -297,3 +299,41 @@ const evidenceDate = new Date(languageEvidence.environment.timestamp).toLocaleDa
     });
   </script>
 </SiteLayout>
+<style>
+  .hero-install {
+    display: grid;
+    gap: 0.8rem;
+    max-width: 650px;
+    margin-top: 1.6rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--hara-line-strong);
+    border-radius: var(--hara-radius-lg);
+    background: color-mix(in srgb, var(--hara-surface-solid) 88%, transparent);
+    box-shadow: var(--hara-shadow);
+  }
+  .hero-install-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
+  }
+  .hero-install-heading strong {
+    font-size: 1rem;
+  }
+  .hero-install-heading span {
+    color: var(--hara-faint);
+    font-size: 0.78rem;
+  }
+  .hero-install code {
+    display: block;
+    overflow-x: auto;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--hara-line);
+    border-radius: var(--hara-radius-sm);
+    background: var(--hara-bg);
+    color: var(--hara-text);
+    font: 650 clamp(0.82rem, 2vw, 0.98rem) / 1.5 var(--hara-font-mono);
+    white-space: nowrap;
+  }
+</style>
