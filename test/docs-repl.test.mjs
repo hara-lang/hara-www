@@ -121,35 +121,53 @@ test("emits scope metadata on runnable Hara fences", () => {
   assert.match(tree.children[1].value, /data-hara-group="lesson"/);
 });
 
-test("keeps readiness in each runner instead of a persistent output or ready toast", async () => {
+test("runnable documentation fences mount the shared live card", async () => {
   const repl = await readFile(new URL("../public/assets/docs-repl.js", import.meta.url), "utf8");
-  assert.match(repl, /dataset\.connectionState/);
-  assert.match(repl, /<details class="hara-repl-details">/);
-  assert.match(repl, /<output hidden/);
+  assert.match(repl, /mountLiveCard/);
+  assert.match(repl, /mountDocsRunner/);
+  assert.match(repl, /sessionProxyKernel/);
+  assert.match(repl, /snippets: \[docsSnippet\(descriptor, source\)\]/);
   assert.match(repl, /progress\.toast\.remove\(\)/);
-  assert.doesNotMatch(repl, /Kernel loading/);
-  assert.doesNotMatch(repl, /hara-wasm-core ready/);
+  assert.doesNotMatch(repl, /function installRepl/);
+  assert.doesNotMatch(repl, /class="hara-repl"/);
 });
 
-test("shows the user-facing scope and keeps the runtime in details", async () => {
+test("the user-facing scope becomes the shared component tab label", async () => {
   const repl = await readFile(new URL("../public/assets/docs-repl.js", import.meta.url), "utf8");
   const state = await readFile(new URL("../public/assets/docs-repl-state.js", import.meta.url), "utf8");
-  assert.match(repl, /data-hara-session-label/);
-  assert.match(repl, /<div><dt>Runtime<\/dt><dd>hara-wasm-core<\/dd><\/div>/);
+  assert.match(repl, /title: descriptor\.label/);
   assert.match(state, /label: "isolated"/);
   assert.match(state, /label: "global"/);
   assert.match(state, /label: `group \$\{normalizedGroup\}`/);
 });
 
-test("resets every runner in a named lesson group without accepting stale output", async () => {
+test("tutorial canvases use the same component with a canvas snippet", async () => {
   const repl = await readFile(new URL("../public/assets/docs-repl.js", import.meta.url), "utf8");
+  assert.match(repl, /docsSnippet\(descriptor, source, "canvas"\)/);
+  assert.match(repl, /kernel: directSessionKernel\(sessions, descriptor\)/);
+  assert.match(repl, /card\.run\(\)/);
+  assert.doesNotMatch(repl, /function createCanvasController/);
+});
+
+test("group reset invalidates cards before replacing the shared session", async () => {
+  const repl = await readFile(new URL("../public/assets/docs-repl.js", import.meta.url), "utf8");
+  const live = await readFile(new URL("../packages/live/src/live-card.js", import.meta.url), "utf8");
   const state = await readFile(new URL("../public/assets/docs-repl-state.js", import.meta.url), "utf8");
   assert.match(repl, /hara:reset-session/);
+  assert.match(repl, /card\.reset\(\)/);
   assert.match(repl, /sessions\.reset\(descriptor\)/);
-  assert.match(repl, /hara:session-reset/);
-  assert.match(repl, /currentOperation !== operation/);
   assert.match(repl, /matching\.forEach\(\(runner\) => runner\.beginReset\(\)\)/);
-  assert.match(state, /reset\(descriptor\)/);
+  assert.match(live, /operation \+= 1/);
   assert.match(state, /await session\.close\?\.\(\)/);
-  assert.match(state, /revision\(descriptor\)/);
+});
+
+test("the website and docs load one visual-language bridge for live cards", async () => {
+  const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
+  const config = await readFile(new URL("../astro.config.mjs", import.meta.url), "utf8");
+  const styles = await readFile(new URL("../public/assets/live-surface.css", import.meta.url), "utf8");
+  assert.match(layout, /\/assets\/live-surface\.css/);
+  assert.match(config, /\/assets\/live-surface\.css/);
+  assert.match(styles, /--hara-live-bg:\s*var\(--hara-bg-clean\)/);
+  assert.match(styles, /--hara-live-accent:\s*var\(--hara-signal\)/);
+  assert.match(styles, /--hara-live-mono-font:\s*var\(--hara-font-mono\)/);
 });
