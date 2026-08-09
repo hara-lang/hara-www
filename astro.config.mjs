@@ -24,6 +24,7 @@ export default defineConfig({
         { tag: "script", attrs: { type: "module", src: "/assets/identity-loader.js" } },
         { tag: "link", attrs: { rel: "stylesheet", href: "/docs-assets/stylesheets/syllabus.css" } },
         { tag: "link", attrs: { rel: "stylesheet", href: "/docs-assets/live/style.css" } },
+        { tag: "link", attrs: { rel: "stylesheet", href: "/assets/live-surface.css" } },
         { tag: "script", attrs: { type: "module", src: "/assets/docs-repl.js" } },
         { tag: "script", attrs: { type: "module", src: "/docs-assets/javascripts/syllabus.js" } },
         { tag: "meta", attrs: { property: "og:site_name", content: "Hara / Docs" } },
