@@ -112,6 +112,14 @@
   box-shadow:none;
 }
 .sl-markdown-content .hara-live-card-editor textarea::selection { color:transparent; }
+/* Starlight adds flow spacing to buttons and small text inside prose. Live-card
+   header children participate in a grid, so that spacing offsets individual
+   controls instead of separating document paragraphs. */
+.sl-markdown-content .hara-live-card-header > button,
+.sl-markdown-content .hara-live-card-header .hara-live-card-status,
+.sl-markdown-content .hara-live-card-header .hara-live-card-status small {
+  margin:0;
+}
 @media (prefers-reduced-motion:reduce) {
   .hara-repl-connection { animation:none !important; }
 }

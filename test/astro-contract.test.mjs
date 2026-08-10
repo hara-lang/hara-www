@@ -28,6 +28,11 @@ test("keeps the live editor selection aligned inside Starlight prose", async () 
   assert.match(styles, /\.hara-live-card-editor textarea::selection\s*\{\s*color:transparent;/);
 });
 
+test("keeps live-card header controls aligned inside Starlight prose", async () => {
+  const styles = await readFile(new URL("../src/styles/docs.css", import.meta.url), "utf8");
+  assert.match(styles, /\.sl-markdown-content \.hara-live-card-header > button,[\s\S]*\.hara-live-card-status small\s*\{\s*margin:0;/);
+});
+
 test("uses the compact ecosystem navigation and shared GitHub identity", async () => {
   const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
   const shell = await readFile(new URL("../src/styles/shell.css", import.meta.url), "utf8");
