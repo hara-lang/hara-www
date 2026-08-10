@@ -110,7 +110,7 @@ mkdir -p "$OUT/v1"
 cp "$SITE_ROOT/v1.html" "$OUT/v1/index.html"
 node -e 'process.stdout.write(`globalThis.HARA_GITHUB_OAUTH_CLIENT_ID = ${JSON.stringify(process.env.HARA_GITHUB_OAUTH_CLIENT_ID || "Iv23lixQbnKYwkRBihCQ")};\n`)' \
   > "$OUT/github-auth-config.js"
-cp "$WORKSPACE_ROOT/infra/hara-cli/install.sh" "$OUT/install.sh"
+cp "$HARA_ROOT/scripts/runtime/install.sh" "$OUT/install.sh"
 chmod 755 "$OUT/install.sh"
 cp "$RAW_DIR/hara-wasm-core.wasm" "$OUT/runtime/hara.wasm"
 cp "$RAW_DIR/hara-wasm-core.wasm" "$OUT/runtime/hara-wasm-core-$RUNTIME_VERSION.wasm"

@@ -1,0 +1,43 @@
+name: Site CI
+on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: site-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    env:
+      HARA_WORKSPACE_ROOT: ${{ github.workspace }}/.workspace
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara, path: .workspace/technology/hara}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-benchmarks, path: .workspace/website/hara-benchmarks}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-benchmarks, ref: benchmark-site, path: .workspace/website/hara-benchmarks/.benchmark-site}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-docs, path: .workspace/website/hara-docs, submodules: recursive}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-specs-registry, path: .workspace/technology/hara-specs-registry}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-extensions, path: .workspace/extensions}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .workspace/website/hara-benchmarks/astro/package-lock.json
+      - name: Install site dependencies
+        run: npm ci && npm ci --prefix .workspace/website/hara-benchmarks/astro
+      - name: Prepare canonical benchmark evidence
+        run: scripts/hara-assembly/install-benchmark-site prepare
+      - name: Build site inputs
+        run: npm run build && HARA_BENCHMARK_BASE=/benchmarks npm run build --prefix .workspace/website/hara-benchmarks/astro
+      - name: Check production assembly boundary
+        run: scripts/hara-assembly/build-www --check-site-inputs
+      - name: Test site contracts
+        run: npm test

@@ -1,0 +1,68 @@
+name: Deploy www.hara-lang.org
+on:
+  push:
+    branches: [main, prod]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: netlify-www-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    env:
+      HARA_WORKSPACE_ROOT: ${{ github.workspace }}/.workspace
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara, path: .workspace/technology/hara}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-benchmarks, path: .workspace/website/hara-benchmarks}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-benchmarks, ref: benchmark-site, path: .workspace/website/hara-benchmarks/.benchmark-site}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-docs, path: .workspace/website/hara-docs, submodules: recursive}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-specs-registry, path: .workspace/technology/hara-specs-registry}
+      - uses: actions/checkout@v4
+        with: {repository: hara-lang/hara-extensions, path: .workspace/extensions}
+      - uses: dtolnay/rust-toolchain@stable
+        with: {targets: wasm32-unknown-unknown}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .workspace/website/hara-benchmarks/astro/package-lock.json
+      - name: Install site dependencies
+        run: npm ci && npm ci --prefix .workspace/website/hara-benchmarks/astro
+      - name: Prepare canonical benchmark evidence
+        run: scripts/hara-assembly/install-benchmark-site prepare
+      - name: Build and assemble site
+        env:
+          HARA_GITHUB_OAUTH_CLIENT_ID: ${{ vars.HARA_GITHUB_OAUTH_CLIENT_ID }}
+        run: scripts/hara-assembly/build-www
+      - name: Publish benchmark evidence
+        run: scripts/hara-assembly/install-benchmark-site publish
+      - name: Test assembled site
+        run: npm test && test -s .workspace/technology/hara/core/target/www/benchmarks/data/runs.json
+      - name: Deploy candidate
+        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "${GITHUB_REF_NAME} ${GITHUB_SHA}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_TESTING_SITE_ID }}
+      - name: Verify candidate
+        run: bash .github/scripts/verify-benchmark-observatory.sh https://www.testing.hara-lang.org/benchmarks/
+      - name: Deploy production
+        if: github.ref_name == 'prod'
+        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "prod ${GITHUB_SHA}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
+      - name: Verify production
+        if: github.ref_name == 'prod'
+        run: bash .github/scripts/verify-benchmark-observatory.sh https://www.hara-lang.org/benchmarks/

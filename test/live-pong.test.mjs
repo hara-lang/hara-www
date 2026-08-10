@@ -4,7 +4,7 @@ import test from "node:test";
 
 const pongUrl = new URL("../sources/pong.hal", import.meta.url);
 const homepageUrl = new URL("../src/pages/index.astro", import.meta.url);
-const nodeHalUrl = new URL("../../rust/web/studio/hal/node.hal", import.meta.url);
+const nodeHalUrl = new URL("../../../technology/hara/core/rust/web/studio/hal/node.hal", import.meta.url);
 
 function assertBalanced(source) {
   const stack = [];
