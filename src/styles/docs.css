@@ -92,6 +92,26 @@
 .hara-repl output[hidden] { display:none; }
 .hara-repl output[data-state="error"] { color:var(--hara-danger); }
 .hara-repl output[data-state="pending"] { color:var(--sl-color-gray-3); }
+
+/* Starlight's prose code-block styles must not decorate the shared live-card
+   highlight layer. The textarea sits directly above it, so any pre spacing
+   moves the highlighted source away from the browser selection. */
+.sl-markdown-content .hara-live-card-editor .code-highlight,
+.sl-markdown-content .hara-live-card-editor .code-highlight:hover {
+  margin:0;
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+.sl-markdown-content .hara-live-card-editor .code-highlight > code {
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+.sl-markdown-content .hara-live-card-editor textarea::selection { color:transparent; }
 @media (prefers-reduced-motion:reduce) {
   .hara-repl-connection { animation:none !important; }
 }

@@ -22,6 +22,12 @@ test("publishes the dedicated maximum-resolution documentation card", async () =
   assert.match(config, /og:image:height", content: "630"/);
 });
 
+test("keeps the live editor selection aligned inside Starlight prose", async () => {
+  const styles = await readFile(new URL("../src/styles/docs.css", import.meta.url), "utf8");
+  assert.match(styles, /\.sl-markdown-content \.hara-live-card-editor \.code-highlight[\s\S]*margin:0;[\s\S]*padding:0;[\s\S]*border:0;[\s\S]*box-shadow:none;/);
+  assert.match(styles, /\.hara-live-card-editor textarea::selection\s*\{\s*color:transparent;/);
+});
+
 test("uses the compact ecosystem navigation and shared GitHub identity", async () => {
   const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
   const shell = await readFile(new URL("../src/styles/shell.css", import.meta.url), "utf8");
