@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import test from "node:test";
+import { workspace } from "../scripts/docs-manifest.mjs";
 
 const pongUrl = new URL("../sources/pong.hal", import.meta.url);
 const homepageUrl = new URL("../src/pages/index.astro", import.meta.url);
-const nodeHalUrl = new URL("../../../technology/hara/core/rust/web/studio/hal/node.hal", import.meta.url);
+const nodeHalUrl = resolve(workspace, "technology/hara/core/rust/web/studio/hal/node.hal");
 
 function assertBalanced(source) {
   const stack = [];

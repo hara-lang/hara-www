@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { docsManifest } from "../scripts/docs-manifest.mjs";
 
 test("publishes docs below /docs and uses the visual package", async () => {
   const content = await readFile(new URL("../src/content.config.ts", import.meta.url), "utf8");
@@ -108,12 +109,13 @@ test("puts homepage demo tabs above controls and hides the redundant kernel toas
 });
 
 test("orders the embedded docs around a first learning journey", async () => {
-  const manifest = JSON.parse(await readFile(new URL("../../hara-docs/docs-manifest.json", import.meta.url), "utf8"));
-  assert.deepEqual(manifest.navigation.map(({ label }) => label), ["Start", "Learn", "Use Hara", "Reference"]);
-  const start = JSON.stringify(manifest.navigation[0]);
-  assert.match(start, /Why Hara\?[\s\S]*Learn programming[\s\S]*Try Hara in the browser[\s\S]*Build Tic Tac Toe[\s\S]*Choose your setup/);
-  const learn = JSON.stringify(manifest.navigation[1]);
-  assert.match(learn, /Choose a learning path[\s\S]*The Little Book of HAL[\s\S]*First Contact[\s\S]*Protocols for Builders[\s\S]*Hara foundations/);
+  assert.deepEqual(docsManifest.navigation.map(({ label }) => label), ["Learn", "Build", "Reference"]);
+  assert.deepEqual(docsManifest.navigation[0].items.map(({ label }) => label), ["Learn Hara"]);
+  assert.deepEqual(docsManifest.navigation[1].items.map(({ label }) => label), [
+    "Install and choose a host", "Projects and namespaces", "Runtime-driven development"
+  ]);
+  const navigation = JSON.stringify(docsManifest.navigation);
+  assert.doesNotMatch(navigation, /Start|Use Hara|autogenerate/);
 });
 
 test("publishes the interactive syllabus controller and styles with docs", async () => {
