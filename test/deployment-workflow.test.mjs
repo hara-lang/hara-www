@@ -22,6 +22,8 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(packageLock, /packages\/visual-language/);
   assert.doesNotMatch(packageJson, /file:\.\.\/packages\/visual-language/);
   assert.match(assembly, /extensions\/hara-runtime\/scripts\/cargo-wasm-build/);
+  assert.match(assembly, /vendor\/hara-ui\/favicon-48\.svg/);
+  assert.doesNotMatch(assembly, /assets\/hara-mark\.svg/);
   assert.match(kernelManifest, /gzip > 350_000/);
   assert.match(kernelManifest, /brotli > 280_000/);
 });

@@ -170,12 +170,11 @@ cp "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" \
    "$ROOT/core/lib/src/std/lib/substrate/frame.hal" \
    "$OUT/runtime/std/lib/substrate/"
 cp "$SITE_ROOT/assets/hara-amp/"* "$OUT/assets/hara-amp/"
-cp "$SITE_ROOT/assets/favicon-48.svg" \
-   "$SITE_ROOT/assets/favicon-128.svg" \
-   "$SITE_ROOT/assets/favicon-256.svg" \
-   "$SITE_ROOT/assets/logo.svg" \
-   "$SITE_ROOT/assets/hara-mark.svg" \
-   "$SITE_ROOT/assets/logo-white.svg" \
+cp "$SITE_ROOT/vendor/hara-ui/favicon-48.svg" \
+   "$SITE_ROOT/vendor/hara-ui/favicon-128.svg" \
+   "$SITE_ROOT/vendor/hara-ui/favicon-256.svg" \
+   "$SITE_ROOT/vendor/hara-ui/logo.svg" \
+   "$SITE_ROOT/vendor/hara-ui/logo-white.svg" \
    "$OUT/assets/"
 cp "$SITE_ROOT/og-hara-ribbon.png" \
    "$SITE_ROOT/og-hara-ribbon.jpg" \
