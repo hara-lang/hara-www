@@ -7,6 +7,7 @@ const prepareDocs = await readFile(new URL("../scripts/prepare-docs.mjs", import
 const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
 const packageLock = await readFile(new URL("../package-lock.json", import.meta.url), "utf8");
 const assembly = await readFile(new URL("../scripts/hara-assembly/build-www", import.meta.url), "utf8");
+const kernelManifest = await readFile(new URL("../scripts/hara-assembly/write-kernel-manifest.mjs", import.meta.url), "utf8");
 
 test("deploys testing and production from their intended branches", () => {
   assert.match(workflow, /branches: \[main, testing\]/);
@@ -21,4 +22,6 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(packageLock, /packages\/visual-language/);
   assert.doesNotMatch(packageJson, /file:\.\.\/packages\/visual-language/);
   assert.match(assembly, /extensions\/hara-runtime\/scripts\/cargo-wasm-build/);
+  assert.match(kernelManifest, /gzip > 350_000/);
+  assert.match(kernelManifest, /brotli > 280_000/);
 });
