@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { redirectSources } from "./docs-manifest.mjs";
 
 const site = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const workspace = resolve(process.env.HARA_WORKSPACE_ROOT || join(site, "../.."));
@@ -43,6 +44,7 @@ async function walk(directory) {
     if (entry.isDirectory()) { await walk(input); continue; }
     if (!/\.mdx?$/.test(entry.name)) continue;
     const rel = relative(source, input);
+    if (redirectSources.has(rel)) continue;
     const output = join(destination, rel);
     let body = await readFile(input, "utf8");
     body = normalizeMkDocsFrontmatter(body);

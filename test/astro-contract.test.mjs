@@ -17,6 +17,16 @@ test("publishes docs below /docs and uses the visual package", async () => {
   assert.match(config, /outDir:\s*"\.\/target\/www-astro"/);
 });
 
+test("provisions and verifies the canonical Hara visual-language package", async () => {
+  const script = await readFile(new URL("../scripts/prepare-visual-language.mjs", import.meta.url), "utf8");
+  const workflow = await readFile(new URL("../.github/workflows/site-ci.yml", import.meta.url), "utf8");
+  assert.match(script, /website\/hara-visual-language/);
+  assert.match(script, /\.\/astro\/ThemeToggle\.astro/);
+  assert.match(script, /\.\/astro\/HaraMark\.astro/);
+  assert.match(script, /\.\/astro\/Motif\.astro/);
+  assert.match(workflow, /repository: hara-lang\/visual-language[\s\S]*ref: c49ad17d5052c8eeca0aff4a6146ff60b89ce88f[\s\S]*path: packages\/visual-language/);
+});
+
 test("publishes the dedicated maximum-resolution documentation card", async () => {
   const config = await readFile(new URL("../astro.config.mjs", import.meta.url), "utf8");
   assert.match(config, /og-hara-docs\.jpg/);
@@ -98,11 +108,12 @@ test("puts homepage demo tabs above controls and hides the redundant kernel toas
 });
 
 test("orders the embedded docs around a first learning journey", async () => {
-  const config = await readFile(new URL("../astro.config.mjs", import.meta.url), "utf8");
-  assert.match(config, /Start here[\s\S]*Why Hara\?[\s\S]*Read Hara and build from scratch[\s\S]*Try Hara in the browser[\s\S]*Build Tic Tac Toe[\s\S]*Choose your setup/);
-  assert.match(config, /Interactive courses[\s\S]*Choose a learning path[\s\S]*First Contact[\s\S]*Protocols for Builders[\s\S]*Collection Protocols[\s\S]*State and Lifecycle Protocols[\s\S]*Protocol Atlas/);
-  assert.match(config, /Hara language course/);
-  assert.match(config, /Guides & reference/);
+  const manifest = JSON.parse(await readFile(new URL("../../hara-docs/docs-manifest.json", import.meta.url), "utf8"));
+  assert.deepEqual(manifest.navigation.map(({ label }) => label), ["Start", "Learn", "Use Hara", "Reference"]);
+  const start = JSON.stringify(manifest.navigation[0]);
+  assert.match(start, /Why Hara\?[\s\S]*Learn programming[\s\S]*Try Hara in the browser[\s\S]*Build Tic Tac Toe[\s\S]*Choose your setup/);
+  const learn = JSON.stringify(manifest.navigation[1]);
+  assert.match(learn, /Choose a learning path[\s\S]*The Little Book of HAL[\s\S]*First Contact[\s\S]*Protocols for Builders[\s\S]*Hara foundations/);
 });
 
 test("publishes the interactive syllabus controller and styles with docs", async () => {
@@ -120,10 +131,9 @@ test("hydrates Tic Tac Toe stages as REPL-attached canvas outputs", async () => 
   const liveKernel = await readFile(new URL("../packages/live/src/kernel.js", import.meta.url), "utf8");
   const styles = await readFile(new URL("../src/styles/docs.css", import.meta.url), "utf8");
   assert.match(repl, /data-hara-canvas-stage/);
-  assert.match(repl, /compileAnonymousDocument/);
-  assert.match(repl, /registerCanvas\(runtime\)/);
-  assert.match(repl, /waitForFirstRender/);
-  assert.match(repl, /runner\.button\.click\(\)/);
+  assert.match(repl, /docsSnippet\(descriptor, source, "canvas"\)/);
+  assert.match(repl, /directSessionKernel\(sessions, descriptor\)/);
+  assert.match(repl, /card\.run\(\)/);
   assert.match(liveKernel, /"studio\.draw": `\$\{runtimeBase\}\/studio\/hal\/draw\.hal`/);
   assert.match(styles, /\.hara-canvas-stage \.hara-repl/);
   assert.match(styles, /\.hara-live-canvas/);

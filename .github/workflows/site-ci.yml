@@ -24,6 +24,11 @@ jobs:
         with: {repository: hara-lang/hara-specs-registry, path: .workspace/technology/hara-specs-registry}
       - uses: actions/checkout@v4
         with: {repository: hara-lang/hara-extensions, path: .workspace/extensions}
+      - uses: actions/checkout@v4
+        with:
+          repository: hara-lang/visual-language
+          ref: c49ad17d5052c8eeca0aff4a6146ff60b89ce88f
+          path: packages/visual-language
       - uses: actions/setup-node@v4
         with:
           node-version: 22
