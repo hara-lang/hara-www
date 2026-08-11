@@ -1,7 +1,7 @@
 name: Deploy www.hara-lang.org
 on:
   push:
-    branches: [main, prod]
+    branches: [main, testing]
   workflow_dispatch:
 permissions:
   contents: read
@@ -50,19 +50,21 @@ jobs:
         run: scripts/hara-assembly/install-benchmark-site publish
       - name: Test assembled site
         run: npm test && test -s .workspace/technology/hara/core/target/www/benchmarks/data/runs.json
-      - name: Deploy candidate
-        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "${GITHUB_REF_NAME} ${GITHUB_SHA}"
+      - name: Deploy testing
+        if: github.ref_name == 'testing'
+        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "testing ${GITHUB_SHA}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_TESTING_SITE_ID }}
-      - name: Verify candidate
+      - name: Verify testing
+        if: github.ref_name == 'testing'
         run: bash .github/scripts/verify-benchmark-observatory.sh https://www.testing.hara-lang.org/benchmarks/
-      - name: Deploy production
-        if: github.ref_name == 'prod'
-        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "prod ${GITHUB_SHA}"
+      - name: Deploy main
+        if: github.ref_name == 'main'
+        run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "main ${GITHUB_SHA}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
       - name: Verify production
-        if: github.ref_name == 'prod'
+        if: github.ref_name == 'main'
         run: bash .github/scripts/verify-benchmark-observatory.sh https://www.hara-lang.org/benchmarks/
