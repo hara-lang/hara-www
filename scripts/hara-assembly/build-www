@@ -7,6 +7,7 @@ OUT="$ROOT/core/target/www"
 RAW_DIR="$ROOT/core/rust/raw/target/wasm32-unknown-unknown/browser-release"
 HALC_OUT="$ROOT/core/target/www-halc"
 HARA_COMPILER="$ROOT/core/rust/target/debug/hara"
+WASM_BUILD_HELPER="$WORKSPACE_ROOT/extensions/hara-runtime/scripts/cargo-wasm-build"
 
 check_site_inputs() {
   local missing=0
@@ -55,6 +56,14 @@ fi
 npm run build --prefix "$SITE_ROOT"
 HARA_BENCHMARK_BASE=/benchmarks npm run build --prefix "$BENCHMARK_ROOT/astro"
 check_site_inputs
+if [[ ! -x "$ROOT/scripts/runtime/cargo-wasm-build" ]]; then
+  if [[ ! -x "$WASM_BUILD_HELPER" ]]; then
+    echo "WASM build helper is missing $WASM_BUILD_HELPER" >&2
+    exit 1
+  fi
+  cp "$WASM_BUILD_HELPER" "$ROOT/scripts/runtime/cargo-wasm-build"
+  chmod 755 "$ROOT/scripts/runtime/cargo-wasm-build"
+fi
 bash "$HARA_ROOT/scripts/runtime/build-hara-wasm-raw" all
 cargo build --manifest-path "$ROOT/core/rust/Cargo.toml" --features hir-encoder --bin hara
 rm -rf "$HALC_OUT"

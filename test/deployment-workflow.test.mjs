@@ -6,6 +6,7 @@ const workflow = await readFile(new URL("../.github/workflows/pages-www.yml", im
 const prepareDocs = await readFile(new URL("../scripts/prepare-docs.mjs", import.meta.url), "utf8");
 const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
 const packageLock = await readFile(new URL("../package-lock.json", import.meta.url), "utf8");
+const assembly = await readFile(new URL("../scripts/hara-assembly/build-www", import.meta.url), "utf8");
 
 test("deploys testing and production from their intended branches", () => {
   assert.match(workflow, /branches: \[main, testing\]/);
@@ -19,4 +20,5 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(packageJson, /file:packages\/visual-language/);
   assert.match(packageLock, /packages\/visual-language/);
   assert.doesNotMatch(packageJson, /file:\.\.\/packages\/visual-language/);
+  assert.match(assembly, /extensions\/hara-runtime\/scripts\/cargo-wasm-build/);
 });
