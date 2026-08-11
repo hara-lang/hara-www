@@ -59,6 +59,9 @@ test("leads with the language and renders benchmark evidence from committed data
   assert.match(page, /Hara is Lisp/);
   assert.match(page, /language-reference\.json/);
   assert.match(page, /reference-v2\.json/);
+  assert.match(page, /HARA_WORKSPACE_ROOT/);
+  assert.match(page, /website\/hara-benchmarks\/runtime\/hara\/results/);
+  assert.doesNotMatch(page, /lib\/bench\/results/);
   assert.match(page, /formatRatio\("python-prepared"\)/);
   assert.match(page, /hoplite-request/);
   assert.doesNotMatch(page, /One language\.[\s\S]*Fit to its environment\./);

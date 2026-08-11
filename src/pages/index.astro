@@ -1,6 +1,7 @@
 ---
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Motif from "@hara-lang/visual-language/astro/Motif.astro";
 import "@hara-lang/live/style.css";
@@ -25,12 +26,15 @@ type HttpMeasurement = {
 };
 type RuntimeEvidence = { http_measurements?: HttpMeasurement[] };
 
-const languageEvidencePath = fileURLToPath(
-  new URL("../../../lib/bench/results/language-reference.json", import.meta.url)
+const workspaceRoot = process.env.HARA_WORKSPACE_ROOT || fileURLToPath(
+  new URL("../../../../", import.meta.url)
 );
-const runtimeEvidencePath = fileURLToPath(
-  new URL("../../../lib/bench/results/reference-v2.json", import.meta.url)
+const benchmarkResultsRoot = resolve(
+  workspaceRoot,
+  "website/hara-benchmarks/runtime/hara/results"
 );
+const languageEvidencePath = resolve(benchmarkResultsRoot, "language-reference.json");
+const runtimeEvidencePath = resolve(benchmarkResultsRoot, "reference-v2.json");
 const languageEvidence: LanguageEvidence = JSON.parse(
   readFileSync(languageEvidencePath, "utf8")
 );
