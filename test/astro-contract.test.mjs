@@ -6,6 +6,7 @@ test("publishes docs below /docs and uses the visual package", async () => {
   const content = await readFile(new URL("../src/content.config.ts", import.meta.url), "utf8");
   const prepare = await readFile(new URL("../scripts/prepare-docs.mjs", import.meta.url), "utf8");
   const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
+  const config = await readFile(new URL("../astro.config.mjs", import.meta.url), "utf8");
   assert.match(content, /docsLoader/);
   assert.match(prepare, /src\/content\/docs\/docs/);
   assert.match(layout, /@hara-lang\/visual-language/);
@@ -13,6 +14,7 @@ test("publishes docs below /docs and uses the visual package", async () => {
   assert.match(layout, /og-hara\.jpg/);
   assert.match(layout, /og:image:width" content="1200"/);
   assert.match(layout, /og:image:height" content="630"/);
+  assert.match(config, /outDir:\s*"\.\/target\/www-astro"/);
 });
 
 test("publishes the dedicated maximum-resolution documentation card", async () => {

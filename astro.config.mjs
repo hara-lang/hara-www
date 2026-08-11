@@ -6,7 +6,7 @@ import remarkHaraEval from "./scripts/remark-hara-eval.mjs";
 export default defineConfig({
   site: "https://www.hara-lang.org",
   output: "static",
-  outDir: "../target/www-astro",
+  outDir: "./target/www-astro",
   markdown: { remarkPlugins: [remarkHaraEval] },
   integrations: [
     sitemap(),
