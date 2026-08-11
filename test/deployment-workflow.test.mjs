@@ -15,7 +15,8 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(workflow, /fetch-depth: 0\s+submodules: recursive/);
   assert.match(prepareDocs, /HARA_WORKSPACE_ROOT/);
   assert.match(prepareDocs, /website\/hara-docs\/docs/);
-  assert.match(packageJson, /file:vendor\/hara-ui\/packages\/visual-language/);
-  assert.match(packageLock, /vendor\/hara-ui\/packages\/visual-language/);
+  assert.match(workflow, /repository: hara-lang\/visual-language[\s\S]*ref: c49ad17d5052c8eeca0aff4a6146ff60b89ce88f[\s\S]*path: packages\/visual-language/);
+  assert.match(packageJson, /file:packages\/visual-language/);
+  assert.match(packageLock, /packages\/visual-language/);
   assert.doesNotMatch(packageJson, /file:\.\.\/packages\/visual-language/);
 });

@@ -14,7 +14,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/starlight": "^0.37.0",
     "@hara-lang/live": "file:packages/live",
-    "@hara-lang/visual-language": "file:vendor/hara-ui/packages/visual-language",
+    "@hara-lang/visual-language": "file:packages/visual-language",
     "astro": "^5.16.0",
     "sharp": "^0.35.3"
   },
