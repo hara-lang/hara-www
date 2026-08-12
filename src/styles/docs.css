@@ -154,3 +154,8 @@
 /* Embedded live cards (<div data-hara-live="...">), styled by
    /docs-assets/live/style.css and bridged onto the docs theme tokens. */
 .hara-live-card { --hara-live-accent:var(--hara-signal); --hara-live-border:var(--sl-color-gray-5); --hara-live-mono-font:var(--hara-font-mono); margin:1.25rem 0; }
+.sidebar-content a.hara-sidebar-back {
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+}

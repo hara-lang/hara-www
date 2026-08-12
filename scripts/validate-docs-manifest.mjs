@@ -13,9 +13,17 @@ function collect(items) {
 }
 
 collect(docsManifest.navigation);
-if (new Set(paths).size !== paths.length) throw new Error("duplicate page in documentation navigation");
+for (const tree of docsManifest.routeTrees ?? []) collect(tree.items);
 
-for (const path of paths) await access(resolve(docs, path));
+for (const path of new Set(paths)) await access(resolve(docs, path));
+
+if (docsManifest.navigation.length !== 4) throw new Error("documentation must expose four root sections");
+for (const group of docsManifest.navigation) {
+  if (group.items.some((item) => item.items)) throw new Error(`three-level root navigation: ${group.label}`);
+}
+for (const tree of docsManifest.routeTrees ?? []) {
+  if (tree.items.some((item) => item.items)) throw new Error(`nested route tree: ${tree.id}`);
+}
 
 const fromRoutes = docsManifest.redirects.map(({ from }) => from);
 if (new Set(fromRoutes).size !== fromRoutes.length) throw new Error("duplicate documentation redirect route");
@@ -23,4 +31,4 @@ for (const { from, to } of docsManifest.redirects) {
   if (from === to) throw new Error(`self redirect: ${from}`);
 }
 
-console.log(`documentation manifest valid: ${paths.length} pages, ${fromRoutes.length} redirects`);
+console.log(`documentation manifest valid: ${new Set(paths).size} pages, ${docsManifest.routeTrees?.length ?? 0} route trees, ${fromRoutes.length} redirects`);

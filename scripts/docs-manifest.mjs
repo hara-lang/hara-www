@@ -11,6 +11,11 @@ function slugFor(path) {
   return `docs/${path.replace(/\.md$/, "").replace(/\/(?:index|README)$/i, "")}`;
 }
 
+function hrefFor(path) {
+  const href = slugFor(path).replace(/\/$/, "");
+  return `/${path.startsWith("api/") ? href.replaceAll(".", "") : href}/`;
+}
+
 function sidebarItem(item) {
   if (item.path) return { label: item.label, slug: slugFor(item.path) };
   if (item.url) return { label: item.label, link: item.url };
@@ -22,6 +27,10 @@ function sidebarItem(item) {
 }
 
 export const docsSidebar = docsManifest.navigation.map(sidebarItem);
+export const docsRouteTrees = (docsManifest.routeTrees ?? []).map((tree) => ({
+  ...tree,
+  items: tree.items.map((item) => ({ ...item, href: hrefFor(item.path) }))
+}));
 export const docsRedirects = Object.fromEntries(
   docsManifest.redirects.map(({ from, to }) => [from, to])
 );

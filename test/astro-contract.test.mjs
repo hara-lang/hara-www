@@ -109,16 +109,25 @@ test("puts homepage demo tabs above controls and hides the redundant kernel toas
 });
 
 test("orders the embedded docs around a first learning journey", async () => {
-  assert.deepEqual(docsManifest.navigation.map(({ label }) => label), ["Learn", "Build", "Reference"]);
+  assert.deepEqual(docsManifest.navigation.map(({ label }) => label), ["Learn Path", "Self Learning", "Build", "Reference"]);
   assert.deepEqual(docsManifest.navigation[0].items.map(({ label }) => label), [
-    "Learning paths", "Try Hara in the browser", "First Contact", "Learn programming",
-    "The Little Book of HAL", "Protocols for Builders", "Build Tic Tac Toe", "Hara foundations"
+    "Overview", "Try Hara in the browser", "First Contact", "Learn programming", "Hara Foundations"
   ]);
-  assert.deepEqual(docsManifest.navigation[1].items.map(({ label }) => label), [
-    "Install and choose a host", "Hosts and tools", "Projects and namespaces", "Runtime-driven development"
-  ]);
+  assert.deepEqual(docsManifest.navigation[1].items.map(({ label }) => label),
+    ["Overview", "The Little Book of HAL", "Protocols for Builders", "Hara Koans"]);
   const navigation = JSON.stringify(docsManifest.navigation);
   assert.doesNotMatch(navigation, /Start|Use Hara|autogenerate/);
+  assert.ok(docsManifest.navigation.every(({ items }) => items.every((item) => !item.items)));
+  assert.ok(docsManifest.routeTrees.every(({ items }) => items.every((item) => !item.items)));
+});
+
+test("switches books and courses to isolated flat navigation trees", async () => {
+  const middleware = await readFile(new URL("../src/starlight-route-data.mjs", import.meta.url), "utf8");
+  assert.match(middleware, /← Back to Docs/);
+  assert.match(middleware, /starlightRoute\.sidebar/);
+  assert.match(middleware, /starlightRoute\.pagination/);
+  assert.deepEqual(docsManifest.routeTrees.map(({ id }) => id),
+    ["foundations", "protocols", "tic-tac-toe", "little-book", "language-api"]);
 });
 
 test("keeps adjacent documentation landing cards in one HTML block", async () => {

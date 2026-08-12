@@ -1,13 +1,14 @@
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { redirectSources } from "./docs-manifest.mjs";
+import { docsRouteTrees, redirectSources } from "./docs-manifest.mjs";
 
 const site = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const workspace = resolve(process.env.HARA_WORKSPACE_ROOT || join(site, "../.."));
 const source = resolve(workspace, "website/hara-docs/docs");
 const destination = resolve(site, "src/content/docs/docs");
 const runtimeDestination = resolve(site, "public/docs-assets");
+await writeFile(resolve(site, "src/generated-doc-route-trees.json"), `${JSON.stringify(docsRouteTrees, null, 2)}\n`);
 
 function titleFor(body, file) {
   const heading = body.match(/^#\s+(.+)$/m)?.[1]?.replace(/[`*_]/g, "").trim();

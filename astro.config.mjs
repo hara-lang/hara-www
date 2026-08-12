@@ -42,6 +42,7 @@ export default defineConfig({
       ],
       customCss: ["./src/styles/docs.css"],
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/hara-lang/hara" }],
+      routeMiddleware: ["./src/starlight-route-data.mjs"],
       sidebar: docsSidebar
     })
   ]
