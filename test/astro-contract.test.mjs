@@ -109,11 +109,11 @@ test("puts homepage demo tabs above controls and hides the redundant kernel toas
 });
 
 test("orders the embedded docs around a first learning journey", async () => {
-  assert.deepEqual(docsManifest.navigation.map(({ label }) => label), ["Learn Path", "Self Learning", "Build", "Reference"]);
+  assert.deepEqual(docsManifest.navigation.map(({ label }) => label), ["Learn Path", "Build", "Reference", "Self Learning"]);
   assert.deepEqual(docsManifest.navigation[0].items.map(({ label }) => label), [
     "Overview", "Try Hara in the browser", "First Contact", "Learn programming", "Hara Foundations"
   ]);
-  assert.deepEqual(docsManifest.navigation[1].items.map(({ label }) => label),
+  assert.deepEqual(docsManifest.navigation[3].items.map(({ label }) => label),
     ["Overview", "The Little Book of HAL", "Protocols for Builders", "Hara Koans"]);
   const navigation = JSON.stringify(docsManifest.navigation);
   assert.doesNotMatch(navigation, /Start|Use Hara|autogenerate/);
