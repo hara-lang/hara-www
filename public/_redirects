@@ -1,1 +1,3 @@
-https://docs.hara-lang.org/* https://www.hara-lang.org/docs/:splat 301!
+/docs https://docs.hara-lang.org/ 301!
+/docs/ https://docs.hara-lang.org/ 301!
+/docs/* https://docs.hara-lang.org/:splat 301!
