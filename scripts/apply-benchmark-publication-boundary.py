@@ -6,10 +6,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-package_staging = ROOT / "package.benchmark.json"
-(ROOT / "package.json").write_text(package_staging.read_text(encoding="utf-8"), encoding="utf-8")
-package_staging.unlink()
-
 page_path = ROOT / "src/pages/index.astro"
 page = page_path.read_text(encoding="utf-8")
 body_start = page.find("\n---\n", 4)
