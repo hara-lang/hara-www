@@ -1,3 +1,6 @@
 /docs https://hara-docs.netlify.app/ 200!
 /docs/ https://hara-docs.netlify.app/ 200!
 /docs/* https://hara-docs.netlify.app/:splat 200!
+/benchmarks https://hara-benchmarks.netlify.app/ 200!
+/benchmarks/ https://hara-benchmarks.netlify.app/ 200!
+/benchmarks/* https://hara-benchmarks.netlify.app/:splat 200!
