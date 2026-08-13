@@ -12,6 +12,7 @@ jobs:
       HARA_WORKSPACE_ROOT: ${{ github.workspace }}/.workspace
     steps:
       - uses: actions/checkout@v4
+        with: {submodules: recursive}
       - uses: actions/checkout@v4
         with: {repository: hara-lang/hara, path: .workspace/technology/hara}
       - uses: actions/checkout@v4
