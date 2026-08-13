@@ -105,11 +105,11 @@ with a clean session.</p>
 <p><code dir="auto">raw-line</code> still contains its original spaces.</p>
 <div class="sl-heading-wrapper level-h2"><h2 id="normalize-case">Normalize case</h2><a class="sl-anchor-link" href="#normalize-case"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Normalize case”</span></a></div>
 <p>Convert text to lower case:</p>
-<section class="hara-eval-source" data-hara-eval="" data-hara-source="(str%2Fto-lower%20%22HARA%22)%0A%3B%20%3D%3E%20%22hara%22" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(str/to-lower "HARA")
+<section class="hara-eval-source" data-hara-eval="" data-hara-source="(str%2Flower%20%22HARA%22)%0A%3B%20%3D%3E%20%22hara%22" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(str/lower "HARA")
 ; => "hara"</code></pre></section>
 <p>Use one normalization rule before comparison:</p>
-<section class="hara-eval-source" data-hara-eval="" data-hara-source="(defn%20normalized-name%20%5Bvalue%5D%0A%20%20(str%2Fto-lower%20(str%2Ftrim%20value)))%0A%0A(%3D%20(normalized-name%20%22%20Hara%20%22)%0A%20%20%20(normalized-name%20%22HARA%22))%0A%3B%20%3D%3E%20true" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(defn normalized-name [value]
-  (str/to-lower (str/trim value)))
+<section class="hara-eval-source" data-hara-eval="" data-hara-source="(defn%20normalized-name%20%5Bvalue%5D%0A%20%20(str%2Flower%20(str%2Ftrim%20value)))%0A%0A(%3D%20(normalized-name%20%22%20Hara%20%22)%0A%20%20%20(normalized-name%20%22HARA%22))%0A%3B%20%3D%3E%20true" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(defn normalized-name [value]
+  (str/lower (str/trim value)))
 
 (= (normalized-name " Hara ")
    (normalized-name "HARA"))
@@ -221,11 +221,11 @@ with a clean session.</p>
 <p>A common file pipeline has four stages:</p>
 <div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.v4551.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">file bytes</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">-> UTF-8 decode</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">-> string transformations</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">-> UTF-8 encode</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">-> output bytes</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="file bytes-> UTF-8 decode-> string transformations-> UTF-8 encode-> output bytes"><div></div></button></div></figure></div>
 <p>Represent each conversion explicitly:</p>
-<section class="hara-eval-source" data-hara-eval="" data-hara-source="(defn%20transform-text-bytes%20%5Binput-bytes%5D%0A%20%20(-%3E%20input-bytes%0A%20%20%20%20%20%20(str%2Fdecode-utf8)%0A%20%20%20%20%20%20(str%2Ftrim)%0A%20%20%20%20%20%20(str%2Fto-lower)%0A%20%20%20%20%20%20(str%20%22%5Cn%22)%0A%20%20%20%20%20%20(str%2Fencode-utf8)))" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(defn transform-text-bytes [input-bytes]
+<section class="hara-eval-source" data-hara-eval="" data-hara-source="(defn%20transform-text-bytes%20%5Binput-bytes%5D%0A%20%20(-%3E%20input-bytes%0A%20%20%20%20%20%20(str%2Fdecode-utf8)%0A%20%20%20%20%20%20(str%2Ftrim)%0A%20%20%20%20%20%20(str%2Flower)%0A%20%20%20%20%20%20(str%20%22%5Cn%22)%0A%20%20%20%20%20%20(str%2Fencode-utf8)))" data-hara-scope="group" data-hara-group="hal-intro-06"><pre><code>(defn transform-text-bytes [input-bytes]
   (-> input-bytes
       (str/decode-utf8)
       (str/trim)
-      (str/to-lower)
+      (str/lower)
       (str "\n")
       (str/encode-utf8)))</code></pre></section>
 <p>The returned value is bytes, ready for a byte-oriented file or socket API.</p>

@@ -147,17 +147,18 @@ to a <code dir="auto">Seq</code> without realizing its tail; <code dir="auto">co
 <p>The same bootstrap provides ordinary names <code dir="auto">map</code>, <code dir="auto">filter</code>, <code dir="auto">take</code>, <code dir="auto">drop</code>,
 <code dir="auto">mapcat</code>, <code dir="auto">keep</code>, <code dir="auto">cycle</code>, <code dir="auto">zip</code>, and <code dir="auto">partition-pair</code>; their <code dir="auto">iter-*</code>
 counterparts return raw one-shot iterators. Direct <code dir="auto">(map f concrete)</code> eagerly
-materializes and preserves the first collection’s shape. Curried <code dir="auto">((map f) source)</code> is lazy, as is <code dir="auto">(map f (seq source))</code>; <code dir="auto">seq</code> makes that lazy boundary
-explicit. Predicate reductions <code dir="auto">every?</code> and <code dir="auto">any?</code> consume an iterator lazily
-until their result is known.</p>
+materializes a vector. Curried <code dir="auto">((map f) source)</code> returns a lazy raw iterator;
+passing a <code dir="auto">Seq</code> to the full-arity form does not preserve laziness. Materialize
+a transform result with <code dir="auto">vec</code> when it must cross a display or storage boundary.
+Predicate reductions <code dir="auto">every?</code> and <code dir="auto">any?</code> stop as soon as their result is known.</p>
 <p>The bootstrap also provides <code dir="auto">get-in</code>, <code dir="auto">assoc-in</code>, <code dir="auto">update</code>, and <code dir="auto">update-in</code> for
 persistent nested values. These are ordinary <code dir="auto">.hal</code> functions built on the
 collection protocol functions; they do not introduce mutable update semantics.</p>
 <p>Collection navigation also includes <code dir="auto">last</code>, <code dir="auto">reverse</code>, <code dir="auto">key</code>, <code dir="auto">val</code>, <code dir="auto">keys</code>,
 and <code dir="auto">vals</code>. Membership is protocol-based: use <code dir="auto">IFind/find</code> to retrieve an
 entry and public <code dir="auto">has?</code> to distinguish absence from a present nil value.
-<code dir="auto">keys</code> and <code dir="auto">vals</code> return lazy <code dir="auto">Seq</code> values, while <code dir="auto">reverse</code> returns a
-persistent list and does not mutate its input.</p>
+<code dir="auto">keys</code> and <code dir="auto">vals</code> return vectors, while <code dir="auto">reverse</code> returns a persistent list and
+does not mutate its input.</p>
 <p><code dir="auto">reduce</code> eagerly consumes an iterator with either <code dir="auto">(reduce function value)</code>
 or <code dir="auto">(reduce function initial value)</code>. The two-argument form uses the first
 source element as its accumulator and rejects an empty source; the three-
@@ -188,19 +189,23 @@ keys and returns persistent updates. <code dir="auto">peek</code> and <code dir=
 navigation through the collection protocol; they never mutate the input.</p>
 <p>The bootstrap provides lazy <code dir="auto">range</code>, <code dir="auto">repeat</code>, <code dir="auto">repeatedly</code>, and <code dir="auto">iterate</code>
 generators. These return <code dir="auto">Seq</code> values; their <code dir="auto">iter-*</code> primitives return raw
-iterators. Infinite forms remain lazy until consumed by <code dir="auto">take</code>, <code dir="auto">iter-next</code>, or
-another iterator operation.</p>
-<p><code dir="auto">take-while</code> and <code dir="auto">drop-while</code> are lazy iterator combinators. They evaluate
-predicates only as demand advances and close their source when it is exhausted
-or the stopping predicate is reached.</p>
-<p><code dir="auto">partition-all</code> emits lazy persistent vector chunks and retains a final partial
-chunk; <code dir="auto">partition</code> emits only complete chunks and discards an unmatched tail.
-Both require a positive chunk size.</p>
+iterators. Infinite forms remain lazy until consumed by an iterator operation.
+Full-arity <code dir="auto">(take amount source)</code> consumes the bounded prefix and returns a
+vector; unary <code dir="auto">(take amount)</code> constructs a lazy iterator transform.</p>
+<p>Unary <code dir="auto">take-while</code> and <code dir="auto">drop-while</code> construct lazy iterator transforms. Their
+full-arity collection forms eagerly materialize vectors. The transforms
+evaluate predicates only as demand advances and close their source when it is
+exhausted or the stopping predicate is reached.</p>
+<p>Unary <code dir="auto">partition-all</code> and <code dir="auto">partition</code> construct iterator transforms. Their
+collection forms eagerly return vectors of persistent vector chunks.
+<code dir="auto">partition-all</code> retains a final partial chunk; <code dir="auto">partition</code> discards an
+unmatched tail. Both require a positive chunk size.</p>
 <p><code dir="auto">map</code> and <code dir="auto">iter-map</code> accept one or more sources. With multiple sources they
 advance them in lockstep and stop at the shortest source, invoking the function
 with one value from each source.</p>
-<p><code dir="auto">interpose</code> lazily inserts a separator between source values. <code dir="auto">interleave</code>
-round-robins multiple sources and stops when the shortest source is exhausted.</p>
+<p>Unary <code dir="auto">interpose</code> constructs a lazy iterator transform; its collection form
+eagerly returns a vector. <code dir="auto">interleave</code> eagerly returns a vector while
+round-robinning multiple sources and stops when the shortest is exhausted.</p>
 <p>Hara is iterator-first. It does not require Clojure <code dir="auto">ISeq</code>/<code dir="auto">Seq</code> semantics.
 The core iterator forms are:</p>
 <ul>
