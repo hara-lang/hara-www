@@ -6,8 +6,16 @@ set -euo pipefail
 OUT="$ROOT/core/target/www"
 RAW_DIR="$ROOT/core/rust/raw/target/wasm32-unknown-unknown/browser-release"
 HALC_OUT="$ROOT/core/target/www-halc"
-HARA_COMPILER="$ROOT/core/rust/target/debug/hara"
 WASM_BUILD_HELPER="$WORKSPACE_ROOT/extensions/hara-runtime/scripts/cargo-wasm-build"
+
+compile_halc() {
+  local source=$1
+  local output=$2
+
+  mvn -f "$ROOT/core/java/pom.xml" -Ptruffle -DskipTests exec:java \
+    -Dexec.mainClass=hara.truffle.Main \
+    "-Dexec.args=compile-halc $source --output $output"
+}
 
 check_site_inputs() {
   local missing=0
@@ -65,20 +73,20 @@ if [[ ! -x "$ROOT/scripts/runtime/cargo-wasm-build" ]]; then
   chmod 755 "$ROOT/scripts/runtime/cargo-wasm-build"
 fi
 bash "$HARA_ROOT/scripts/runtime/build-hara-wasm-raw" all
-cargo build --manifest-path "$ROOT/core/rust/Cargo.toml" --features hir-encoder --bin hara
+mvn -f "$ROOT/core/java/pom.xml" -Ptruffle -DskipTests compile
 rm -rf "$HALC_OUT"
 mkdir -p "$HALC_OUT"
-"$HARA_COMPILER" compile-halc "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" --output "$HALC_OUT/substrate-protocol.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/lib/src/std/lib/substrate/frame.hal" --output "$HALC_OUT/substrate-frame.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/lib/src/std/lib/substrate.hal" --output "$HALC_OUT/substrate.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/store.hal" --output "$HALC_OUT/studio-store.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/boot.hal" --output "$HALC_OUT/studio-boot.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/node.hal" --output "$HALC_OUT/studio-node.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/draw.hal" --output "$HALC_OUT/studio-draw.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/program.hal" --output "$HALC_OUT/studio-program.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/graph.hal" --output "$HALC_OUT/studio-graph.halc"
-"$HARA_COMPILER" compile-halc "$ROOT/core/rust/web/studio/hal/session.hal" --output "$HALC_OUT/studio-session.halc"
-"$HARA_COMPILER" compile-halc "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" --output "$HALC_OUT/supersonic.halc"
+compile_halc "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" "$HALC_OUT/substrate-protocol.halc"
+compile_halc "$ROOT/core/lib/src/std/lib/substrate/frame.hal" "$HALC_OUT/substrate-frame.halc"
+compile_halc "$ROOT/core/lib/src/std/lib/substrate.hal" "$HALC_OUT/substrate.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/store.hal" "$HALC_OUT/studio-store.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/boot.hal" "$HALC_OUT/studio-boot.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/node.hal" "$HALC_OUT/studio-node.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/draw.hal" "$HALC_OUT/studio-draw.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/program.hal" "$HALC_OUT/studio-program.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/graph.hal" "$HALC_OUT/studio-graph.halc"
+compile_halc "$ROOT/core/rust/web/studio/hal/session.hal" "$HALC_OUT/studio-session.halc"
+compile_halc "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" "$HALC_OUT/supersonic.halc"
 
 rm -rf "$OUT"
 mkdir -p "$OUT/runtime/host" "$OUT/runtime/packages/hta" "$OUT/runtime/studio/hal" "$OUT/runtime/std/lib/substrate"

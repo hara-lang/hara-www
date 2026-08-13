@@ -22,6 +22,11 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(packageLock, /packages\/visual-language/);
   assert.doesNotMatch(packageJson, /file:\.\.\/packages\/visual-language/);
   assert.match(assembly, /extensions\/hara-runtime\/scripts\/cargo-wasm-build/);
+  assert.match(workflow, /actions\/setup-java@v4[\s\S]*java-version: 21[\s\S]*cache: maven/);
+  assert.match(assembly, /mvn -f "\$ROOT\/core\/java\/pom\.xml" -Ptruffle -DskipTests compile/);
+  assert.match(assembly, /compile_halc\(\)[\s\S]*hara\.truffle\.Main/);
+  assert.doesNotMatch(assembly, /HARA_COMPILER/);
+  assert.match(assembly, /compile[\s\S]*core\/java\/target\/classes\/std\/foundation\.halc/);
   assert.match(assembly, /vendor\/hara-ui\/favicon-48\.svg/);
   assert.doesNotMatch(assembly, /assets\/hara-mark\.svg/);
   assert.match(kernelManifest, /gzip > 350_000/);

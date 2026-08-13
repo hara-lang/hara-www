@@ -38,6 +38,11 @@ jobs:
           path: packages/visual-language
       - uses: dtolnay/rust-toolchain@stable
         with: {targets: wasm32-unknown-unknown}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
       - uses: actions/setup-node@v4
         with:
           node-version: 22
