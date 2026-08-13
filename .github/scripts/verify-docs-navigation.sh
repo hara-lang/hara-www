@@ -2,10 +2,8 @@
 
 set -euo pipefail
 
-base="${1:?usage: verify-docs-navigation.sh LEGACY_DOCS_URL [STANDALONE_DOCS_ORIGIN]}"
+base="${1:?usage: verify-docs-navigation.sh CANONICAL_DOCS_URL}"
 base="${base%/}"
-standalone="${2:-https://hara-docs.netlify.app}"
-standalone="${standalone%/}"
 page="$(mktemp)"
 trap 'rm -f "$page"' EXIT
 
@@ -26,10 +24,10 @@ for attempt in {1..20}; do
   healthy=true
   for path in "${paths[@]}"; do
     source_url="$base/"
-    expected_url="$standalone/"
+    expected_url="$base/"
     if [[ -n "$path" ]]; then
       source_url="$base/$path"
-      expected_url="$standalone/$path"
+      expected_url="$base/$path"
     fi
 
     effective_url="$(curl --fail --silent --show-error --location --max-time 20 \
@@ -56,17 +54,17 @@ for attempt in {1..20}; do
   done
 
   if [[ "$healthy" == true ]]; then
-    echo "Verified legacy documentation routes at $base delegate to $standalone."
+    echo "Verified independently published documentation at canonical path $base."
     break
   fi
 
   if [[ "$attempt" -lt 20 ]]; then
-    echo "Waiting for standalone documentation redirects at $base."
+    echo "Waiting for proxied documentation at $base."
     sleep 15
   fi
 done
 
 if [[ "$healthy" != true ]]; then
-  echo "$base did not delegate its documentation routes to $standalone." >&2
+  echo "$base did not expose independently published documentation at its canonical path." >&2
   exit 1
 fi
