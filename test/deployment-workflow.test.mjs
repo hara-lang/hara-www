@@ -29,6 +29,6 @@ test("deploys testing and production from their intended branches", () => {
   assert.match(assembly, /compile[\s\S]*core\/java\/target\/classes\/std\/foundation\.halc/);
   assert.match(assembly, /vendor\/hara-ui\/favicon-48\.svg/);
   assert.doesNotMatch(assembly, /assets\/hara-mark\.svg/);
-  assert.match(kernelManifest, /gzip > 350_000/);
-  assert.match(kernelManifest, /brotli > 280_000/);
+  assert.match(kernelManifest, /gzip > 370_000/);
+  assert.match(kernelManifest, /brotli > 295_000/);
 });
