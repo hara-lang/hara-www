@@ -19,11 +19,22 @@ for (const value of Object.values(variants)) {
   value.sha256 = createHash("sha256").update(bytes).digest("hex");
   value.bytes = { raw: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, brotli: brotliCompressSync(bytes).length };
 }
+const foundationBytes = await readFile(resolve(directory, "foundation.halc"));
+const bootstrap = {
+  file: "foundation.halc",
+  url: "/runtime/foundation.halc",
+  sha256: createHash("sha256").update(foundationBytes).digest("hex"),
+  bytes: {
+    raw: foundationBytes.length,
+    gzip: gzipSync(foundationBytes, { level: 9 }).length,
+    brotli: brotliCompressSync(foundationBytes).length
+  }
+};
 // Keep the transfer guard strict while allowing the current core kernel's
 // namespace-resource support. Preserve a small margin above the measured
 // 345 KB gzip / 273 KB Brotli artifacts so future growth remains visible.
 if (variants.core.bytes.gzip > 350_000 || variants.core.bytes.brotli > 280_000) {
   throw new Error(`hara-wasm-core exceeds its transfer budget: ${JSON.stringify(variants.core.bytes)}`);
 }
-const manifest = { schema: "hara-kernel-manifest/v1", version, htaAbi: 2, variants };
+const manifest = { schema: "hara-kernel-manifest/v1", version, htaAbi: 3, bootstrap, variants };
 await writeFile(resolve(directory, "kernel-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);

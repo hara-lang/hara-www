@@ -125,6 +125,7 @@ cp "$RAW_DIR/hara-wasm-core.wasm" "$OUT/runtime/hara.wasm"
 cp "$RAW_DIR/hara-wasm-core.wasm" "$OUT/runtime/hara-wasm-core-$RUNTIME_VERSION.wasm"
 cp "$RAW_DIR/hara-wasm-vm.wasm" "$OUT/runtime/hara-wasm-vm-$RUNTIME_VERSION.wasm"
 cp "$RAW_DIR/hara-wasm-trace.wasm" "$OUT/runtime/hara-wasm-trace-$RUNTIME_VERSION.wasm"
+cp "$ROOT/core/java/target/classes/std/foundation.halc" "$OUT/runtime/foundation.halc"
 node "$SITE_ROOT/scripts/hara-assembly/write-kernel-manifest.mjs" "$OUT/runtime" "$RUNTIME_VERSION"
 cp "$ROOT/core/rust/web/hta.js" \
    "$ROOT/core/rust/web/hta-worker.js" \
@@ -133,6 +134,7 @@ cp "$ROOT/core/rust/web/hta.js" \
    "$OUT/runtime/"
 cp "$ROOT/core/rust/web/packages/hta/"*.js "$OUT/runtime/packages/hta/"
 node "$SITE_ROOT/scripts/hara-assembly/build-www-harp.mjs" "$OUT/runtime/kernel.harp" \
+  "std.foundation=$ROOT/core/java/target/classes/std/foundation.halc" \
   "std.lib.substrate.protocol=$HALC_OUT/substrate-protocol.halc" \
   "std.lib.substrate.frame=$HALC_OUT/substrate-frame.halc" \
   "std.lib.substrate=$HALC_OUT/substrate.halc" \
