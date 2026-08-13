@@ -1,78 +1,33 @@
 ---
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { resolve } from "node:path";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Motif from "@hara-lang/visual-language/astro/Motif.astro";
+import benchmarkEvidence from "../data/benchmark-homepage.json";
 import "@hara-lang/live/style.css";
 import "../styles/home-interactions.css";
 
-type LanguageMeasurement = {
-  runtime: string;
-  workload: string;
-  status: string;
-  analysis?: { steady_ns?: number };
+type BenchmarkHomepage = {
+  schema: "hara.benchmarks-homepage/v1";
+  canonical_url: string;
+  published: string;
+  workloads: number;
+  comparison_runtimes: number;
+  ratios: Record<string, number | null>;
+  http: {
+    server: string;
+    route: string;
+    requests_per_second: number | null;
+  };
 };
-type LanguageEvidence = {
-  environment: { timestamp: string };
-  workload_ids: string[];
-  measurements: LanguageMeasurement[];
-};
-type HttpMeasurement = {
-  server: string;
-  route: string;
-  status: string;
-  requests_per_second?: number;
-};
-type RuntimeEvidence = { http_measurements?: HttpMeasurement[] };
 
-const workspaceRoot = process.env.HARA_WORKSPACE_ROOT || fileURLToPath(
-  new URL("../../../../", import.meta.url)
-);
-const benchmarkResultsRoot = resolve(
-  workspaceRoot,
-  "website/hara-benchmarks/runtime/hara/results"
-);
-const languageEvidencePath = resolve(benchmarkResultsRoot, "language-reference.json");
-const runtimeEvidencePath = resolve(benchmarkResultsRoot, "reference-v2.json");
-const languageEvidence: LanguageEvidence = JSON.parse(
-  readFileSync(languageEvidencePath, "utf8")
-);
-const runtimeEvidence: RuntimeEvidence = JSON.parse(
-  readFileSync(runtimeEvidencePath, "utf8")
-);
-const languageIndex = new Map<string, number>();
-for (const row of languageEvidence.measurements) {
-  const steady = row.analysis?.steady_ns;
-  if (row.status === "ok" && steady != null) {
-    languageIndex.set(`${row.runtime}/${row.workload}`, steady);
-  }
-}
-const geometricMean = (values: number[]) =>
-  values.length
-    ? Math.exp(values.reduce((sum, value) => sum + Math.log(value), 0) / values.length)
-    : null;
-const languageRatio = (runtime: string) =>
-  geometricMean(
-    languageEvidence.workload_ids.flatMap((workload) => {
-      const hara = languageIndex.get(`hara-rust-full/${workload}`);
-      const candidate = languageIndex.get(`${runtime}/${workload}`);
-      return hara && candidate ? [candidate / hara] : [];
-    })
-  );
+const currentBenchmarks = benchmarkEvidence as BenchmarkHomepage;
+const benchmarkWorkloads = currentBenchmarks.workloads;
 const formatRatio = (runtime: string) => {
-  const ratio = languageRatio(runtime);
+  const ratio = currentBenchmarks.ratios[runtime];
   return ratio == null ? "Pending" : `${ratio.toFixed(2)}×`;
 };
-const hopliteHello = runtimeEvidence.http_measurements?.find(
-  (row) =>
-    row.server === "hoplite-request" &&
-    row.route === "/hello" &&
-    row.status === "ok"
-);
-const hopliteRequests = hopliteHello?.requests_per_second == null
+const hopliteRequests = currentBenchmarks.http.requests_per_second == null
   ? "Pending"
-  : Math.round(hopliteHello.requests_per_second).toLocaleString("en-US");
+  : Math.round(currentBenchmarks.http.requests_per_second).toLocaleString("en-US");
 ---
 <SiteLayout
   title="Hara — Start simple. Build forever."
@@ -99,9 +54,9 @@ const hopliteRequests = hopliteHello?.requests_per_second == null
     </Motif>
 
     <section class="proof" aria-label="Current Hara benchmark evidence">
-      <div><strong>{formatRatio("python-prepared")}</strong><span>vs Python · geometric mean across 8 prepared workloads</span></div>
-      <div><strong>{formatRatio("bb-prepared")}</strong><span>vs Babashka · geometric mean across 8 prepared workloads</span></div>
-      <div><strong>{formatRatio("sbcl-prepared")}</strong><span>vs SBCL · geometric mean across 8 prepared workloads</span></div>
+      <div><strong>{formatRatio("python-prepared")}</strong><span>vs Python · geometric mean across {benchmarkWorkloads} prepared workloads</span></div>
+      <div><strong>{formatRatio("bb-prepared")}</strong><span>vs Babashka · geometric mean across {benchmarkWorkloads} prepared workloads</span></div>
+      <div><strong>{formatRatio("sbcl-prepared")}</strong><span>vs SBCL · geometric mean across {benchmarkWorkloads} prepared workloads</span></div>
       <div><strong>{hopliteRequests}</strong><span>Hoplite /hello req/s · one worker · loopback HTTP/1.1</span></div>
     </section>
 

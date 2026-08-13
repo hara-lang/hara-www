@@ -1,0 +1,92 @@
+name: Sync independent benchmark origin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/sync-benchmark-origin.yml
+      - public/_redirects
+      - scripts/prepare-benchmark-homepage.mjs
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hara-benchmarks-origin
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: benchmark-origin
+      url: https://hara-benchmarks.netlify.app/
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: 7d87b558-d5b4-4d05-b3c9-7a52d3f05dc8
+      BENCHMARK_ORIGIN: https://hara-benchmarks.netlify.app
+    steps:
+      - name: Checkout verified benchmark artifact
+        uses: actions/checkout@v4
+        with:
+          repository: hara-lang/hara-benchmarks
+          ref: benchmark-site
+          path: site
+
+      - name: Verify artifact provenance and routes
+        run: |
+          set -euo pipefail
+          test -s site/.benchmark-source-revision
+          test -s site/index.html
+          test -s site/benchmarks/index.html
+          test -s site/homepage.json
+          test -s site/data/runs.json
+          grep -Fq '<title>Hara Benchmarks</title>' site/index.html
+          grep -Fq 'https://www.hara-lang.org/benchmarks/' site/index.html
+          grep -Fq 'hara.benchmarks-homepage/v1' site/homepage.json
+          ! grep -R -F '/benchmarks/benchmarks/' site
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify deployment credential
+        run: |
+          if [ -z "${NETLIFY_AUTH_TOKEN:-}" ]; then
+            echo "NETLIFY_AUTH_TOKEN is required to sync the benchmark origin." >&2
+            exit 1
+          fi
+
+      - name: Deploy verified artifact without rebuilding
+        run: npx --yes netlify-cli@latest deploy --prod --dir site --site "$NETLIFY_SITE_ID" --message "hara-benchmarks $(cat site/.benchmark-source-revision)"
+
+      - name: Smoke-test origin routes
+        run: |
+          set -euo pipefail
+          fetch() {
+            curl --fail --location --silent --show-error --retry 4 --retry-all-errors --retry-delay 2 -H 'Cache-Control: no-cache' "$1" --output "$2"
+          }
+          for attempt in $(seq 1 24); do
+            if fetch "$BENCHMARK_ORIGIN/" /tmp/origin-root.html \
+              && fetch "$BENCHMARK_ORIGIN/benchmarks/" /tmp/origin-nested.html \
+              && grep -Fq '<title>Hara Benchmarks</title>' /tmp/origin-root.html \
+              && grep -Fq 'https://www.hara-lang.org/benchmarks/' /tmp/origin-root.html \
+              && cmp -s /tmp/origin-root.html /tmp/origin-nested.html; then
+              break
+            fi
+            if [ "$attempt" -eq 24 ]; then
+              echo "The independent benchmark origin did not pass its route checks." >&2
+              exit 1
+            fi
+            sleep 5
+          done
+          fetch "$BENCHMARK_ORIGIN/homepage.json" /tmp/homepage.json
+          fetch "$BENCHMARK_ORIGIN/benchmarks/homepage.json" /tmp/homepage-nested.json
+          fetch "$BENCHMARK_ORIGIN/data/runs.json" /tmp/runs.json
+          cmp -s /tmp/homepage.json /tmp/homepage-nested.json
+          grep -Fq 'hara.benchmarks-homepage/v1' /tmp/homepage.json
+          test -s /tmp/runs.json

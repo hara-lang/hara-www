@@ -21,9 +21,7 @@ check_site_inputs() {
   local missing=0
   local required_file
 
-  for required_file in \
-    "$SITE_ROOT/target/www-astro/index.html" \
-    "$BENCHMARK_ROOT/dist/index.html"; do
+  for required_file in "$SITE_ROOT/target/www-astro/index.html"; do
     if [[ ! -s "$required_file" ]]; then
       echo "site assembly input is missing $required_file" >&2
       missing=1
@@ -56,7 +54,6 @@ if [ -z "$RUNTIME_VERSION" ]; then
 fi
 
 npm run build --prefix "$SITE_ROOT"
-HARA_BENCHMARK_BASE=/benchmarks npm run build --prefix "$BENCHMARK_ROOT/astro"
 check_site_inputs
 if [[ ! -x "$ROOT/scripts/runtime/cargo-wasm-build" ]]; then
   if [[ ! -x "$WASM_BUILD_HELPER" ]]; then
@@ -85,8 +82,6 @@ compile_halc "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib
 rm -rf "$OUT"
 mkdir -p "$OUT/runtime/host" "$OUT/runtime/packages/hta" "$OUT/runtime/studio/hal" "$OUT/runtime/std/lib/substrate"
 cp -R "$SITE_ROOT/target/www-astro/." "$OUT/"
-mkdir -p "$OUT/benchmarks"
-cp -R "$BENCHMARK_ROOT/dist/." "$OUT/benchmarks/"
 mkdir -p "$OUT/runtime/studio/capabilities"
 mkdir -p "$OUT/assets/wasm" "$OUT/assets/hara-amp" "$OUT/examples/hara-amp/src" "$OUT/examples/hara-animation/src"
 mkdir -p "$OUT/sources"
