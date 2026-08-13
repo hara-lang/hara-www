@@ -1,7 +1,7 @@
 import { HtaContext } from "/runtime/hta.js?v=20260803-modular-kernel";
 import { createHostServices } from "/runtime/studio/host-services.js";
 
-export function prepareDocsEval(source) {
+export function prepareLiveEval(source) {
   if (/^\(\s*fn(?:\s|\[)/.test(source.trim())) {
     return {
       source: `(do ${source}\n nil)`,
@@ -11,11 +11,6 @@ export function prepareDocsEval(source) {
   return { source, label: null };
 }
 
-/**
- * A browser-local Hara kernel for documentation snippets. It exposes the
- * Studio's persistent browser store and virtual filesystem, but no workspace
- * UI or ambient device capabilities.
- */
 async function loadKernelAssets(wasmUrl, resources, fetchAsset) {
   const entries = Object.entries(resources);
   const [response, ...resourceResponses] = await Promise.all([
@@ -44,7 +39,12 @@ function filesystemDescriptor(value) {
   return { provider: provider || "memory", key: parts.join(":") || "default" };
 }
 
-export async function createDocsKernel({
+/**
+ * Browser-local Hara kernel shared by the public website's live examples.
+ * The runtime remains owned by hara-www and exposes only the persistent
+ * browser store, virtual filesystem, and explicitly registered canvases.
+ */
+export async function createBrowserKernel({
   wasmUrl,
   workerUrl,
   resources = {},
@@ -53,9 +53,6 @@ export async function createDocsKernel({
   WorkerClass = Worker,
   ContextClass = HtaContext
 }) {
-  // Fetch every startup dependency before constructing the worker. This keeps
-  // the kernel from becoming observable while its require resources are still
-  // in flight on a cold page load.
   const { moduleBytes, loadedResources } =
     await loadKernelAssets(wasmUrl, resources, fetchAsset);
   await verifySha256(moduleBytes, manifest?.variants?.core?.sha256);
@@ -64,9 +61,9 @@ export async function createDocsKernel({
   const context = new ContextClass({
     worker,
     moduleBytes,
-    kernelId: `docs-${Math.random().toString(36).slice(2)}`,
+    kernelId: `www-${Math.random().toString(36).slice(2)}`,
     hostCalls: createHostServices({
-      dbName: "hara-docs",
+      dbName: "hara-www",
       canvasRuntimeForSession: (sessionId) => canvasRuntimes.get(sessionId)
     })
   });
@@ -87,7 +84,7 @@ export async function createDocsKernel({
         id: name,
         filesystem,
         async eval(source) {
-          const prepared = prepareDocsEval(source);
+          const prepared = prepareLiveEval(source);
           return { value: await session.eval(prepared.source), label: prepared.label };
         },
         evalRaw: (source) => session.eval(source),
@@ -129,7 +126,7 @@ export async function createDocsKernel({
     if (!response.ok) throw new Error(`${specification.url}: ${response.status}`);
     const bytes = await response.arrayBuffer();
     await verifySha256(bytes, specification.sha256);
-    const feature = await createDocsKernel({
+    const feature = await createBrowserKernel({
       wasmUrl: specification.url,
       workerUrl,
       resources,
@@ -142,3 +139,6 @@ export async function createDocsKernel({
   };
   return facade;
 }
+
+// @hara-lang/live resolves this export name when loading a kernel module URL.
+export const createDocsKernel = createBrowserKernel;

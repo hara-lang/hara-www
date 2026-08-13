@@ -10,6 +10,12 @@ const workspace = resolve(process.env.HARA_WORKSPACE_ROOT ?? ".workspace");
 const web = resolve(workspace, "technology/hara/core/rust/web");
 const { HtaContext } = await import(pathToFileURL(resolve(web, "hta.js")).href);
 
+const kernelModuleResponse = await fetch(new URL("runtime/browser-kernel.js", base), {
+  headers: { "cache-control": "no-cache" }
+});
+assert.equal(kernelModuleResponse.ok, true, `browser kernel module: ${kernelModuleResponse.status}`);
+assert.match(await kernelModuleResponse.text(), /createBrowserKernel/);
+
 const manifestResponse = await fetch(new URL("runtime/kernel-manifest.json", base), {
   headers: { "cache-control": "no-cache" }
 });
@@ -50,9 +56,9 @@ const worker = {
 const context = new HtaContext({ worker, moduleBytes });
 try {
   await context.ready;
-  const session = await context.createSession("docs-smoke");
+  const session = await context.createSession("www-smoke");
   assert.equal(await session.eval('(str/trim "  Hara  ")'), "Hara");
-  console.log(`Verified built-in Foundation aliases in Hara ${manifest.version} at ${base}`);
+  console.log(`Verified the shared browser runtime for Hara ${manifest.version} at ${base}`);
 } finally {
   context.close();
 }

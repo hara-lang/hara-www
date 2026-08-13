@@ -6,15 +6,12 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "prepare:visual-language": "node scripts/prepare-visual-language.mjs",
-    "prepare:docs": "node scripts/prepare-docs.mjs",
-    "check": "npm run prepare:visual-language && npm run prepare:docs && ASTRO_TELEMETRY_DISABLED=1 astro check",
-    "build": "npm run prepare:visual-language && npm run prepare:docs && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "test": "node --test test/*.test.mjs packages/live/test/*.test.mjs",
-    "validate:docs": "node scripts/validate-docs-manifest.mjs"
+    "check": "npm run prepare:visual-language && ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "build": "npm run prepare:visual-language && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "test": "node --test test/*.test.mjs packages/live/test/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/starlight": "^0.37.0",
     "@hara-lang/live": "file:packages/live",
     "@hara-lang/visual-language": "file:packages/visual-language",
     "astro": "^5.16.0",

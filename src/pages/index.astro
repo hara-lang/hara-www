@@ -241,7 +241,31 @@ const hopliteRequests = hopliteHello?.requests_per_second == null
   </main>
   <script>
     import { mountLiveCard } from "@hara-lang/live";
+    import { createLiveKernel } from "@hara-lang/live/kernel";
     import pongSource from "../../sources/pong.hal?raw";
+
+    const runtimeResources = {
+      "studio.store": "/runtime/studio/hal/store.hal",
+      "studio.fs": "/runtime/studio/hal/fs.hal",
+      "studio.node": "/runtime/studio/hal/node.hal",
+      "studio.draw": "/runtime/studio/hal/draw.hal",
+      "std.lib.substrate.frame": "/runtime/std/lib/substrate/frame.hal"
+    };
+    let browserKernelPromise: ReturnType<typeof createLiveKernel> | null = null;
+    const browserKernel = {
+      async createSession(name: string, options: { filesystem?: string } = {}) {
+        browserKernelPromise ??= createLiveKernel({
+          runtimeBase: "/runtime",
+          kernelModuleUrl: "/runtime/browser-kernel.js",
+          resources: runtimeResources
+        });
+        const kernel = await browserKernelPromise;
+        return kernel.createSession(name, options);
+      },
+      close() {
+        void browserKernelPromise?.then((kernel) => kernel.close());
+      }
+    };
 
     // The three reading examples keep their original landing-page text; the
     // static <pre> tabs are replaced by an editable, runnable live card.
@@ -261,14 +285,21 @@ const hopliteRequests = hopliteHello?.requests_per_second == null
     ];
     const learnMount = document.querySelector<HTMLElement>("[data-live-learn]");
     if (learnMount) {
-      mountLiveCard(learnMount, { snippets: learnSnippets, activeSnippet: "read" });
+      mountLiveCard(learnMount, {
+        snippets: learnSnippets,
+        activeSnippet: "read",
+        kernel: browserKernel,
+        runtimeBase: "/runtime"
+      });
     }
 
     const canvasMount = document.querySelector<HTMLElement>("[data-live-canvas]");
     if (canvasMount) {
       mountLiveCard(canvasMount, {
         snippets: [{ id: "canvas-pong", title: "Pong", kind: "canvas", source: pongSource }],
-        activeSnippet: "canvas-pong"
+        activeSnippet: "canvas-pong",
+        kernel: browserKernel,
+        runtimeBase: "/runtime"
       });
     }
 
