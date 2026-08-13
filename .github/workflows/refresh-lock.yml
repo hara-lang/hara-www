@@ -1,0 +1,30 @@
+name: Refresh www lockfile
+on:
+  push:
+    branches: [agent/remove-embedded-docs-renderer-v2]
+permissions:
+  contents: read
+jobs:
+  lockfile:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/checkout@v4
+        with:
+          repository: hara-lang/visual-language
+          ref: c49ad17d5052c8eeca0aff4a6146ff60b89ce88f
+          path: packages/visual-language
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh package lock
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Upload refreshed lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: hara-www-package-lock
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 1
