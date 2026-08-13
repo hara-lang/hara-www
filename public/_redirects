@@ -1,2 +1,3 @@
-/docs /docs/ 301!
+/docs https://hara-docs.netlify.app/ 200!
+/docs/ https://hara-docs.netlify.app/ 200!
 /docs/* https://hara-docs.netlify.app/:splat 200!

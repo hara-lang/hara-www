@@ -9,7 +9,8 @@ test("www proxies independently published docs under the canonical path", async 
   assert.equal(
     redirects,
     [
-      "/docs /docs/ 301!",
+      `/docs ${docsOrigin} 200!`,
+      `/docs/ ${docsOrigin} 200!`,
       `/docs/* ${docsOrigin}:splat 200!`,
       ""
     ].join("\n")
