@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import test from "node:test";
-import { docsManifest } from "../scripts/docs-manifest.mjs";
+import { docsManifest, workspace } from "../scripts/docs-manifest.mjs";
 
 test("publishes docs below /docs and uses the visual package", async () => {
   const content = await readFile(new URL("../src/content.config.ts", import.meta.url), "utf8");
@@ -132,7 +133,7 @@ test("switches books and courses to isolated flat navigation trees", async () =>
 
 test("keeps adjacent documentation landing cards in one HTML block", async () => {
   const page = await readFile(
-    new URL("../../hara-docs/docs/index.md", import.meta.url),
+    resolve(workspace, "website/hara-docs/docs/index.md"),
     "utf8"
   );
   assert.doesNotMatch(page, /<\/a>\n\s*\n\s*<a class="hara-outcome-card"/);
