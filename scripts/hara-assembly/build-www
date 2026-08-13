@@ -30,12 +30,6 @@ check_site_inputs() {
     fi
   done
 
-  if [[ ! -d "$DOCS_ROOT/docs" ]] \
-    || [[ -z "$(find "$DOCS_ROOT/docs" -mindepth 1 -print -quit)" ]]; then
-    echo "site assembly input is missing $DOCS_ROOT/docs" >&2
-    missing=1
-  fi
-
   if (( missing != 0 )); then
     return 1
   fi
@@ -203,10 +197,6 @@ cp "$SITE_ROOT/examples/studio-backgrounds/project.edn" \
    "$OUT/examples/studio-backgrounds/"
 cp "$SITE_ROOT/sources/"*.hal "$OUT/sources/"
 cp -R "$SITE_ROOT/vendor/hara-ui" "$OUT/vendor/"
-
-# Documentation stays owned by the pinned docs submodule. Astro renders the
-# Markdown collection; copy its runtime/static files alongside those pages.
-rsync -a --exclude '*.md' --exclude '*.mdx' "$DOCS_ROOT/docs/" "$OUT/docs/"
 
 bash "$WORKSPACE_ROOT/extensions/hara-runtime/scripts/build-demo-synth-wasm"
 bash "$WORKSPACE_ROOT/extensions/hara-runtime/scripts/build-demo-fft-wasm"
