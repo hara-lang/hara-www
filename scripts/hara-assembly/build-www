@@ -67,9 +67,18 @@ bash "$HARA_ROOT/scripts/runtime/build-hara-wasm-raw" all
 mvn -f "$ROOT/core/java/pom.xml" -Ptruffle -DskipTests compile
 rm -rf "$HALC_OUT"
 mkdir -p "$HALC_OUT"
-compile_halc "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" "$HALC_OUT/substrate-protocol.halc"
-compile_halc "$ROOT/core/lib/src/std/lib/substrate/frame.hal" "$HALC_OUT/substrate-frame.halc"
-compile_halc "$ROOT/core/lib/src/std/lib/substrate.hal" "$HALC_OUT/substrate.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/protocol.hal" "$HALC_OUT/substrate-protocol.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/frame.hal" "$HALC_OUT/substrate-frame.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/core.hal" "$HALC_OUT/substrate-core.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/json.hal" "$HALC_OUT/substrate-json.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/pubsub.hal" "$HALC_OUT/substrate-pubsub.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/request.hal" "$HALC_OUT/substrate-request.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/router.hal" "$HALC_OUT/substrate-router.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/space.hal" "$HALC_OUT/substrate-space.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/transport_memory.hal" "$HALC_OUT/substrate-transport-memory.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/util.hal" "$HALC_OUT/substrate-util.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate/util_handlers.hal" "$HALC_OUT/substrate-util-handlers.halc"
+compile_halc "$ROOT/core/lib/src/std/substrate.hal" "$HALC_OUT/substrate.halc"
 compile_halc "$ROOT/core/rust/web/studio/hal/store.hal" "$HALC_OUT/studio-store.halc"
 compile_halc "$ROOT/core/rust/web/studio/hal/boot.hal" "$HALC_OUT/studio-boot.halc"
 compile_halc "$ROOT/core/rust/web/studio/hal/node.hal" "$HALC_OUT/studio-node.halc"
@@ -80,7 +89,7 @@ compile_halc "$ROOT/core/rust/web/studio/hal/session.hal" "$HALC_OUT/studio-sess
 compile_halc "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" "$HALC_OUT/supersonic.halc"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/runtime/host" "$OUT/runtime/packages/hta" "$OUT/runtime/studio/hal" "$OUT/runtime/std/lib/substrate"
+mkdir -p "$OUT/runtime/host" "$OUT/runtime/packages/hta" "$OUT/runtime/studio/hal" "$OUT/runtime/std/substrate"
 cp -R "$SITE_ROOT/target/www-astro/." "$OUT/"
 mkdir -p "$OUT/runtime/studio/capabilities"
 mkdir -p "$OUT/assets/wasm" "$OUT/assets/hara-amp" "$OUT/examples/hara-amp/src" "$OUT/examples/hara-animation/src"
@@ -132,9 +141,18 @@ cp "$ROOT/core/rust/web/hta.js" \
 cp "$ROOT/core/rust/web/packages/hta/"*.js "$OUT/runtime/packages/hta/"
 node "$SITE_ROOT/scripts/hara-assembly/build-www-harp.mjs" "$OUT/runtime/kernel.harp" \
   "std.foundation=$ROOT/core/java/target/classes/std/foundation.halc" \
-  "std.lib.substrate.protocol=$HALC_OUT/substrate-protocol.halc" \
-  "std.lib.substrate.frame=$HALC_OUT/substrate-frame.halc" \
-  "std.lib.substrate=$HALC_OUT/substrate.halc" \
+  "std.substrate.protocol=$HALC_OUT/substrate-protocol.halc" \
+  "std.substrate.frame=$HALC_OUT/substrate-frame.halc" \
+  "std.substrate.core=$HALC_OUT/substrate-core.halc" \
+  "std.substrate.json=$HALC_OUT/substrate-json.halc" \
+  "std.substrate.pubsub=$HALC_OUT/substrate-pubsub.halc" \
+  "std.substrate.request=$HALC_OUT/substrate-request.halc" \
+  "std.substrate.router=$HALC_OUT/substrate-router.halc" \
+  "std.substrate.space=$HALC_OUT/substrate-space.halc" \
+  "std.substrate.transport-memory=$HALC_OUT/substrate-transport-memory.halc" \
+  "std.substrate.util=$HALC_OUT/substrate-util.halc" \
+  "std.substrate.util-handlers=$HALC_OUT/substrate-util-handlers.halc" \
+  "std.substrate=$HALC_OUT/substrate.halc" \
   "studio.store=$HALC_OUT/studio-store.halc" \
   "studio.boot=$HALC_OUT/studio-boot.halc" \
   "studio.node=$HALC_OUT/studio-node.halc" \
@@ -164,10 +182,8 @@ cp "$ROOT/core/rust/web/studio/hal/"*.hal "$OUT/runtime/studio/hal/"
 cp "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" \
    "$OUT/runtime/studio/hal/supersonic.hal"
 cp "$ROOT/core/rust/web/studio/capabilities/"*.js "$OUT/runtime/studio/capabilities/"
-cp "$ROOT/core/lib/src/std/lib/substrate.hal" "$OUT/runtime/std/lib/substrate.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" \
-   "$ROOT/core/lib/src/std/lib/substrate/frame.hal" \
-   "$OUT/runtime/std/lib/substrate/"
+cp "$ROOT/core/lib/src/std/substrate.hal" "$OUT/runtime/std/substrate.hal"
+cp "$ROOT/core/lib/src/std/substrate/"*.hal "$OUT/runtime/std/substrate/"
 cp "$SITE_ROOT/assets/hara-amp/"* "$OUT/assets/hara-amp/"
 cp "$SITE_ROOT/vendor/hara-ui/favicon-48.svg" \
    "$SITE_ROOT/vendor/hara-ui/favicon-128.svg" \

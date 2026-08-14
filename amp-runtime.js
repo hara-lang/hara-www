@@ -97,7 +97,11 @@ export class HaraAmpRuntime {
     this.status("runtime", "loading", "Loading the browser kernel");
     this.status("synth", "loading", "Loading synth WASM");
     this.status("fft", "loading", "Loading FFT WASM");
-    const [runtimeBytes, synth, fft, nodeSource, drawSource, sonicSource, protocolSource, frameSource, substrateSource, ampSource] =
+    const substrateModules = [
+      "core", "frame", "json", "protocol", "pubsub", "request", "router",
+      "space", "transport_memory", "util", "util_handlers"
+    ];
+    const [runtimeBytes, synth, fft, nodeSource, drawSource, sonicSource, substrateSources, substrateSource, ampSource] =
       await Promise.all([
         bytes("./runtime/hara.wasm"),
         wasm("./assets/wasm/demo-synth.wasm"),
@@ -105,9 +109,8 @@ export class HaraAmpRuntime {
         text("./runtime/studio/hal/node.hal"),
         text("./runtime/studio/hal/draw.hal"),
         text("./runtime/studio/hal/supersonic.hal"),
-        text("./runtime/std/lib/substrate/protocol.hal"),
-        text("./runtime/std/lib/substrate/frame.hal"),
-        text("./runtime/std/lib/substrate.hal"),
+        Promise.all(substrateModules.map((name) => text(`./runtime/std/substrate/${name}.hal`))),
+        text("./runtime/std/substrate.hal"),
         text("./examples/hara-amp/src/amp.hal")
       ]);
     if (this.disposed) throw new Error("Amp runtime was closed");
@@ -141,6 +144,11 @@ export class HaraAmpRuntime {
       supersonic: this.supersonic,
       renderCanvas: (canvasId, scene) => this.renderCanvas(canvasId, scene)
     });
+    const substrateResources = Object.fromEntries(substrateModules.map((name, index) => [
+      `std.substrate.${name.replaceAll("_", "-")}`,
+      substrateSources[index]
+    ]));
+    substrateResources["std.substrate"] = substrateSource;
     this.broker = createBrowserBroker({
       workerUrl: new URL("./runtime/hta-worker.js", import.meta.url),
       moduleBytes: runtimeBytes,
@@ -149,9 +157,7 @@ export class HaraAmpRuntime {
         "studio.node": nodeSource,
         "studio.draw": drawSource,
         "gw.audio.supersonic": sonicSource,
-        "std.lib.substrate.protocol": protocolSource,
-        "std.lib.substrate.frame": frameSource,
-        "std.lib.substrate": substrateSource
+        ...substrateResources
       }
     });
     await this.activateVisualizer(ampSource);

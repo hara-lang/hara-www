@@ -14,6 +14,8 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "@hara-lang/live": "file:packages/live",
+    "@hara-lang/web-editor": "file:vendor/hara-ui/packages/web-editor",
+    "@hara-lang/web-runtime": "file:vendor/hara-ui/packages/web-runtime",
     "@hara-lang/visual-language": "file:packages/visual-language",
     "astro": "^5.16.0",
     "sharp": "^0.35.3"

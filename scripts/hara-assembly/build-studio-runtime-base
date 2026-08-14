@@ -32,7 +32,7 @@ if [ -e "$STAGE" ]; then
 fi
 mkdir -p "$STAGE/rust/host" "$STAGE/rust/packages/hta" \
          "$STAGE/rust/studio/hal" "$STAGE/rust/studio/capabilities" "$STAGE/rust/ui" \
-         "$STAGE/rust/std/lib/substrate" \
+         "$STAGE/rust/std/substrate" \
          "$STAGE/examples/starter/src" \
          "$STAGE/examples/game/src" \
          "$STAGE/examples/music/src" \
@@ -41,7 +41,7 @@ mkdir -p "$STAGE/rust/host" "$STAGE/rust/packages/hta" \
          "$STAGE/examples/music/runtime/packages/hta" \
          "$STAGE/examples/music/runtime/studio/hal" \
          "$STAGE/examples/music/runtime/studio/capabilities" \
-         "$STAGE/examples/music/runtime/std/lib/substrate" \
+         "$STAGE/examples/music/runtime/std/substrate" \
          "$STAGE/examples/music/examples/hara-amp/src" \
          "$STAGE/examples/music/assets/wasm" \
          "$STAGE/examples/music/assets/hara-amp" \
@@ -63,17 +63,15 @@ cp "$ROOT"/core/rust/web/host/*.js "$STAGE/rust/host/"
 cp "$ROOT"/core/rust/web/studio/*.js "$ROOT/core/rust/web/studio/studio.css" "$STAGE/rust/studio/"
 cp "$ROOT"/core/rust/web/studio/capabilities/*.js "$STAGE/rust/studio/capabilities/"
 cp "$ROOT"/core/rust/web/studio/hal/*.hal "$STAGE/rust/studio/hal/"
-cp "$ROOT/contrib/greenways/supersonic/src/js/supersonic.js" \
+cp "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/js/supersonic.js" \
    "$STAGE/rust/studio/supersonic.js"
-cp "$ROOT/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" \
+cp "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" \
    "$STAGE/rust/studio/hal/supersonic.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate.hal" "$STAGE/rust/studio/hal/substrate.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate/frame.hal" "$STAGE/rust/studio/hal/substrate-frame.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" "$STAGE/rust/studio/hal/substrate-protocol.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate.hal" "$STAGE/rust/std/lib/substrate.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate/frame.hal" \
-   "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" \
-   "$STAGE/rust/std/lib/substrate/"
+cp "$ROOT/core/lib/src/std/substrate.hal" "$STAGE/rust/studio/hal/substrate.hal"
+cp "$ROOT/core/lib/src/std/substrate/frame.hal" "$STAGE/rust/studio/hal/substrate-frame.hal"
+cp "$ROOT/core/lib/src/std/substrate/protocol.hal" "$STAGE/rust/studio/hal/substrate-protocol.hal"
+cp "$ROOT/core/lib/src/std/substrate.hal" "$STAGE/rust/std/substrate.hal"
+cp "$ROOT/core/lib/src/std/substrate/"*.hal "$STAGE/rust/std/substrate/"
 
 cp "$SITE_ROOT/examples/index.json" "$STAGE/examples/index.json"
 cp "$SITE_ROOT/examples/starter/project.edn" "$SITE_ROOT/examples/starter/workspace.edn" \
@@ -100,13 +98,12 @@ cp "$ROOT"/core/rust/web/host/*.js "$STAGE/examples/music/runtime/host/"
 cp "$ROOT"/core/rust/web/studio/*.js "$STAGE/examples/music/runtime/studio/"
 cp "$ROOT"/core/rust/web/studio/capabilities/*.js "$STAGE/examples/music/runtime/studio/capabilities/"
 cp "$ROOT"/core/rust/web/studio/hal/*.hal "$STAGE/examples/music/runtime/studio/hal/"
-cp "$ROOT/contrib/greenways/supersonic/src/js/supersonic.js" \
+cp "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/js/supersonic.js" \
    "$STAGE/examples/music/runtime/studio/supersonic.js"
-cp "$ROOT/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" \
+cp "$WORKSPACE_ROOT/technology/hara-specs-registry/00-unsorted/contrib/greenways/supersonic/src/hal/gw/audio/supersonic.hal" \
    "$STAGE/examples/music/runtime/studio/hal/supersonic.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate.hal" "$STAGE/examples/music/runtime/std/lib/substrate.hal"
-cp "$ROOT/core/lib/src/std/lib/substrate/frame.hal" "$ROOT/core/lib/src/std/lib/substrate/protocol.hal" \
-   "$STAGE/examples/music/runtime/std/lib/substrate/"
+cp "$ROOT/core/lib/src/std/substrate.hal" "$STAGE/examples/music/runtime/std/substrate.hal"
+cp "$ROOT/core/lib/src/std/substrate/"*.hal "$STAGE/examples/music/runtime/std/substrate/"
 cp "$SITE_ROOT/examples/hara-amp/src/amp.hal" \
    "$STAGE/examples/music/examples/hara-amp/src/"
 cp "$SITE_ROOT/assets/wasm/demo-synth.wasm" "$SITE_ROOT/assets/wasm/demo-fft.wasm" \

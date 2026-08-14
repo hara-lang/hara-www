@@ -204,7 +204,18 @@ const hopliteRequests = currentBenchmarks.http.requests_per_second == null
       "studio.fs": "/runtime/studio/hal/fs.hal",
       "studio.node": "/runtime/studio/hal/node.hal",
       "studio.draw": "/runtime/studio/hal/draw.hal",
-      "std.lib.substrate.frame": "/runtime/std/lib/substrate/frame.hal"
+      "std.substrate.core": "/runtime/std/substrate/core.hal",
+      "std.substrate.frame": "/runtime/std/substrate/frame.hal",
+      "std.substrate.json": "/runtime/std/substrate/json.hal",
+      "std.substrate.protocol": "/runtime/std/substrate/protocol.hal",
+      "std.substrate.pubsub": "/runtime/std/substrate/pubsub.hal",
+      "std.substrate.request": "/runtime/std/substrate/request.hal",
+      "std.substrate.router": "/runtime/std/substrate/router.hal",
+      "std.substrate.space": "/runtime/std/substrate/space.hal",
+      "std.substrate.transport-memory": "/runtime/std/substrate/transport_memory.hal",
+      "std.substrate.util": "/runtime/std/substrate/util.hal",
+      "std.substrate.util-handlers": "/runtime/std/substrate/util_handlers.hal",
+      "std.substrate": "/runtime/std/substrate.hal"
     };
     let browserKernelPromise: ReturnType<typeof createLiveKernel> | null = null;
     const browserKernel = {
