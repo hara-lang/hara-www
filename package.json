@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "prepare:docs-import": "node scripts/import-docs.mjs",
+    "verify:docs-import": "node scripts/import-docs.mjs --check",
     "prepare:visual-language": "node scripts/prepare-visual-language.mjs",
     "prepare:benchmarks": "node scripts/prepare-benchmark-homepage.mjs",
-    "check": "npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check",
-    "build": "npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "npm run verify:docs-import && npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "build": "npm run verify:docs-import && npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "test": "node --test test/*.test.mjs packages/live/test/*.test.mjs"
   },
   "dependencies": {
