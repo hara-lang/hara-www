@@ -32,10 +32,11 @@ function assertBalanced(source) {
   assert.deepEqual(stack, []);
 }
 
-test("homepage Pong uses the canonical editable source", async () => {
+test("homepage keeps the initial live surface simple", async () => {
   const runtime = await readFile(runtimeUrl, "utf8");
-  assert.match(runtime, /import pongSource from "\.\.\/\.\.\/\.\.\/sources\/pong\.hal\?raw"/);
-  assert.match(runtime, /kind: "canvas", source: pongSource/);
+  assert.match(runtime, /data-live-play/);
+  assert.match(runtime, /activeSnippet: "read"/);
+  assert.doesNotMatch(runtime, /pongSource|data-live-canvas/);
 });
 
 test("Pong keeps namespace setup locally evaluable and sequences its frame loop", async () => {

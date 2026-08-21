@@ -1,0 +1,57 @@
+---
+const paths = [
+  {
+    number: "01",
+    title: "Start with the forms",
+    summary: "Read the language in small steps.",
+    action: "Open the docs",
+    href: "/docs/"
+  },
+  {
+    number: "02",
+    title: "Build a first project",
+    summary: "Make something that runs, then keep it.",
+    action: "Build a game",
+    href: "/docs/create/first-game/"
+  },
+  {
+    number: "03",
+    title: "Learn with others",
+    summary: "Try a Koan and compare how people solve it.",
+    action: "Visit Hara World",
+    href: "https://world.hara-lang.org/learn/koans/"
+  }
+];
+---
+<section class="www-v2-section www-v2-learn" id="learn" aria-labelledby="www-v2-learn-title">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">Hara · learn</p>
+      <h2 id="www-v2-learn-title">Read a little. Make a thing.</h2>
+    </div>
+    <p>There is no special path to belong here. Follow your curiosity, ask a question, or show the work in progress.</p>
+  </header>
+
+  <div class="www-v2-learn__paths">
+    {paths.map((path) => (
+      <article>
+        <span>{path.number}</span>
+        <h3>{path.title}</h3>
+        <p>{path.summary}</p>
+        <a href={path.href}>{path.action} <span aria-hidden="true">→</span></a>
+      </article>
+    ))}
+  </div>
+
+  <article class="www-v2-blog-card" aria-labelledby="www-v2-blog-title">
+    <div>
+      <p class="hara-v2-kicker">Official blog</p>
+      <h3 id="www-v2-blog-title">Hara World Dispatch</h3>
+      <p>Announcements, working notes, and community writing from the Hara project.</p>
+    </div>
+    <div class="www-v2-blog-card__links">
+      <a href="https://world.hara-lang.org/announcements/">Read announcements <span aria-hidden="true">↗</span></a>
+      <a href="https://world.hara-lang.org/">Browse Hara World <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+</section>

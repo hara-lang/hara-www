@@ -21,17 +21,15 @@ test("CI and production deploy pin the merged WWW-family visual-language revisio
 
 test("the shared layout directly consumes v2 without replacing identity, live or SEO contracts", async () => {
   const layout = await read("src/layouts/SiteLayout.astro");
+  const header = await read("src/components/WwwHeader.astro");
   assert.match(layout, /@hara-lang\/visual-language\/v2\.css/);
   assert.doesNotMatch(layout, /@hara-lang\/visual-language\/motifs\.css/);
   assert.match(layout, /astro\/v2\/Shell\.astro/);
-  assert.match(layout, /astro\/v2\/Header\.astro/);
-  assert.match(layout, /astro\/v2\/ContextNav\.astro/);
   assert.match(layout, /class="hara-v2 hara-www-site"/);
   assert.match(layout, /data-hara-v2-site="www"/);
-  assert.match(layout, /section="WWW"/);
-  assert.match(layout, /familyNavigation/);
-  assert.match(layout, /data-hara-identity/);
-  assert.match(layout, /<ThemeToggle \/>/);
+  assert.match(header, /data-hara-identity/);
+  assert.match(header, /<ThemeToggle \/>/);
+  assert.match(header, /href="\/"/);
   assert.match(layout, /identity-loader\.js/);
   assert.match(layout, /install-copy\.js/);
   assert.match(layout, /live-surface\.css/);
@@ -41,10 +39,8 @@ test("the shared layout directly consumes v2 without replacing identity, live or
 test("the v2 shared shell owns the WWW primary and context navigation", async () => {
   const layout = await read("src/layouts/SiteLayout.astro");
   assert.match(layout, /<V2Shell sidebar=\{false\} aside=\{false\}/);
-  assert.match(layout, /<V2Header slot="header" section="WWW"/);
-  assert.match(layout, /<V2ContextNav slot="context"/);
-  assert.match(layout, /\{ label: "Benchmarks", href: "\/benchmarks\/" \}[\s\S]*?\{ label: "Docs", href: "\/docs\/" \}[\s\S]*?specs\.hara-lang\.org[\s\S]*?world\.hara-lang\.org/);
-  assert.match(layout, /familyNavigation/);
+  assert.match(layout, /<WwwHeader slot="header" nav=\{primaryNavigation\} \/>/);
+  assert.match(layout, /\{ label: "Play", href: "\/\#play" \}[\s\S]*?\{ label: "Learn", href: "\/\#learn" \}[\s\S]*?\{ label: "Connect", href: "\/\#connect" \}[\s\S]*?specs\.hara-lang\.org[\s\S]*?world\.hara-lang\.org/);
 });
 
 test("the navigation controller switches at the shared compact boundary without moving focus on open", async () => {
