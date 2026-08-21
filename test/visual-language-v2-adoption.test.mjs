@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const acceptedRevision = "9a88bddd7a539d7aa790e316ee169e8cc81886a4";
+const acceptedRevision = "a2ab66d0fde79edb1cee46b79528098b3fda68cf";
 
 test("CI and production deploy pin the accepted merged visual-language revision", async () => {
   const [ci, deploy] = await Promise.all([
@@ -13,7 +13,7 @@ test("CI and production deploy pin the accepted merged visual-language revision"
   for (const workflow of [ci, deploy]) {
     assert.match(workflow, /repository: hara-lang\/visual-language/);
     assert.match(workflow, new RegExp(`ref: ${acceptedRevision}`));
-    assert.doesNotMatch(workflow, /ref: c49ad17d5052c8eeca0aff4a6146ff60b89ce88f/);
+    assert.doesNotMatch(workflow, /ref: (?:c49ad17d5052c8eeca0aff4a6146ff60b89ce88f|9a88bddd7a539d7aa790e316ee169e8cc81886a4)/);
   }
 });
 
@@ -34,7 +34,17 @@ test("the shared layout opts into v2 without replacing identity, navigation, liv
 
 test("package preparation verifies the accepted v2 exports and written contracts", async () => {
   const script = await read("scripts/prepare-visual-language.mjs");
-  for (const value of ["./v2.css", "./theme.js", "./astro/v2/Shell.astro", "./astro/v2/Header.astro", "./astro/v2/PageHeader.astro", "V2-THEME.md", "V2-GUIDE.md"]) {
+  for (const value of [
+    "./v2.css",
+    "./v2-data.css",
+    "./theme.js",
+    "./astro/v2/Shell.astro",
+    "./astro/v2/Header.astro",
+    "./astro/v2/PageHeader.astro",
+    "V2-THEME.md",
+    "V2-GUIDE.md",
+    "V2-DATA-VISUALISATION.md"
+  ]) {
     assert.match(script, new RegExp(value.replaceAll(".", "\\.")));
   }
   assert.match(script, /v2 contract/);
