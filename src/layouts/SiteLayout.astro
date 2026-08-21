@@ -1,7 +1,9 @@
 ---
+import V2ContextNav from "@hara-lang/visual-language/astro/v2/ContextNav.astro";
+import V2Header from "@hara-lang/visual-language/astro/v2/Header.astro";
+import V2Shell from "@hara-lang/visual-language/astro/v2/Shell.astro";
 import ThemeToggle from "@hara-lang/visual-language/astro/ThemeToggle.astro";
-import HaraMark from "@hara-lang/visual-language/astro/HaraMark.astro";
-import "@hara-lang/visual-language/theme.css";
+import "@hara-lang/visual-language/v2.css";
 import "@hara-lang/visual-language/motifs.css";
 import "../styles/site.css";
 import "../styles/shell.css";
@@ -15,6 +17,18 @@ const {
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
+const activePath = Astro.url.pathname;
+const ecosystemNavigation = [
+  { href: "/docs/", label: "Docs" },
+  { href: "/benchmarks/", label: "Benchmarks" },
+  { href: "https://specs.hara-lang.org/", label: "Specs", external: true },
+  { href: "https://world.hara-lang.org/", label: "World", external: true }
+];
+const familyNavigation = [
+  { href: "/", label: "Home" },
+  { href: "/docs/", label: "Docs" },
+  { href: "/benchmarks/", label: "Benchmarks" }
+];
 ---
 <!doctype html>
 <html lang="en">
@@ -48,29 +62,23 @@ const socialImage = new URL(image, Astro.site);
     <script is:inline src="/assets/identity-loader.js" defer></script>
     <script is:inline src="/assets/install-copy.js" defer></script>
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/"><HaraMark size={27} /><span>Hara</span></a>
-      <nav aria-label="Primary">
-        <a href="/benchmarks/">Benchmarks</a>
-        <a href="/docs/">Docs</a>
-        <a href="https://specs.hara-lang.org/">Specs</a>
-        <a href="https://world.hara-lang.org/">World</a>
-      </nav>
-      <div class="header-actions">
+  <body class="hara-v2" data-hara-v2-site="www">
+    <V2Shell sidebar={false} aside={false} class="hara-www-shell">
+      <V2Header slot="header" section="WWW" nav={ecosystemNavigation} activePath={activePath}>
         <div data-hara-identity></div>
         <ThemeToggle />
-      </div>
-    </header>
-    <slot />
-    <footer class="site-footer">
-      <span>Hara</span>
-      <p>Start simple. Build forever.</p>
-      <p>
-        <a href="https://opensource.greenways.ai/open-source/">A Greenways Open Source Project</a>
-        <span aria-hidden="true">·</span>
-        <a href="https://github.com/hara-lang/hara/blob/main/LICENSE">Apache-2.0</a>
-      </p>
-    </footer>
+      </V2Header>
+      <V2ContextNav slot="context" items={familyNavigation} activePath={activePath} label="Hara WWW family" />
+      <div class="hara-www-slot"><slot /></div>
+      <footer slot="footer" class="site-footer">
+        <span>Hara</span>
+        <p>Start simple. Build forever.</p>
+        <p>
+          <a href="https://opensource.greenways.ai/open-source/">A Greenways Open Source Project</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://github.com/hara-lang/hara/blob/main/LICENSE">Apache-2.0</a>
+        </p>
+      </footer>
+    </V2Shell>
   </body>
 </html>

@@ -1,5 +1,11 @@
-/* Shared public-site shell additions. Loaded after site.css so the navigation
-   remains useful instead of disappearing as soon as the viewport narrows. */
+/* Shared public-site additions. The outer navigation now comes from the v2
+   visual-language shell; these rules keep the existing homepage composition
+   full-width inside that shell. */
+.hara-www-shell .hara-v2-main { padding: 0; }
+.hara-www-shell .hara-v2-main > .hara-v2-content { width: 100%; }
+.hara-www-slot { min-width: 0; }
+.hara-www-shell .site-footer { min-height: 100px; }
+
 .header-actions {
   display: flex;
   align-items: center;

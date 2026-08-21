@@ -6,6 +6,6 @@ const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.
 
 test("links Hara World from the primary navigation", () => {
   assert.ok(layout.includes("https://world.hara-lang.org/"));
-  assert.ok(layout.includes(">World</a>"));
+  assert.ok(layout.includes('label: "World"'));
   assert.ok(layout.includes("data-hara-identity"));
 });
