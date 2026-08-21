@@ -23,7 +23,7 @@ The runtime carries useful context throughout this loop: loaded namespaces, acti
 
 You do not need to finish an entire application before asking whether one piece works. A namespace can be loaded incrementally, a function can be evaluated independently, and state can be created before the final interface exists.
 
-```clojure
+```hara
 (def counter (atom 0))
 
 (swap! counter inc)
@@ -37,14 +37,14 @@ Each form changes or queries the live system. The result is available immediatel
 
 During development, a definition is not treated as permanently sealed inside a build artefact. A function can be revised and evaluated again. Existing code that resolves that definition can then use the updated behaviour.
 
-```clojure
+```hara
 (defn greeting [name]
   (str "Hello, " name))
 ```
 
 After evaluating a new version:
 
-```clojure
+```hara
 (defn greeting [name]
   (str "Welcome to Hara, " name "!"))
 ```
