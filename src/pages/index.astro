@@ -1,81 +1,20 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import Proposition from "../components/www-v2/Proposition.astro";
-import LanguageSection from "../components/www-v2/LanguageSection.astro";
-import RuntimeSection from "../components/www-v2/RuntimeSection.astro";
-import EvidenceSection from "../components/www-v2/EvidenceSection.astro";
-import StartSection from "../components/www-v2/StartSection.astro";
+import PlaySection from "../components/www-v2/PlaySection.astro";
+import LearnSection from "../components/www-v2/LearnSection.astro";
+import ConnectSection from "../components/www-v2/ConnectSection.astro";
 import HomepageRuntime from "../components/www-v2/HomepageRuntime.astro";
-import benchmarkEvidence from "../data/benchmark-homepage.json";
 import "@hara-lang/live/style.css";
 import "../styles/www-v2.css";
-
-type BenchmarkHomepage = {
-  schema: "hara.benchmarks-homepage/v1";
-  canonical_url: string;
-  published: string;
-  workloads: number;
-  comparison_runtimes: number;
-  ratios: Record<string, number | null>;
-  http: {
-    server: string;
-    route: string;
-    requests_per_second: number | null;
-  };
-};
-
-const currentBenchmarks = benchmarkEvidence as BenchmarkHomepage;
-const formatRatio = (runtime: string) => {
-  const ratio = currentBenchmarks.ratios[runtime];
-  return ratio == null ? "Pending" : `${ratio.toFixed(2)}×`;
-};
-const hopliteRequests = currentBenchmarks.http.requests_per_second == null
-  ? "Pending"
-  : Math.round(currentBenchmarks.http.requests_per_second).toLocaleString("en-US");
-const proofLedger = [
-  {
-    label: "Python · prepared",
-    value: formatRatio("python-prepared"),
-    detail: `Geometric mean across ${currentBenchmarks.workloads} prepared workloads.`
-  },
-  {
-    label: "Babashka · prepared",
-    value: formatRatio("bb-prepared"),
-    detail: "Same workload set and expected results."
-  },
-  {
-    label: "SBCL · prepared",
-    value: formatRatio("sbcl-prepared"),
-    detail: "Comparable prepared-execution boundary."
-  },
-  {
-    label: `Hoplite · ${currentBenchmarks.http.route}`,
-    value: hopliteRequests,
-    detail: "Requests per second · one worker · loopback HTTP/1.1."
-  }
-];
 ---
 <SiteLayout
-  title="Hara programming language — readable forms and explicit runtimes"
-  description="A technical overview of the Hara programming language, its forms, libraries, runtime sessions, host interop, documentation, and benchmark evidence."
+  title="Hara — learn, make, share"
+  description="Hara is a Lisp for learning, making, and sharing with an open community."
 >
   <div class="www-v2-main">
-    <nav class="www-v2-subnav" aria-label="Homepage sections">
-      <strong>Overview</strong>
-      <div>
-        <a href="#language">Language</a>
-        <a href="#runtime">Runtime</a>
-        <a href="#evidence">Evidence</a>
-        <a href="#start">Start</a>
-      </div>
-      <code>hara.www / v2</code>
-    </nav>
-
-    <Proposition proofLedger={proofLedger} />
-    <LanguageSection />
-    <RuntimeSection />
-    <EvidenceSection currentBenchmarks={currentBenchmarks} />
-    <StartSection />
+    <PlaySection />
+    <LearnSection />
+    <ConnectSection />
   </div>
   <HomepageRuntime />
 </SiteLayout>

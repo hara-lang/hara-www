@@ -3,11 +3,12 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
+const header = await readFile(new URL("../src/components/WwwHeader.astro", import.meta.url), "utf8");
 const loader = await readFile(new URL("../public/assets/identity-loader.js", import.meta.url), "utf8");
 
 test("opts every www page into the shared popup GitHub sign-in mode", () => {
   assert.match(layout, /<meta name="hara-identity-mode" content="popup" \/>/);
-  assert.match(layout, /data-hara-identity/);
+  assert.match(header, /data-hara-identity/);
   assert.match(layout, /identity-loader\.js/);
   assert.match(loader, /identity-client\.js/);
 });

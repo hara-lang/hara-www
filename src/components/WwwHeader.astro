@@ -1,0 +1,53 @@
+---
+import HaraMark from "@hara-lang/visual-language/astro/HaraMark.astro";
+import ThemeToggle from "@hara-lang/visual-language/astro/ThemeToggle.astro";
+
+type NavItem = {
+  href: string;
+  label: string;
+  external?: boolean;
+};
+
+const { nav = [] as NavItem[] } = Astro.props;
+---
+<header class="hara-v2-header hara-www-header" data-site-header data-navigation-open="false">
+  <a class="hara-v2-brand" href="/" aria-label="Hara home">
+    <HaraMark size={28} title="Hara" />
+    <span class="hara-v2-wordmark">Hara</span>
+    <span class="hara-v2-brand-divider" aria-hidden="true">/</span>
+    <span class="hara-v2-brand-section">WWW</span>
+  </a>
+
+  <nav class="hara-v2-ecosystem-nav" id="hara-www-navigation" data-site-navigation aria-label="Hara site navigation">
+    {nav.map((item: NavItem) => (
+      <a
+        href={item.href}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noreferrer" : undefined}
+      >{item.label}</a>
+    ))}
+  </nav>
+
+  <div class="hara-v2-header-actions">
+    <div data-hara-identity></div>
+    <ThemeToggle />
+    <button
+      class="site-navigation-trigger"
+      type="button"
+      data-site-navigation-trigger
+      aria-expanded="false"
+      aria-controls="hara-www-navigation"
+    >
+      <span>Menu</span>
+      <i aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <button
+    class="site-navigation-backdrop"
+    type="button"
+    data-site-navigation-backdrop
+    aria-label="Close navigation"
+    hidden
+  ></button>
+</header>

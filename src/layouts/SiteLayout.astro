@@ -1,8 +1,6 @@
 ---
-import V2ContextNav from "@hara-lang/visual-language/astro/v2/ContextNav.astro";
-import V2Header from "@hara-lang/visual-language/astro/v2/Header.astro";
 import V2Shell from "@hara-lang/visual-language/astro/v2/Shell.astro";
-import ThemeToggle from "@hara-lang/visual-language/astro/ThemeToggle.astro";
+import WwwHeader from "../components/WwwHeader.astro";
 import "@hara-lang/visual-language/v2.css";
 import "../styles/site.css";
 import "../styles/shell.css";
@@ -10,24 +8,20 @@ import "../styles/v2-adoption.css";
 import "@hara-lang/visual-language/theme.js";
 
 const {
-  title = "Hara",
-  description = "A small, high-performance Lisp for learning to build software from first principles.",
+  title = "Hara — learn, make, share",
+  description = "Hara is a Lisp for learning, making, and sharing with an open community.",
   image = "/og-hara.jpg",
   imageAlt = "Hara programming language — readable forms and explicit runtimes"
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
-const activePath = Astro.url.pathname;
 const primaryNavigation = [
-  { label: "Benchmarks", href: "/benchmarks/" },
+  { label: "Play", href: "/#play" },
+  { label: "Learn", href: "/#learn" },
+  { label: "Connect", href: "/#connect" },
   { label: "Docs", href: "/docs/" },
   { label: "Specs", href: "https://specs.hara-lang.org/", external: true },
   { label: "World", href: "https://world.hara-lang.org/", external: true }
-];
-const familyNavigation = [
-  { href: "/", label: "Home" },
-  { href: "/docs/", label: "Docs" },
-  { href: "/benchmarks/", label: "Benchmarks" }
 ];
 ---
 <!doctype html>
@@ -65,11 +59,7 @@ const familyNavigation = [
   </head>
   <body class="hara-v2 hara-www-site" data-hara-v2-site="www">
     <V2Shell sidebar={false} aside={false} class="hara-www-shell">
-      <V2Header slot="header" section="WWW" nav={primaryNavigation} activePath={activePath}>
-        <div data-hara-identity></div>
-        <ThemeToggle />
-      </V2Header>
-      <V2ContextNav slot="context" items={familyNavigation} activePath={activePath} label="Hara WWW family" />
+      <WwwHeader slot="header" nav={primaryNavigation} />
       <div class="hara-www-slot"><slot /></div>
       <footer slot="footer" class="site-footer">
         <span>Hara</span>
@@ -82,4 +72,9 @@ const familyNavigation = [
       </footer>
     </V2Shell>
   </body>
+  <script>
+    import { initialiseSiteNavigation } from "../scripts/site-navigation.js";
+    initialiseSiteNavigation();
+    document.addEventListener("astro:page-load", () => initialiseSiteNavigation());
+  </script>
 </html>

@@ -41,7 +41,8 @@ test("delegates benchmark rendering while retaining the canonical path", async (
   assert.doesNotMatch(`${deploy}\n${ci}`, /repository: hara-lang\/hara-benchmarks/);
   assert.doesNotMatch(`${assembly}\n${paths}`, /BENCHMARK_ROOT|website\/hara-benchmarks|\/benchmarks\/data\/runs\.json/);
   assert.equal(packageJson.scripts["prepare:benchmarks"], "node scripts/prepare-benchmark-homepage.mjs");
-  assert.match(homepage, /benchmark-homepage\.json/);
+  assert.doesNotMatch(homepage, /benchmark-homepage\.json/);
+  assert.doesNotMatch(homepage, /<EvidenceSection|<RuntimeSection/);
   assert.doesNotMatch(homepage, /HARA_WORKSPACE_ROOT|language-reference\.json|reference-v2\.json/);
   assert.match(preparation, /hara-benchmarks\.netlify\.app\/homepage\.json/);
   assert.match(sync, /ref: benchmark-site/);

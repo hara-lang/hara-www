@@ -1,7 +1,6 @@
 <script>
   import { mountLiveCard } from "@hara-lang/live";
   import { createLiveKernel } from "@hara-lang/live/kernel";
-  import pongSource from "../../../sources/pong.hal?raw";
 
   const runtimeResources = {
     "studio.store": "/runtime/studio/hal/store.hal",
@@ -37,67 +36,19 @@
     }
   };
 
-  const learnSnippets = [
+  const playSnippets = [
     { id: "read", title: "Read", kind: "console" as const, source: `(+ 19 23)` },
-    { id: "transform", title: "Transform", kind: "console" as const, source: `(def player
-  {:name "Nova"
-   :score 0})
+    { id: "make", title: "Make", kind: "console" as const, source: `(def greeting "hello")
 
-(assoc player :score 10)` },
-    { id: "state", title: "State", kind: "console" as const, source: `(def game
-  (atom {:turn :x
-         :moves []}))
-
-(swap! game update :moves conj [1 1])
-(deref game)` }
+(str greeting ", Hara")` }
   ];
-  const learnMount = document.querySelector<HTMLElement>("[data-live-learn]");
-  if (learnMount) {
-    mountLiveCard(learnMount, {
-      snippets: learnSnippets,
+  const playMount = document.querySelector<HTMLElement>("[data-live-play]");
+  if (playMount) {
+    mountLiveCard(playMount, {
+      snippets: playSnippets,
       activeSnippet: "read",
       kernel: browserKernel,
       runtimeBase: "/runtime"
     });
   }
-
-  const canvasMount = document.querySelector<HTMLElement>("[data-live-canvas]");
-  if (canvasMount) {
-    mountLiveCard(canvasMount, {
-      snippets: [{ id: "canvas-pong", title: "Pong", kind: "canvas", source: pongSource }],
-      activeSnippet: "canvas-pong",
-      kernel: browserKernel,
-      runtimeBase: "/runtime"
-    });
-  }
-
-  const kernelTabs = [...document.querySelectorAll<HTMLButtonElement>("[data-kernel-tab]")];
-  const kernelTablist = document.querySelector<HTMLElement>(".kernel-mode-tabs");
-  const selectKernelMode = (mode: string, focus = false) => {
-    for (const tab of kernelTabs) {
-      const selected = tab.dataset.kernelTab === mode;
-      tab.setAttribute("aria-selected", String(selected));
-      tab.tabIndex = selected ? 0 : -1;
-      if (selected && focus) tab.focus();
-    }
-    document.querySelectorAll<HTMLElement>("[data-kernel-mode]").forEach((panel) => {
-      panel.hidden = panel.dataset.kernelMode !== mode;
-    });
-  };
-  for (const tab of kernelTabs) {
-    tab.addEventListener("click", () => selectKernelMode(tab.dataset.kernelTab ?? "java"));
-  }
-  kernelTablist?.addEventListener("keydown", (event) => {
-    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-    event.preventDefault();
-    const current = Math.max(0, kernelTabs.findIndex((tab) => tab === document.activeElement));
-    const forward = event.key === "ArrowDown" || event.key === "ArrowRight";
-    const nextIndex = event.key === "Home"
-      ? 0
-      : event.key === "End"
-        ? kernelTabs.length - 1
-        : (current + (forward ? 1 : -1) + kernelTabs.length) % kernelTabs.length;
-    const next = kernelTabs[nextIndex];
-    if (next) selectKernelMode(next.dataset.kernelTab ?? "java", true);
-  });
 </script>
