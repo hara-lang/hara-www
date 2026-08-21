@@ -34,6 +34,8 @@ test("delegates benchmark rendering while retaining the canonical path", async (
   const assembly = await read("../scripts/hara-assembly/build-www");
   const paths = await read("../scripts/hara-assembly/workspace-paths");
   const homepage = await read("../src/pages/index.astro");
+  const benchmarkModel = await read("../src/lib/homepage-benchmarks.ts");
+  const evidence = await read("../src/components/home/HomeEvidenceStart.astro");
   const preparation = await read("../scripts/prepare-benchmark-homepage.mjs");
 
   assert.match(redirects, /^\/benchmarks https:\/\/hara-benchmarks\.netlify\.app\/ 200!$/m);
@@ -41,8 +43,10 @@ test("delegates benchmark rendering while retaining the canonical path", async (
   assert.doesNotMatch(`${deploy}\n${ci}`, /repository: hara-lang\/hara-benchmarks/);
   assert.doesNotMatch(`${assembly}\n${paths}`, /BENCHMARK_ROOT|website\/hara-benchmarks|\/benchmarks\/data\/runs\.json/);
   assert.equal(packageJson.scripts["prepare:benchmarks"], "node scripts/prepare-benchmark-homepage.mjs");
-  assert.match(homepage, /benchmark-homepage\.json/);
-  assert.doesNotMatch(homepage, /HARA_WORKSPACE_ROOT|language-reference\.json|reference-v2\.json/);
+  assert.match(homepage, /<HomeEvidenceStart \/>/);
+  assert.match(benchmarkModel, /benchmark-homepage\.json/);
+  assert.match(evidence, /currentBenchmarks\.canonical_url/);
+  assert.doesNotMatch(`${homepage}\n${benchmarkModel}\n${evidence}`, /HARA_WORKSPACE_ROOT|language-reference\.json|reference-v2\.json/);
   assert.match(preparation, /hara-benchmarks\.netlify\.app\/homepage\.json/);
   assert.match(sync, /ref: benchmark-site/);
   assert.match(sync, /Deploy verified artifact without rebuilding/);
@@ -53,13 +57,15 @@ test("delegates benchmark rendering while retaining the canonical path", async (
 
 test("keeps homepage live examples on website-owned runtime routes", async () => {
   const page = await read("../src/pages/index.astro");
+  const runtime = await read("../src/scripts/homepage.ts");
   const kernel = await read("../public/runtime/browser-kernel.js");
 
-  assert.match(page, /createLiveKernel/);
-  assert.match(page, /kernelModuleUrl: "\/runtime\/browser-kernel\.js"/);
-  assert.match(page, /"studio\.store": "\/runtime\/studio\/hal\/store\.hal"/);
-  assert.match(page, /"studio\.fs": "\/runtime\/studio\/hal\/fs\.hal"/);
-  assert.doesNotMatch(page, /\/docs-assets\//);
+  assert.match(page, /import "\.\.\/scripts\/homepage"/);
+  assert.match(runtime, /createLiveKernel/);
+  assert.match(runtime, /kernelModuleUrl: "\/runtime\/browser-kernel\.js"/);
+  assert.match(runtime, /"studio\.store": "\/runtime\/studio\/hal\/store\.hal"/);
+  assert.match(runtime, /"studio\.fs": "\/runtime\/studio\/hal\/fs\.hal"/);
+  assert.doesNotMatch(`${page}\n${runtime}`, /\/docs-assets\//);
   assert.match(kernel, /export async function createBrowserKernel/);
   assert.match(kernel, /export const createDocsKernel = createBrowserKernel/);
   assert.match(kernel, /dbName: "hara-www"/);

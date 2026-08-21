@@ -8,6 +8,7 @@ const site = fileURLToPath(new URL("../", import.meta.url));
 const workspace = resolve(process.env.HARA_WORKSPACE_ROOT || resolve(site, "../.."));
 const pongUrl = new URL("../sources/pong.hal", import.meta.url);
 const homepageUrl = new URL("../src/pages/index.astro", import.meta.url);
+const homepageRuntimeUrl = new URL("../src/scripts/homepage.ts", import.meta.url);
 const nodeHalUrl = resolve(workspace, "technology/hara/core/rust/web/studio/hal/node.hal");
 
 function assertBalanced(source) {
@@ -33,9 +34,13 @@ function assertBalanced(source) {
 }
 
 test("homepage Pong uses the canonical editable source", async () => {
-  const homepage = await readFile(homepageUrl, "utf8");
-  assert.match(homepage, /import pongSource from "\.\.\/\.\.\/sources\/pong\.hal\?raw"/);
-  assert.match(homepage, /kind: "canvas", source: pongSource/);
+  const [homepage, runtime] = await Promise.all([
+    readFile(homepageUrl, "utf8"),
+    readFile(homepageRuntimeUrl, "utf8")
+  ]);
+  assert.match(homepage, /import "\.\.\/scripts\/homepage"/);
+  assert.match(runtime, /import pongSource from "\.\.\/\.\.\/sources\/pong\.hal\?raw"/);
+  assert.match(runtime, /kind: "canvas", source: pongSource/);
 });
 
 test("Pong keeps namespace setup locally evaluable and sequences its frame loop", async () => {
