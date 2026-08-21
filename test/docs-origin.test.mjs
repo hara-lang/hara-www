@@ -15,6 +15,8 @@ test("www proxies independently published docs under the canonical path", async 
   assert.doesNotMatch(redirects, /^https:\/\/docs\.hara-lang\.org\//m);
 
   const shell = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
-  assert.match(shell, /<a href="\/docs\/">Docs<\/a>/);
-  assert.doesNotMatch(shell, /<a href="https:\/\/hara-docs\.netlify\.app\/">Docs<\/a>/);
+  assert.match(shell, /\{ label: "Docs", href: "\/docs\/" \}/);
+  assert.match(shell, /primaryNavigation\.map\(\(item\) =>/);
+  assert.match(shell, /<a href=\{item\.href\}[^>]*>\{item\.label\}<\/a>/);
+  assert.doesNotMatch(shell, /href:\s*"https:\/\/hara-docs\.netlify\.app\/"/);
 });

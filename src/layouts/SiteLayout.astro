@@ -17,6 +17,14 @@ const {
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
+const currentPath = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const primaryNavigation = [
+  { label: "Benchmarks", href: "/benchmarks/" },
+  { label: "Docs", href: "/docs/" },
+  { label: "Specs", href: "https://specs.hara-lang.org/" },
+  { label: "World", href: "https://world.hara-lang.org/" }
+];
+const isCurrent = (href: string) => href.startsWith("/") && (currentPath === href || currentPath.startsWith(href));
 ---
 <!doctype html>
 <html lang="en">
@@ -52,18 +60,29 @@ const socialImage = new URL(image, Astro.site);
   </head>
   <body class="hara-v2 hara-www-site">
     <a class="site-skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <a class="brand" href="/"><HaraMark size={27} /><span>Hara</span></a>
-      <nav aria-label="Primary">
-        <a href="/benchmarks/">Benchmarks</a>
-        <a href="/docs/">Docs</a>
-        <a href="https://specs.hara-lang.org/">Specs</a>
-        <a href="https://world.hara-lang.org/">World</a>
+    <header class="site-header" data-site-header data-navigation-open="false">
+      <a class="brand" href="/" aria-label="Hara home"><HaraMark size={27} /><span>Hara</span></a>
+      <nav id="site-primary-navigation" aria-label="Primary" data-site-navigation>
+        {primaryNavigation.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
+        ))}
       </nav>
       <div class="header-actions">
+        <button
+          class="site-navigation-trigger"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-primary-navigation"
+          data-site-navigation-trigger
+        >
+          <span>Browse</span>
+          <small>Hara</small>
+          <i aria-hidden="true"></i>
+        </button>
         <div data-hara-identity></div>
         <ThemeToggle />
       </div>
+      <button class="site-navigation-backdrop" type="button" tabindex="-1" aria-label="Close navigation" data-site-navigation-backdrop hidden></button>
     </header>
     <div id="main-content" class="site-content-root" tabindex="-1">
       <slot />
@@ -77,5 +96,11 @@ const socialImage = new URL(image, Astro.site);
         <a href="https://github.com/hara-lang/hara/blob/main/LICENSE">Apache-2.0</a>
       </p>
     </footer>
+
+    <script>
+      import { initialiseSiteNavigation } from "../scripts/site-navigation.js";
+      initialiseSiteNavigation();
+      document.addEventListener("astro:page-load", () => initialiseSiteNavigation());
+    </script>
   </body>
 </html>
