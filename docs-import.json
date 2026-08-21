@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "hara-lang/hara-docs",
-    "commit": "04bea7b83c7645b00e8c2b4a11485b618174b712",
+    "commit": "2dd468b50294882d1e26b7837891f667929e6cb8",
     "manifest": {
       "path": "docs-manifest.json",
       "gitBlobSha": "564d9bd11018da680ac29bf0d28beaae6e32806b"
@@ -14,9 +14,9 @@
   },
   "api": {
     "targetPath": "foundation-api-target.json",
-    "gitBlobSha": "a4d47183171d6273da8ca31575b34fe0b5f9ae2e",
+    "gitBlobSha": "2e81ad0fcd695e837e560c8cfd63f5cd79e76a9f",
     "repository": "hara-lang/hara",
-    "commit": "209ffd3f8ac596b02290cd73663a75f1918ff436"
+    "commit": "e8ed43f532fe6dc3c5c78d07b92ca6b1bf9d5366"
   },
   "transform": {
     "script": "scripts/import-docs.mjs",
@@ -34,6 +34,18 @@
       "sourceGitBlobSha": "930f5fa64d4005293a3df8e2cb338d130f431d91",
       "target": "src/content/docs/docs/projects/index.md",
       "title": "Projects, packages, and visual workspaces"
+    },
+    {
+      "source": "docs/development.md",
+      "sourceGitBlobSha": "3137f69570bc6111987797202db42ac53ab0a6df",
+      "target": "src/content/docs/docs/development.md",
+      "title": "Hara developer guide"
+    },
+    {
+      "source": "docs/concepts/runtime-driven-development.md",
+      "sourceGitBlobSha": "ff9be6a3bc8ae8cd44ee6e8b9ee29db1f6aaa518",
+      "target": "src/content/docs/docs/concepts/runtime-driven-development.md",
+      "title": "Runtime-driven development"
     }
   ]
 }

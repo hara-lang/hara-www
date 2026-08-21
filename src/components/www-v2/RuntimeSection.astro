@@ -1,0 +1,124 @@
+<section class="www-v2-section" id="runtime">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">02 · Runtime</p>
+      <h2>The host changes. The language and values remain recognisable.</h2>
+    </div>
+    <p>
+      Java, native, and browser runtimes expose different integration and deployment boundaries. Choose a host deliberately rather than treating one runtime as the language itself.
+    </p>
+  </header>
+
+  <div class="www-v2-runtime-picker">
+    <div class="www-v2-runtime-nav">
+      <span>Runtime host</span>
+      <div class="kernel-mode-tabs" role="tablist" aria-label="Kernel mode">
+        <button
+          class="kernel-mode-tab"
+          type="button"
+          role="tab"
+          id="kernel-tab-java"
+          data-kernel-tab="java"
+          aria-selected="true"
+          aria-controls="kernel-panel-java"
+          tabindex="0"
+        ><strong>Java</strong><small>JVM / Truffle</small></button>
+        <button
+          class="kernel-mode-tab"
+          type="button"
+          role="tab"
+          id="kernel-tab-native"
+          data-kernel-tab="native"
+          aria-selected="false"
+          aria-controls="kernel-panel-native"
+          tabindex="-1"
+        ><strong>Native</strong><small>Rust / Whole-Wasm</small></button>
+        <button
+          class="kernel-mode-tab"
+          type="button"
+          role="tab"
+          id="kernel-tab-web"
+          data-kernel-tab="web"
+          aria-selected="false"
+          aria-controls="kernel-panel-web"
+          tabindex="-1"
+        ><strong>Web</strong><small>Browser / Wasm</small></button>
+      </div>
+    </div>
+
+    <article
+      class="www-v2-runtime-panel"
+      id="kernel-panel-java"
+      role="tabpanel"
+      aria-labelledby="kernel-tab-java"
+      data-kernel-mode="java"
+    >
+      <header><code>Java</code><span class="hara-v2-badge">JVM host</span></header>
+      <h3>Work inside the Java ecosystem.</h3>
+      <p>Run with the Truffle runtime, integrate with Java classes and tools, and target Native Image when a self-contained deployment is useful.</p>
+      <dl>
+        <div><dt>Engine</dt><dd>Truffle AST / HBC4</dd></div>
+        <div><dt>Deployment</dt><dd>JVM or Native Image</dd></div>
+        <div><dt>Boundary</dt><dd>Java systems and tooling</dd></div>
+      </dl>
+    </article>
+
+    <article
+      class="www-v2-runtime-panel"
+      id="kernel-panel-native"
+      role="tabpanel"
+      aria-labelledby="kernel-tab-native"
+      data-kernel-mode="native"
+      hidden
+    >
+      <header><code>Native</code><span class="hara-v2-badge">Rust host</span></header>
+      <h3>Use the primary high-performance native runtime.</h3>
+      <p><b>hara-rust-full</b> prepares whole-function WebAssembly and hosts it natively for tools, services, local applications, and embedded products.</p>
+      <dl>
+        <div><dt>Engine</dt><dd>Whole-Wasm</dd></div>
+        <div><dt>Deployment</dt><dd>Native binary or library</dd></div>
+        <div><dt>Boundary</dt><dd>Services, CLIs, embedded hosts</dd></div>
+      </dl>
+    </article>
+
+    <article
+      class="www-v2-runtime-panel"
+      id="kernel-panel-web"
+      role="tabpanel"
+      aria-labelledby="kernel-tab-web"
+      data-kernel-mode="web"
+      hidden
+    >
+      <header><code>Web</code><span class="hara-v2-badge">browser host</span></header>
+      <h3>Run a Hara kernel in the browser.</h3>
+      <p>Start with the interpreter core, then load VM, trace, or whole-Wasm compilation capabilities only when the application needs them.</p>
+      <dl>
+        <div><dt>Small</dt><dd>Interpreter core</dd></div>
+        <div><dt>Full</dt><dd>VM + whole-Wasm compiler</dd></div>
+        <div><dt>Boundary</dt><dd>Learning, tools, browser applications</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <article class="www-v2-runtime-demo" aria-labelledby="pong-record-title">
+    <header>
+      <div><p class="hara-v2-kicker">Live runtime record</p><h3 id="pong-record-title">Pong · editable Hara canvas program</h3></div>
+      <dl>
+        <div><dt>Backend</dt><dd>Browser / Wasm</dd></div>
+        <div><dt>Source</dt><dd>sources/pong.hal</dd></div>
+        <div><dt>Action</dt><dd>Run explicitly</dd></div>
+      </dl>
+    </header>
+    <p>
+      The canvas, state, event handling, and frame loop are one Hara program. The source is loaded into the browser kernel only when this surface mounts.
+    </p>
+    <div class="www-v2-runtime-demo__mount" data-live-canvas></div>
+    <noscript>
+      <div class="www-v2-noscript">
+        <strong>The live canvas requires JavaScript.</strong>
+        <p><a href="/docs/create/first-game/">Read the first-game guide instead →</a></p>
+      </div>
+    </noscript>
+    <footer><a href="/docs/create/first-game/">Build the first game →</a><a href="/benchmarks/">Compare runtime artifacts →</a></footer>
+  </article>
+</section>

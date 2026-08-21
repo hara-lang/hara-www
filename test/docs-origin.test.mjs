@@ -16,6 +16,6 @@ test("www proxies independently published docs under the canonical path", async 
 
   const shell = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
   assert.match(shell, /V2Header/);
-  assert.match(shell, /href: "\/docs\/"/);
+  assert.match(shell, /\{ label: "Docs", href: "\/docs\/" \}/);
   assert.doesNotMatch(shell, /https:\/\/hara-docs\.netlify\.app\/.*Docs/);
 });

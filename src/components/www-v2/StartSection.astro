@@ -1,0 +1,99 @@
+---
+const startPaths = [
+  {
+    number: "01",
+    label: "Browser",
+    title: "Evaluate a form in the Playground.",
+    summary: "Use the browser kernel without installing a local runtime. Source remains editable and can be moved into a longer-lived project later.",
+    command: "https://playground.hara-lang.org/",
+    action: "Open the Playground",
+    href: "https://playground.hara-lang.org/"
+  },
+  {
+    number: "02",
+    label: "Local",
+    title: "Install the command-line runtime.",
+    summary: "Homebrew provides the current macOS and Linux entry point. The installation guide records platform and runtime details.",
+    command: "brew install hara-lang/tap/hara",
+    action: "Read installation notes",
+    href: "/docs/start/orientation/"
+  },
+  {
+    number: "03",
+    label: "Documentation",
+    title: "Read the language before choosing a host.",
+    summary: "Begin with forms, values, functions, namespaces, and sessions. Executable examples are enhancements to the written material.",
+    command: "/docs/start/orientation/",
+    action: "Start with orientation",
+    href: "/docs/start/orientation/"
+  }
+];
+
+const visibleStates = [
+  {
+    tone: "warning",
+    label: "Runtime unavailable",
+    title: "The source remains readable.",
+    summary: "When the browser kernel cannot attach, the page still exposes the form, runtime contract, expected reading order, and links to the exact documentation surface.",
+    details: ["No inferred output", "Run remains unavailable", "Static source retained"]
+  },
+  {
+    tone: "notice",
+    label: "Low bandwidth",
+    title: "Text and records load first.",
+    summary: "The proposition, language model, install command, and benchmark references do not depend on the live runtime or the fleet-field illustration.",
+    details: ["Core HTML first", "Runtime is progressive", "No autoplay media"]
+  },
+  {
+    tone: "success",
+    label: "Anonymous reader",
+    title: "Reading does not require an account.",
+    summary: "Identity is available for saved or published work, but the language overview, documentation, evidence, and local examples remain public.",
+    details: ["Docs available", "Examples available", "Evidence available"]
+  }
+];
+---
+<section class="www-v2-section" id="start">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">04 · Start</p>
+      <h2>Choose a browser, local, or documentation path.</h2>
+    </div>
+    <p>
+      These are entry points to the same language. Each names its runtime assumption and keeps the relevant source or guide close.
+    </p>
+  </header>
+
+  <div class="www-v2-start-grid">
+    {startPaths.map((path) => (
+      <article>
+        <header><span>{path.number}</span><p class="hara-v2-kicker">{path.label}</p></header>
+        <h3>{path.title}</h3>
+        <p>{path.summary}</p>
+        <pre><code>{path.command}</code></pre>
+        <a href={path.href}>{path.action} →</a>
+      </article>
+    ))}
+  </div>
+
+  <div class="www-v2-state-grid" aria-label="Homepage degraded and first-arrival states">
+    {visibleStates.map((state) => (
+      <article data-tone={state.tone}>
+        <header><i aria-hidden="true"></i><div><p class="hara-v2-kicker">{state.label}</p><h3>{state.title}</h3></div></header>
+        <p>{state.summary}</p>
+        <ul>{state.details.map((detail) => <li>{detail}</li>)}</ul>
+      </article>
+    ))}
+  </div>
+
+  <aside class="www-v2-closing-record">
+    <div>
+      <p class="hara-v2-kicker">One language, several hosts</p>
+      <h2>Read a form. Run it deliberately. Follow the record.</h2>
+    </div>
+    <div>
+      <a class="hara-v2-button" data-variant="primary" href="https://playground.hara-lang.org/">Try Hara</a>
+      <a class="hara-v2-button" href="/docs/start/orientation/">Read the first guide</a>
+    </div>
+  </aside>
+</section>

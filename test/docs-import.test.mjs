@@ -100,4 +100,12 @@ test("the committed import provenance and high-drift routes remain coherent", as
   assert.doesNotMatch(projects, /Greenways Spaces is the intended destination/);
   assert.match(projects, /`project\.edn` is the single contributor-authored manifest/);
   assert.match(projects, /deterministic `\.harp`/);
+
+  const runtimeDriven = await readFile(
+    resolve(repositoryRoot, "src/content/docs/docs/concepts/runtime-driven-development.md"),
+    "utf8"
+  );
+  assert.match(runtimeDriven, /```hara\n\(def counter/);
+  assert.equal((runtimeDriven.match(/```hara/g) ?? []).length, 3);
+  assert.doesNotMatch(runtimeDriven, /```clojure/);
 });

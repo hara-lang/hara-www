@@ -1,11 +1,10 @@
-/* Shared public-site additions. The outer navigation now comes from the v2
-   visual-language shell; these rules keep the existing homepage composition
-   full-width inside that shell. */
+/* The shared v2 shell owns the outer navigation; keep the WWW homepage
+   composition full-width inside its main content column. */
 .hara-www-shell .hara-v2-main { padding: 0; }
 .hara-www-shell .hara-v2-main > .hara-v2-content { width: 100%; }
 .hara-www-slot { min-width: 0; }
 .hara-www-shell .site-footer { min-height: 100px; }
-
+/* Public-site product controls that remain owned by hara-www. */
 .header-actions {
   display: flex;
   align-items: center;
@@ -16,45 +15,45 @@
 .sign-in {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: .42rem .7rem;
-  color: var(--hara-text);
-  background: var(--hara-surface);
-  border: 1px solid var(--hara-line);
-  border-radius: 999px;
-  font-size: .78rem;
-  font-weight: 620;
+  min-height: 38px;
+  padding: .44rem .72rem;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel);
+  font-size: .72rem;
+  font-weight: 650;
   text-decoration: none;
   white-space: nowrap;
+  clip-path: polygon(
+    var(--hara-v2-cut-small) 0,
+    100% 0,
+    100% calc(100% - var(--hara-v2-cut-small)),
+    calc(100% - var(--hara-v2-cut-small)) 100%,
+    0 100%,
+    0 var(--hara-v2-cut-small)
+  );
 }
-.sign-in:hover { background: var(--hara-surface-raised); }
+
+.sign-in:hover {
+  border-color: color-mix(in srgb, var(--hara-v2-signal) 48%, var(--hara-v2-line-strong));
+  background: var(--hara-v2-panel-raised);
+}
+
+.sign-in:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
 
 @media (max-width: 760px) {
-  .site-header {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: .45rem;
-    padding-inline: 14px;
+  .sign-in {
+    min-height: 44px;
+    padding-inline: .65rem;
   }
-  .brand span { display: none; }
-  .site-header nav {
-    display: flex;
-    justify-content: flex-start;
-    gap: .25rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .site-header nav::-webkit-scrollbar { display: none; }
-  .site-header nav a {
-    min-height: 34px;
-    padding: .45rem .55rem;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-  .site-header nav a:hover { background: var(--hara-surface-raised); }
-  .sign-in { min-height: 34px; padding-inline: .55rem; }
 }
 
-@media (max-width: 560px) {
-  .site-header .hara-theme-toggle { min-height: 34px; padding-inline: .55rem; }
-  .site-header .hara-theme-toggle [data-hara-theme-label] { display: none; }
+@media (max-width: 520px) {
+  .site-header .hara-theme-toggle [data-hara-theme-label],
+  .sign-in span {
+    display: none;
+  }
 }

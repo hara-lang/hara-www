@@ -1,0 +1,66 @@
+---
+import FleetField from "@hara-lang/visual-language/astro/v2/FleetField.astro";
+
+type ProofRecord = {
+  label: string;
+  value: string;
+  detail: string;
+};
+
+const { proofLedger } = Astro.props as { proofLedger: ProofRecord[] };
+---
+<section class="www-v2-proposition" aria-labelledby="www-v2-title">
+  <div class="www-v2-proposition__copy">
+    <p class="hara-v2-kicker">Hara programming language</p>
+    <h1 id="www-v2-title">Readable forms.<br />Explicit runtimes.</h1>
+    <p class="www-v2-proposition__summary">
+      Hara is a small Lisp with persistent values, named runtime sessions, and direct host boundaries.
+      Begin with one form, inspect how it evaluates, then choose the Java, native, or browser host that fits the program.
+    </p>
+    <div class="www-v2-proposition__actions">
+      <a class="hara-v2-button" data-variant="primary" href="https://playground.hara-lang.org/">Open the Playground <span aria-hidden="true">→</span></a>
+      <a class="hara-v2-button" href="/docs/start/orientation/">Read the language guide</a>
+      <a class="hara-v2-button" data-variant="ghost" href="#language">Inspect the language model</a>
+    </div>
+
+    <div class="www-v2-install" data-install-command aria-labelledby="install-hara-title">
+      <header>
+        <div>
+          <span>Local runtime</span>
+          <strong id="install-hara-title">Install Hara</strong>
+        </div>
+        <small>Homebrew · macOS and Linux</small>
+      </header>
+      <code>brew install hara-lang/tap/hara</code>
+      <footer>
+        <span>Command-line entry point</span>
+        <a href="/docs/start/orientation/">Installation notes →</a>
+      </footer>
+    </div>
+
+    <div class="www-v2-contract-line" aria-label="Homepage content contract">
+      <span>technical overview</span>
+      <code>hara.www / v2</code>
+      <span>production benchmark records</span>
+    </div>
+  </div>
+
+  <div class="www-v2-proposition__field" aria-label="Hara language and runtime field">
+    <FleetField title="Hara language, runtime, package, and evidence field" />
+    <div class="www-v2-field-record" data-record="forms"><b>forms</b><small>code and data</small></div>
+    <div class="www-v2-field-record" data-record="runtime"><b>runtime</b><small>named evaluation host</small></div>
+    <div class="www-v2-field-record" data-record="records"><b>records</b><small>method and revision</small></div>
+    <div class="www-v2-field-record" data-record="packages"><b>packages</b><small>versioned namespaces</small></div>
+  </div>
+</section>
+
+<section class="www-v2-proof-ledger" aria-label="Current Hara benchmark evidence">
+  {proofLedger.map((record) => (
+    <article>
+      <span>{record.label}</span>
+      <strong>{record.value}</strong>
+      <p>{record.detail}</p>
+    </article>
+  ))}
+  <a class="www-v2-proof-ledger__link" href="/benchmarks/">Method, samples, and all results →</a>
+</section>

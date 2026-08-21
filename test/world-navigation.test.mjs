@@ -5,7 +5,7 @@ import test from "node:test";
 const layout = await readFile(new URL("../src/layouts/SiteLayout.astro", import.meta.url), "utf8");
 
 test("links Hara World from the primary navigation", () => {
-  assert.ok(layout.includes("https://world.hara-lang.org/"));
-  assert.ok(layout.includes('label: "World"'));
+  assert.match(layout, /\{ label: "World", href: "https:\/\/world\.hara-lang\.org\/", external: true \}/);
+  assert.match(layout, /V2Header/);
   assert.ok(layout.includes("data-hara-identity"));
 });

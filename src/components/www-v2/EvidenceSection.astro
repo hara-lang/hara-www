@@ -1,0 +1,94 @@
+---
+type BenchmarkHomepage = {
+  schema: string;
+  canonical_url: string;
+  published: string;
+  workloads: number;
+  comparison_runtimes: number;
+  http: {
+    server: string;
+    route: string;
+  };
+};
+
+const { currentBenchmarks } = Astro.props as { currentBenchmarks: BenchmarkHomepage };
+const sourceRecords = [
+  {
+    number: "01",
+    label: "Language",
+    title: "Hara core",
+    summary: "Parser, values, evaluation, bytecode, runtime interfaces, and the maintained standard namespaces.",
+    record: "hara-lang/hara",
+    href: "https://github.com/hara-lang/hara"
+  },
+  {
+    number: "02",
+    label: "Contracts",
+    title: "Specifications registry",
+    summary: "Normative package, namespace, runtime, and conformance records shared across implementations.",
+    record: "hara-specs-registry",
+    href: "https://specs.hara-lang.org/"
+  },
+  {
+    number: "03",
+    label: "Explanation",
+    title: "Documentation",
+    summary: "Task-oriented guides and technical explanations assembled from a pinned canonical documentation source.",
+    record: "www / docs",
+    href: "/docs/"
+  },
+  {
+    number: "04",
+    label: "Evidence",
+    title: "Benchmarks",
+    summary: "Workload sources, methods, environments, raw samples, checksums, and comparable result records.",
+    record: currentBenchmarks.schema,
+    href: "/benchmarks/"
+  }
+];
+---
+<section class="www-v2-section" id="evidence">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">03 · Source and evidence</p>
+      <h2>Language claims should lead to maintained source, contracts, and method.</h2>
+    </div>
+    <p>
+      The public site orients readers across the implementation, specifications, documentation, and benchmark registry without turning those records into a feature catalogue.
+    </p>
+  </header>
+
+  <div class="www-v2-source-map" aria-label="Hara maintained source and evidence map">
+    {sourceRecords.map((record) => (
+      <article>
+        <span>{record.number}</span>
+        <p class="hara-v2-kicker">{record.label}</p>
+        <h3>{record.title}</h3>
+        <p>{record.summary}</p>
+        <a href={record.href}>{record.record} →</a>
+      </article>
+    ))}
+  </div>
+
+  <div class="www-v2-evidence-record">
+    <header>
+      <div><p class="hara-v2-kicker">Current benchmark publication</p><h3>{currentBenchmarks.schema}</h3></div>
+      <a class="hara-v2-button" href="/benchmarks/">Open the benchmark observatory</a>
+    </header>
+    <div class="www-v2-evidence-record__ledger">
+      <div><span>Published</span><strong>{currentBenchmarks.published}</strong><p>Production homepage projection.</p></div>
+      <div><span>Workloads</span><strong>{currentBenchmarks.workloads}</strong><p>Expected results verified across compared runtimes.</p></div>
+      <div><span>Comparisons</span><strong>{currentBenchmarks.comparison_runtimes}</strong><p>Runtime records represented in the current report.</p></div>
+      <div><span>HTTP record</span><strong>{currentBenchmarks.http.server}</strong><p>{currentBenchmarks.http.route} · one-worker loopback boundary.</p></div>
+    </div>
+    <div class="www-v2-evidence-principles">
+      <article><span>01</span><h3>Equivalent work</h3><p>Every promoted comparison names the workload source and expected result.</p></article>
+      <article><span>02</span><h3>Explicit timing</h3><p>Startup, preparation, first invocation, warm-up, and steady-state boundaries remain distinct.</p></article>
+      <article><span>03</span><h3>Reproducible records</h3><p>Environment, commands, revisions, samples, and checksums sit beside the result.</p></article>
+    </div>
+    <footer>
+      <a href={currentBenchmarks.canonical_url}>Canonical benchmark record →</a>
+      <a href="https://specs.hara-lang.org/">Read the specifications →</a>
+    </footer>
+  </div>
+</section>

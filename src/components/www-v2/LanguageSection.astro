@@ -1,0 +1,134 @@
+---
+const capabilitySections = [
+  {
+    number: "01",
+    id: "forms",
+    label: "Forms",
+    title: "Code remains ordinary data.",
+    summary: "Lists, vectors, maps, symbols, and values share one readable representation. The same forms can be evaluated, inspected, transformed, documented, and stored.",
+    items: ["Lisp syntax", "persistent values", "namespaces", "macros"],
+    reference: "Language orientation",
+    href: "/docs/start/orientation/"
+  },
+  {
+    number: "02",
+    id: "libraries",
+    label: "Libraries and tools",
+    title: "Namespaces carry the program model.",
+    summary: "Libraries organise public vars and implementation details. Tools can work against the same source forms instead of translating the program into a separate project model.",
+    items: ["public vars", "package contracts", "source tools", "tests"],
+    reference: "Projects and packages",
+    href: "/docs/projects/"
+  },
+  {
+    number: "03",
+    id: "sessions",
+    label: "Runtime sessions",
+    title: "Evaluation has a named host and scope.",
+    summary: "A session identifies the runtime, loaded namespaces, mounted capabilities, and lifecycle. Browser, Java, and native hosts expose the same language through different deployment boundaries.",
+    items: ["Java / Truffle", "Rust / native", "browser / Wasm", "capabilities"],
+    reference: "Runtime-driven development",
+    href: "/docs/start/runtime-driven-development/"
+  },
+  {
+    number: "04",
+    id: "interop",
+    label: "Host interop",
+    title: "External systems stay explicit.",
+    summary: "Java classes, native libraries, WebAssembly modules, filesystems, and services enter through visible host boundaries rather than becoming invisible language semantics.",
+    items: ["Java interop", "Wasm modules", "filesystem", "service hosts"],
+    reference: "Specifications",
+    href: "https://specs.hara-lang.org/"
+  }
+];
+---
+<section class="www-v2-section" id="language">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">01 · Language</p>
+      <h2>Read the form, identify the runtime boundary, then evaluate it.</h2>
+    </div>
+    <p>
+      Source is useful before execution. The live surface adds an isolated browser session, but the language model does not depend on the editor loading successfully.
+    </p>
+  </header>
+
+  <div class="www-v2-three-part" aria-label="First-form reading order">
+    <article>
+      <span>Definition</span>
+      <h3>A form represents code or data.</h3>
+      <p>Parentheses contain an operation, vectors contain ordered values, and maps name facts.</p>
+    </article>
+    <article>
+      <span>Runtime</span>
+      <h3>Evaluation has a named host.</h3>
+      <p>The example runs in an isolated browser session with no implied network or filesystem authority.</p>
+    </article>
+    <article>
+      <span>Result</span>
+      <h3>Input and output remain adjacent.</h3>
+      <p>The value can be inspected directly and the source remains ordinary Hara data.</p>
+    </article>
+  </div>
+
+  <article class="www-v2-live-record" aria-labelledby="first-form-title">
+    <header class="www-v2-live-record__header">
+      <div>
+        <p class="hara-v2-kicker">Executable record</p>
+        <h3 id="first-form-title">First forms · browser Wasm session</h3>
+      </div>
+      <span class="hara-v2-badge" data-tone="success">runtime progressive</span>
+    </header>
+    <div class="www-v2-live-record__contract">
+      <dl>
+        <div><dt>Backend</dt><dd>Browser / Wasm</dd></div>
+        <div><dt>Session</dt><dd>www-learn-01</dd></div>
+        <div><dt>Source</dt><dd>inline examples</dd></div>
+        <div><dt>Authority</dt><dd>local evaluation</dd></div>
+      </dl>
+      <div>
+        <span>pure</span>
+        <span>network:none</span>
+        <span>filesystem:none</span>
+      </div>
+    </div>
+    <div class="www-v2-live-record__workspace">
+      <div class="www-v2-live-record__mount" data-live-learn></div>
+      <aside>
+        <span>Static reading rule</span>
+        <strong>Operation first.</strong>
+        <pre><code>(+ 19 23)</code></pre>
+        <p>Tools, tests, the runtime, and people inspect the same form. The editor is an enhancement to this source record.</p>
+      </aside>
+    </div>
+    <noscript>
+      <div class="www-v2-noscript">
+        <strong>Live evaluation requires JavaScript.</strong>
+        <p>The source remains available above. Open the Playground or documentation when a browser runtime is available.</p>
+      </div>
+    </noscript>
+    <footer>
+      <span>Static source remains useful without the runtime.</span>
+      <a href="/docs/learn-programming/">Learn to read Hara →</a>
+    </footer>
+  </article>
+
+  <div class="www-v2-capability-stack" aria-label="Hara language and system model">
+    {capabilitySections.map((capability) => (
+      <article id={`language-${capability.id}`}>
+        <header>
+          <span>{capability.number}</span>
+          <div><p class="hara-v2-kicker">{capability.label}</p><h3>{capability.title}</h3></div>
+        </header>
+        <div>
+          <p>{capability.summary}</p>
+          <ul>{capability.items.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <footer>
+          <span>Reference</span>
+          <a href={capability.href}>{capability.reference} →</a>
+        </footer>
+      </article>
+    ))}
+  </div>
+</section>
