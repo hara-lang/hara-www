@@ -3,8 +3,10 @@ import ThemeToggle from "@hara-lang/visual-language/astro/ThemeToggle.astro";
 import HaraMark from "@hara-lang/visual-language/astro/HaraMark.astro";
 import "@hara-lang/visual-language/theme.css";
 import "@hara-lang/visual-language/motifs.css";
+import "@hara-lang/visual-language/v2.css";
 import "../styles/site.css";
 import "../styles/shell.css";
+import "../styles/v2-adoption.css";
 import "@hara-lang/visual-language/theme.js";
 
 const {
@@ -48,7 +50,8 @@ const socialImage = new URL(image, Astro.site);
     <script is:inline src="/assets/identity-loader.js" defer></script>
     <script is:inline src="/assets/install-copy.js" defer></script>
   </head>
-  <body>
+  <body class="hara-v2 hara-www-site">
+    <a class="site-skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="/"><HaraMark size={27} /><span>Hara</span></a>
       <nav aria-label="Primary">
@@ -62,7 +65,9 @@ const socialImage = new URL(image, Astro.site);
         <ThemeToggle />
       </div>
     </header>
-    <slot />
+    <div id="main-content" class="site-content-root" tabindex="-1">
+      <slot />
+    </div>
     <footer class="site-footer">
       <span>Hara</span>
       <p>Start simple. Build forever.</p>
