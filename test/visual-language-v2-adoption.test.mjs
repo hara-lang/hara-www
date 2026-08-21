@@ -69,7 +69,6 @@ test("package preparation verifies and materialises the accepted published bound
   ]);
   for (const value of [
     "./v2.css",
-    "./v2-data.css",
     "./theme.js",
     "./astro/v2/Shell.astro",
     "./astro/v2/Header.astro",
@@ -77,7 +76,8 @@ test("package preparation verifies and materialises the accepted published bound
     "V2-THEME.md",
     "V2-GUIDE.md",
     "V2-DATA-VISUALISATION.md",
-    "V2-WWW.md"
+    "V2-WWW.md",
+    "src/v2/data-visualisation.css"
   ]) {
     assert.match(script, new RegExp(value.replaceAll(".", "\\.")));
   }

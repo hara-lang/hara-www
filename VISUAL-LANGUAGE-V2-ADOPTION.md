@@ -10,6 +10,8 @@ b512a12e8d7191c9092d195ca0ddc894b0ba54d2
 
 That revision contains the shared v2 foundations and the accepted `V2-WWW.md` Home, Docs, and Benchmarks family. The exact pin is present in pull-request CI and the production deployment checkout. Downstream WWW changes consume merged Visual Language revisions only.
 
+The revision currently contains a stale `./v2-data.css` manifest target; WWW does not import that export. Package preparation verifies the maintained `src/v2/data-visualisation.css` source directly while `hara-lang/visual-language#114` tracks restoring the public export.
+
 ## Shared shell
 
 The shared `SiteLayout`:
