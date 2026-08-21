@@ -24,6 +24,7 @@ const primaryNavigation = [
   { label: "Specs", href: "https://specs.hara-lang.org/" },
   { label: "World", href: "https://world.hara-lang.org/" }
 ];
+/** @param {string} href */
 const isCurrent = (href) => href.startsWith("/") && (currentPath === href || currentPath.startsWith(href));
 ---
 <!doctype html>
