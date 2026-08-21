@@ -45,6 +45,9 @@ test("the production homepage consumes the v2 WWW hierarchy and removes the lega
     "HomeEvidenceStart"
   ]) assert.match(page, new RegExp(`<${component} \\/>`));
 
+  assert.match(page, /<div class="www-main">/);
+  assert.doesNotMatch(page, /<main class="www-main">/);
+
   for (const marker of [
     "www-subnav",
     "www-main",
