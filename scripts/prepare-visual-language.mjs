@@ -1,5 +1,5 @@
-import { access, lstat, mkdir, readFile, realpath, symlink, unlink } from "node:fs/promises";
-import { dirname, join, relative, resolve } from "node:path";
+import { access, cp, lstat, mkdir, readFile, rm, symlink } from "node:fs/promises";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const site = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -64,27 +64,33 @@ for (const path of requiredFiles) {
   }
 }
 
-if (await exists(dirname(installed))) {
-  let installedPath = null;
-  try {
-    installedPath = await realpath(installed);
-  } catch {
-    // npm may have left a dangling file-dependency link.
+// npm represents a file dependency as a symlink back into packages/. Astro's
+// strict project scan follows that link and type-checks the visual-language
+// catalogue application as if it were WWW source. Materialise the published
+// package boundary inside node_modules instead: only package.json and the
+// manifest's files entries are copied, while site/, tests and repository
+// tooling remain outside the consumer compilation root.
+const packageEntries = ["package.json", ...new Set(manifest.files ?? [])];
+await rm(installed, { recursive: true, force: true });
+await mkdir(installed, { recursive: true });
+for (const entry of packageEntries) {
+  if (typeof entry !== "string" || entry.includes("*") || entry.includes("\0")) {
+    throw new Error(`unsupported visual-language package entry: ${String(entry)}`);
   }
-  const targetPath = await realpath(target);
-  if (installedPath !== targetPath) {
-    let entry = null;
-    try {
-      entry = await lstat(installed);
-    } catch {
-      // The dependency has not been linked yet.
-    }
-    if (entry && !entry.isSymbolicLink()) {
-      throw new Error(`refusing to replace non-symlink package at ${installed}`);
-    }
-    if (entry) await unlink(installed);
-    await symlink(relative(dirname(installed), target), installed, "dir");
+  const from = resolve(target, entry);
+  const to = resolve(installed, entry);
+  const targetPrefix = `${target}${sep}`;
+  if (from !== target && !from.startsWith(targetPrefix)) {
+    throw new Error(`visual-language package entry escapes its root: ${entry}`);
   }
+  if (!(await exists(from))) {
+    throw new Error(`visual-language package entry is missing: ${entry}`);
+  }
+  await mkdir(dirname(to), { recursive: true });
+  await cp(from, to, { recursive: true, dereference: true });
 }
 
-console.log(`using @hara-lang/visual-language ${manifest.version} v2 contract from ${target}`);
+console.log(
+  `using materialised @hara-lang/visual-language ${manifest.version} v2 contract ` +
+  `from ${target} (${packageEntries.length} package entries)`
+);
