@@ -14,14 +14,15 @@ const requiredExports = [
   "./astro/v2/Shell.astro",
   "./astro/v2/Header.astro",
   "./astro/v2/PageHeader.astro",
+  "./astro/v2/FleetField.astro",
   "./v2.css",
-  "./v2-data.css",
   "./theme.js"
 ];
 const requiredFiles = [
   "V2-THEME.md",
   "V2-GUIDE.md",
-  "V2-DATA-VISUALISATION.md"
+  "V2-DATA-VISUALISATION.md",
+  "V2-WWW.md"
 ];
 
 async function exists(path) {

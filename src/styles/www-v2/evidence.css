@@ -1,0 +1,120 @@
+.www-v2-source-map {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--hara-v2-line-strong);
+}
+
+.www-v2-source-map article {
+  min-width: 0;
+  min-height: 240px;
+  padding: 1rem;
+  border-right: 1px solid var(--hara-v2-line);
+  background: color-mix(in srgb, var(--hara-v2-panel) 87%, transparent);
+}
+
+.www-v2-source-map article:last-child {
+  border-right: 0;
+}
+
+.www-v2-source-map article > span {
+  color: var(--hara-v2-faint);
+  font: 550 .58rem var(--hara-v2-font-code);
+}
+
+.www-v2-source-map h3 {
+  margin: 2.5rem 0 .6rem;
+  font-size: 1.02rem;
+}
+
+.www-v2-source-map article > p:not(.hara-v2-kicker) {
+  color: var(--hara-v2-muted);
+  font-size: .7rem;
+  line-height: 1.58;
+}
+
+.www-v2-source-map article > a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--hara-v2-ink);
+  font: 640 .62rem var(--hara-v2-font-code);
+  text-decoration: none;
+}
+
+.www-v2-source-map article > a:hover {
+  color: var(--hara-v2-signal);
+}
+
+.www-v2-evidence-record {
+  margin-top: .75rem;
+}
+
+.www-v2-evidence-record__ledger {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--hara-v2-line-strong);
+}
+
+.www-v2-evidence-record__ledger > div {
+  min-width: 0;
+  min-height: 150px;
+  padding: 1rem;
+  border-right: 1px solid var(--hara-v2-line);
+}
+
+.www-v2-evidence-record__ledger > div:last-child {
+  border-right: 0;
+}
+
+.www-v2-evidence-record__ledger span {
+  color: var(--hara-v2-faint);
+  font: 620 .57rem var(--hara-v2-font-code);
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+
+.www-v2-evidence-record__ledger strong {
+  display: block;
+  margin: .8rem 0 .4rem;
+  overflow-wrap: anywhere;
+  font: 710 clamp(.92rem, 1.7vw, 1.35rem) var(--hara-v2-font-heading);
+  letter-spacing: -.025em;
+}
+
+.www-v2-evidence-record__ledger p {
+  margin-bottom: 0;
+  color: var(--hara-v2-muted);
+  font-size: .67rem;
+  line-height: 1.5;
+}
+
+.www-v2-evidence-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.www-v2-evidence-principles article {
+  min-height: 185px;
+  padding: 1.1rem;
+  border-right: 1px solid var(--hara-v2-line);
+}
+
+.www-v2-evidence-principles article:last-child {
+  border-right: 0;
+}
+
+.www-v2-evidence-principles span {
+  color: var(--hara-v2-signal);
+  font: 650 .6rem var(--hara-v2-font-code);
+}
+
+.www-v2-evidence-principles h3 {
+  margin: 2rem 0 .55rem;
+  font-size: 1rem;
+}
+
+.www-v2-evidence-principles p {
+  margin-bottom: 0;
+  color: var(--hara-v2-muted);
+  font-size: .72rem;
+  line-height: 1.58;
+}

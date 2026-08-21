@@ -1,0 +1,180 @@
+.www-v2-runtime-picker {
+  display: grid;
+  grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel-raised);
+  box-shadow: 0 1px 0 var(--hara-v2-sketch);
+  clip-path: polygon(
+    var(--hara-v2-cut-small) 0,
+    100% 0,
+    100% calc(100% - var(--hara-v2-cut-small)),
+    calc(100% - var(--hara-v2-cut-small)) 100%,
+    0 100%,
+    0 var(--hara-v2-cut-small)
+  );
+}
+
+.www-v2-runtime-nav {
+  display: grid;
+  align-content: start;
+  gap: .72rem;
+  min-width: 0;
+}
+
+.www-v2-runtime-nav > span {
+  color: var(--hara-v2-faint);
+  font: 660 .58rem var(--hara-v2-font-code);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.kernel-mode-tabs {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-line);
+}
+
+.kernel-mode-tab {
+  position: relative;
+  display: grid;
+  gap: .22rem;
+  align-content: center;
+  min-height: 70px;
+  padding: .85rem 1rem .85rem 1.15rem;
+  color: var(--hara-v2-muted);
+  border: 0;
+  background: var(--hara-v2-panel-recess);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.kernel-mode-tab::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  content: "";
+  background: transparent;
+}
+
+.kernel-mode-tab strong {
+  color: inherit;
+  font-size: .92rem;
+  font-weight: 720;
+}
+
+.kernel-mode-tab small {
+  color: var(--hara-v2-faint);
+  font: 550 .61rem var(--hara-v2-font-code);
+}
+
+.kernel-mode-tab:hover {
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-panel);
+}
+
+.kernel-mode-tab:focus-visible {
+  color: var(--hara-v2-ink);
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: -2px;
+}
+
+.kernel-mode-tab[aria-selected="true"] {
+  color: var(--hara-v2-ink);
+  background: color-mix(in srgb, var(--hara-v2-signal) 8%, var(--hara-v2-panel));
+}
+
+.kernel-mode-tab[aria-selected="true"]::before {
+  background: var(--hara-v2-signal);
+}
+
+.kernel-mode-tab[aria-selected="true"] strong {
+  color: var(--hara-v2-signal);
+}
+
+.www-v2-runtime-panel {
+  min-width: 0;
+}
+
+.www-v2-runtime-panel[hidden] {
+  display: none;
+}
+
+.www-v2-runtime-panel > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--hara-v2-line);
+}
+
+.www-v2-runtime-panel > header code {
+  color: var(--hara-v2-signal);
+  font: 700 .72rem var(--hara-v2-font-code);
+}
+
+.www-v2-runtime-panel h3 {
+  margin: 1.2rem 0 .6rem;
+  font: 740 clamp(1.55rem, 3vw, 2.45rem) / 1 var(--hara-v2-font-heading);
+  letter-spacing: -.045em;
+}
+
+.www-v2-runtime-panel > p {
+  max-width: 760px;
+  color: var(--hara-v2-muted);
+  line-height: 1.67;
+}
+
+.www-v2-runtime-panel dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.8rem 0 0;
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-line);
+}
+
+.www-v2-runtime-panel dl div {
+  min-width: 0;
+  padding: .85rem;
+  background: var(--hara-v2-canvas-clean);
+}
+
+.www-v2-runtime-panel dt {
+  color: var(--hara-v2-faint);
+  font: 620 .55rem var(--hara-v2-font-code);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.www-v2-runtime-panel dd {
+  margin: .4rem 0 0;
+  font-size: .75rem;
+  line-height: 1.45;
+}
+
+.www-v2-runtime-demo {
+  margin-top: 1rem;
+}
+
+.www-v2-runtime-demo > header {
+  align-items: flex-start;
+}
+
+.www-v2-runtime-demo > p {
+  max-width: 760px;
+  margin: 0;
+  padding: 1rem;
+  color: var(--hara-v2-muted);
+  font-size: .8rem;
+  line-height: 1.65;
+}
+
+.www-v2-runtime-demo__mount {
+  padding: 0 1rem 1rem;
+}

@@ -1,62 +1,102 @@
-# Hara WWW — Visual Language v2 adoption
+# Visual Language v2 adoption for `hara-www`
 
-## Accepted source
-
-This adoption pins `hara-lang/visual-language` at merged revision:
+`hara-www` consumes the merged Visual Language v2 package at:
 
 ```text
-a2ab66d0fde79edb1cee46b79528098b3fda68cf
+hara-lang/visual-language@b512a12e8d7191c9092d195ca0ddc894b0ba54d2
 ```
 
-That revision includes the shared v2 document language, merged catalogue guide, first shared review-matrix fixes and the accessible evidence/data-visualisation contract. The pin is present in pull-request CI and the production deployment checkout.
+The pin is identical in pull-request CI and production deployment. Only merged Visual Language revisions are accepted. The package-preparation boundary verifies `V2-WWW.md`, the shared v2 stylesheet, the theme implementation, and the exported `FleetField` illustration before Astro compiles the site.
 
-## Baseline adoption slice
+## Current adoption boundary
 
-- imports `@hara-lang/visual-language/v2.css` at the shared `SiteLayout`;
-- applies the opt-in `hara-v2` root without replacing the existing Astro layout;
-- preserves the block-H mark, ThemeToggle and current primary navigation order;
-- adds a keyboard skip link and stable main-content focus target;
-- maps shared header/footer seams, focus and compact touch targets to v2 tokens;
-- verifies the v2 document and data package exports plus their written contracts before build.
+The production homepage now follows the Visual Language v2 WWW-family hierarchy directly:
 
-## Global-shell adoption slice
+1. a technical proposition and bounded starting actions;
+2. a current benchmark proof ledger;
+3. a readable first form with an explicit browser-runtime contract;
+4. forms, libraries, runtime sessions, and host interop;
+5. Java, native, and browser runtime records;
+6. maintained implementation, specification, documentation, and evidence sources;
+7. benchmark method and publication metadata;
+8. browser, local, and documentation entry paths; and
+9. visible runtime-unavailable, low-bandwidth, and anonymous-reader states.
 
-- keeps Benchmarks, Docs, Specs and World in their existing order and product-owned URLs;
-- exposes the current internal route with `aria-current="page"` and a non-colour structural cue;
-- retains inline navigation on wider screens and changes to one explicit `Browse Hara` disclosure at 760 pixels and below;
-- keeps the trigger focused when opening, so navigation never auto-focuses an editor, runtime or unrelated page control;
-- closes the disclosure after a selected link, backdrop action, Escape key or transition back to the inline layout;
-- restores focus to the trigger only when a keyboard or backdrop close requires it;
-- leaves the full navigation visible when JavaScript is unavailable, then applies the collapsed state after enhancement is ready;
-- locks document scrolling only while the compact navigation is open;
-- preserves 44-pixel compact controls and reduced-motion behavior.
+The old homepage composition has been removed. `index.astro` no longer depends on the legacy `hero`, `proof`, `content-section`, `card-grid`, pill-button, `closing`, Motif, or homepage-interaction stylesheet vocabulary. `src/styles/www-v2.css` is a scoped product composition layer that consumes protected `--hara-v2-*` tokens without redefining them.
 
-## Preserved product behavior
+The global header, navigation disclosure, focus boundary, theme control, footer, and product-owned identity entry remain in `SiteLayout.astro`. Shared document geometry and responsive navigation remain separate from homepage composition.
 
-This visual adoption does not change:
+## Preserved production contracts
 
-- identity popup loading or account state;
-- OAuth, sign-in, logout or trust mechanics;
-- install-copy behavior;
-- live-card or runtime behavior;
-- benchmark inputs, methodology or assembly;
-- canonical URLs, Open Graph or Twitter metadata;
-- public routes;
-- footer links or licensing language.
+The migration deliberately preserves:
 
-## Ownership boundary
+- the identity popup and anonymous-reader boundary;
+- `install-copy` progressive enhancement for the Homebrew command;
+- the real `@hara-lang/live` live-card package;
+- browser-kernel resource loading and session lifecycle;
+- the editable Pong source and canvas surface;
+- Java, native, and web runtime tabs, including Arrow, Home, and End keyboard behaviour;
+- benchmark values generated from `benchmark-homepage.json`;
+- canonical URLs, sitemap, Open Graph, Twitter, favicon, and legal metadata;
+- Docs, Playground, Specs, World, and benchmark navigation; and
+- the current documentation import and production assembly ownership.
 
-Visual Language owns shared tokens, document geometry, state presentation, focus, responsive grammar and the acceptance guide. `hara-www` continues to own content, navigation labels and destinations, SEO, identity mounting, live runtime integration, benchmark data/methodology and product-specific behavior.
+Live execution remains an enhancement. Static explanation, source, runtime contracts, install instructions, and evidence links remain useful when JavaScript is disabled or the browser runtime is unavailable.
 
-The local `v2-adoption.css` file is a narrow product mapping layer. It may consume shared `--hara-v2-*` tokens but must not redefine them. The local navigation controller owns disclosure mechanics only; it does not own routes, identity, runtime or content state.
+## Styling ownership
 
-## Remaining issue #19 work
+Visual Language v2 owns:
 
-These slices begin, but do not close, the full public-site adoption. Subsequent bounded PRs should:
+- colour, typography, spacing, focus, cut geometry, motion, and responsive tokens;
+- common buttons, badges, panels, fields, tables, and theme behaviour;
+- the shared Hara mark and fleet-field graphic; and
+- the `V2-WWW.md` downstream adoption contract.
 
-1. recompose homepage sections against the accepted `/v2/www/` laboratory;
-2. adopt the proof strip, executable code surface, ecosystem and release compositions;
-3. use the accepted evidence graphics on benchmark/public proof surfaces without transferring data authority;
-4. attach explicit light/dark desktop and mobile screenshots;
-5. verify the complete live and benchmark surfaces after each composition change;
-6. keep downstream changes pinned to merged Visual Language revisions only.
+`hara-www` owns:
+
+- the public homepage's production content and route order;
+- benchmark projection data and evidence links;
+- live-kernel adapters and runtime resource paths;
+- Homebrew installation behaviour;
+- account and identity integration;
+- canonical/public-site metadata; and
+- the scoped `www-v2.css` composition needed to combine those production surfaces.
+
+Protected `--hara-v2-*` tokens are consumed only. Product CSS must not redefine them.
+
+## Responsive and degraded behaviour
+
+The public page preserves one primary-navigation disclosure at the shared 760px boundary. The route-local overview navigation remains horizontally inspectable, controls retain a minimum 44px compact target, and all focus states remain visible.
+
+At smaller widths:
+
+- the proposition and fleet field stack;
+- the proof ledger moves from four to two to one column;
+- the language, source, evidence, start, and state records keep their reading order;
+- runtime tabs become a three-column strip;
+- live-card controls remain horizontally inspectable; and
+- reduced-motion preferences suppress non-essential transitions.
+
+The page names unavailable and deferred states rather than hiding them or presenting a simulated success result.
+
+## Follow-on WWW-family work
+
+This change completes the first production homepage slice of issue #29. The remaining wholesale WWW migration is intentionally split by authoritative product boundary:
+
+- **Docs:** reconcile the assembled `/docs/` shell with the v2 Docs family while retaining the pinned generated documentation import and Starlight/document contracts.
+- **Benchmarks:** reconcile `/benchmarks/` with the v2 evidence-first family while retaining production registry values, methods, confidence, and comparability states.
+- **Route matrix:** review Home, Docs, Benchmarks, legal/error routes, identity states, and live runtime states in light and dark themes at desktop, tablet, and mobile widths.
+
+Those slices should continue to consume the same shared v2 package rather than copying catalogue-only components or creating a parallel token system.
+
+## Validation
+
+Repository validation is:
+
+```sh
+npm run check
+npm test
+npm run build
+```
+
+CI additionally checks the production assembly boundary against the Hara workspace and uses the exact Visual Language revision recorded above.
