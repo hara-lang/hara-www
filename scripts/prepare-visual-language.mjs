@@ -16,7 +16,6 @@ const requiredExports = [
   "./astro/v2/PageHeader.astro",
   "./astro/v2/FleetField.astro",
   "./v2.css",
-  "./v2-data.css",
   "./theme.js"
 ];
 const requiredFiles = [
