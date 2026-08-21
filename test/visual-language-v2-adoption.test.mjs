@@ -32,8 +32,11 @@ test("the shared layout opts into v2 without replacing identity, navigation, liv
   assert.match(layout, /<a href="\/benchmarks\/">Benchmarks<\/a>[\s\S]*?<a href="\/docs\/">Docs<\/a>[\s\S]*?specs\.hara-lang\.org[\s\S]*?world\.hara-lang\.org/);
 });
 
-test("package preparation verifies the accepted v2 exports and written contracts", async () => {
-  const script = await read("scripts/prepare-visual-language.mjs");
+test("package preparation verifies and materialises the accepted published boundary", async () => {
+  const [script, tsconfig] = await Promise.all([
+    read("scripts/prepare-visual-language.mjs"),
+    read("tsconfig.json")
+  ]);
   for (const value of [
     "./v2.css",
     "./v2-data.css",
@@ -47,7 +50,11 @@ test("package preparation verifies the accepted v2 exports and written contracts
   ]) {
     assert.match(script, new RegExp(value.replaceAll(".", "\\.")));
   }
-  assert.match(script, /v2 contract/);
+  assert.match(script, /manifest\.files/);
+  assert.match(script, /await cp\(from, to, \{ recursive: true, dereference: true \}\)/);
+  assert.match(script, /materialised @hara-lang\/visual-language/);
+  assert.doesNotMatch(script, /symlink\(relative\(dirname\(installed\)/, "the installed dependency must be a materialised package, not a source symlink");
+  assert.match(tsconfig, /"packages\/visual-language\/\*\*"/);
 });
 
 test("the product bridge consumes shared tokens and preserves focus, touch and reduced motion", async () => {
