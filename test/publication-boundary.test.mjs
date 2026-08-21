@@ -53,13 +53,16 @@ test("delegates benchmark rendering while retaining the canonical path", async (
 
 test("keeps homepage live examples on website-owned runtime routes", async () => {
   const page = await read("../src/pages/index.astro");
+  const runtime = await read("../src/components/www-v2/HomepageRuntime.astro");
   const kernel = await read("../public/runtime/browser-kernel.js");
 
-  assert.match(page, /createLiveKernel/);
-  assert.match(page, /kernelModuleUrl: "\/runtime\/browser-kernel\.js"/);
-  assert.match(page, /"studio\.store": "\/runtime\/studio\/hal\/store\.hal"/);
-  assert.match(page, /"studio\.fs": "\/runtime\/studio\/hal\/fs\.hal"/);
-  assert.doesNotMatch(page, /\/docs-assets\//);
+  assert.match(page, /import HomepageRuntime from "\.\.\/components\/www-v2\/HomepageRuntime\.astro"/);
+  assert.match(page, /<HomepageRuntime \/>/);
+  assert.match(runtime, /createLiveKernel/);
+  assert.match(runtime, /kernelModuleUrl: "\/runtime\/browser-kernel\.js"/);
+  assert.match(runtime, /"studio\.store": "\/runtime\/studio\/hal\/store\.hal"/);
+  assert.match(runtime, /"studio\.fs": "\/runtime\/studio\/hal\/fs\.hal"/);
+  assert.doesNotMatch(runtime, /\/docs-assets\//);
   assert.match(kernel, /export async function createBrowserKernel/);
   assert.match(kernel, /export const createDocsKernel = createBrowserKernel/);
   assert.match(kernel, /dbName: "hara-www"/);
