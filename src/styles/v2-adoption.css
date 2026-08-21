@@ -1,0 +1,75 @@
+.hara-www-site {
+  min-width: 320px;
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-canvas);
+}
+
+.site-skip-link {
+  position: fixed;
+  z-index: 220;
+  top: .65rem;
+  left: .65rem;
+  min-height: 44px;
+  padding: .7rem .85rem;
+  color: var(--hara-v2-canvas);
+  border: 2px solid var(--hara-v2-signal);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-signal);
+  font-size: .72rem;
+  font-weight: 750;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 1.5rem));
+  transition: transform var(--hara-v2-motion) var(--hara-v2-ease);
+}
+
+.site-skip-link:focus-visible {
+  outline: 3px solid var(--hara-v2-canvas);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
+.site-content-root {
+  min-width: 0;
+  outline: none;
+}
+
+.site-content-root:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 4px;
+}
+
+.hara-www-site :where(main, section, article)[id] {
+  scroll-margin-top: 6rem;
+}
+
+.hara-www-site .site-header {
+  border-bottom-color: var(--hara-v2-line-strong);
+  background: color-mix(in srgb, var(--hara-v2-panel-raised) 96%, transparent);
+  box-shadow: 0 1px 0 var(--hara-v2-sketch);
+  backdrop-filter: blur(16px) saturate(108%);
+}
+
+.hara-www-site .site-header :is(a, button):focus-visible,
+.hara-www-site .site-footer a:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
+
+.hara-www-site .site-footer {
+  border-top-color: var(--hara-v2-line-strong);
+}
+
+@media (max-width: 720px) {
+  .hara-www-site .site-header :is(a, button),
+  .hara-www-site .site-footer a {
+    min-height: 44px;
+  }
+
+  .hara-www-site :where(main, section, article)[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-skip-link { transition: none; }
+}
