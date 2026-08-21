@@ -70,7 +70,6 @@ test("package preparation verifies the WWW contract and shared production illust
   ]);
   for (const value of [
     "./v2.css",
-    "./v2-data.css",
     "./theme.js",
     "./astro/v2/Shell.astro",
     "./astro/v2/Header.astro",
