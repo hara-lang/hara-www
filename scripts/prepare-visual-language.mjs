@@ -21,7 +21,8 @@ const requiredExports = [
 const requiredFiles = [
   "V2-THEME.md",
   "V2-GUIDE.md",
-  "V2-DATA-VISUALISATION.md"
+  "V2-DATA-VISUALISATION.md",
+  "V2-WWW.md"
 ];
 
 async function exists(path) {

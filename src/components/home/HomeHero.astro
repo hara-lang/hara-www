@@ -1,0 +1,45 @@
+---
+import Motif from "@hara-lang/visual-language/astro/Motif.astro";
+import { benchmarkWorkloads, currentBenchmarks, formatRatio, hopliteRequests } from "../../lib/homepage-benchmarks";
+---
+<section class="www-hero" aria-labelledby="www-home-title">
+  <div class="www-hero__copy">
+    <p class="hara-v2-kicker">Hara programming language</p>
+    <h1 id="www-home-title">Readable forms.<br /><span>Explicit runtimes.</span></h1>
+    <p class="www-hero__summary">
+      Hara is a Lisp for interactive development across JVM, native, and browser hosts. Source remains ordinary data; runtime, capability, and evidence boundaries stay visible as a program grows.
+    </p>
+    <div class="www-hero__actions">
+      <a class="hara-v2-button" data-variant="primary" href="#first-form">Read and run a form <span aria-hidden="true">→</span></a>
+      <a class="hara-v2-button" href="/docs/start/orientation/">Start with the documentation</a>
+      <a class="hara-v2-button" data-variant="ghost" href="/benchmarks/">Inspect benchmark evidence</a>
+    </div>
+    <div class="www-contract-line" aria-label="Homepage contract">
+      <span>Static source first</span>
+      <span>Browser runtime optional</span>
+      <code>{currentBenchmarks.schema}</code>
+    </div>
+    <div class="www-install" data-install-command aria-labelledby="install-hara-title">
+      <div>
+        <strong id="install-hara-title">Install the native runtime</strong>
+        <span>Homebrew · macOS and Linux</span>
+      </div>
+      <code>brew install hara-lang/tap/hara</code>
+    </div>
+  </div>
+
+  <div class="www-hero__field" aria-label="Hara language, runtime, package, and evidence field">
+    <Motif kind="edge" class="www-hero__motif" />
+    <div class="www-hero-orbit" data-orbit="forms"><b>forms</b><small>code remains readable data</small></div>
+    <div class="www-hero-orbit" data-orbit="runtime"><b>runtimes</b><small>JVM · native · browser</small></div>
+    <div class="www-hero-orbit" data-orbit="evidence"><b>evidence</b><small>method, samples, revision</small></div>
+    <div class="www-hero-orbit" data-orbit="packages"><b>packages</b><small>versioned namespaces</small></div>
+  </div>
+</section>
+
+<section class="www-proof-ledger" aria-label="Current Hara benchmark evidence">
+  <article><span>Hara vs Python prepared</span><strong>{formatRatio("python-prepared")}</strong><p>Geometric mean across {benchmarkWorkloads} verified workloads.</p></article>
+  <article><span>Hara vs Babashka prepared</span><strong>{formatRatio("bb-prepared")}</strong><p>Equivalent inputs, checksums, and timing boundaries.</p></article>
+  <article><span>Hara vs SBCL prepared</span><strong>{formatRatio("sbcl-prepared")}</strong><p>The public table retains faster and incomparable results.</p></article>
+  <article><span>Hoplite HTTP</span><strong>{hopliteRequests}</strong><p>Requests/s · one worker · loopback HTTP/1.1.</p></article>
+</section>

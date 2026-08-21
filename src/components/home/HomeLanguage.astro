@@ -1,0 +1,42 @@
+<section class="www-section" id="language">
+  <header class="www-section-head">
+    <div>
+      <p class="hara-v2-kicker">02 · Language model</p>
+      <h2>Small reading rules continue into complete programs.</h2>
+    </div>
+    <p>
+      Values, functions, persistent collections, explicit state, events, rendering, and effects remain inspectable. The introductory material uses the same language and runtime contracts as larger systems.
+    </p>
+  </header>
+
+  <div class="www-capability-stack">
+    <article>
+      <header><span>01</span><div><p class="hara-v2-kicker">Forms</p><h3>Code and data share a readable structure</h3></div></header>
+      <div><p>Forms can be read, copied, transformed, checked, and evaluated without introducing a separate syntax tree format.</p><ul><li>lists</li><li>vectors</li><li>maps</li><li>symbols</li></ul></div>
+      <footer><span>Documentation</span><a href="/docs/learn-programming/">Reading Hara forms →</a></footer>
+    </article>
+    <article>
+      <header><span>02</span><div><p class="hara-v2-kicker">Development</p><h3>The running system remains available for inspection</h3></div></header>
+      <div><p>Evaluate bounded forms, inspect values, and revise behaviour without turning each experiment into a full rebuild.</p><ul><li>sessions</li><li>namespaces</li><li>live values</li><li>tests</li></ul></div>
+      <footer><span>Guide</span><a href="/docs/create/runtime-driven-development/">Runtime-driven development →</a></footer>
+    </article>
+    <article>
+      <header><span>03</span><div><p class="hara-v2-kicker">Programs</p><h3>State, input, rendering, and effects stay explicit</h3></div></header>
+      <div><p>The first complete application combines ordinary data, rules, pointer input, rendering, and a live frame loop.</p><ul><li>state</li><li>events</li><li>canvas</li><li>effects</li></ul></div>
+      <footer><span>Tutorial</span><a href="/docs/create/first-game/">Build the first game →</a></footer>
+    </article>
+  </div>
+
+  <div class="www-canvas-example">
+    <header>
+      <div><p class="hara-v2-kicker">Complete example</p><h3>A small Pong rally evaluated by the browser kernel</h3></div>
+      <p>Press Run after the live card attaches. Without the runtime, the source description and tutorial remain available.</p>
+    </header>
+    <div class="www-canvas-example__mount" data-live-canvas>
+      <div class="www-static-example www-static-example--canvas" data-live-fallback>
+        <div><span>pong.hal</span><small>Runtime deferred</small></div>
+        <p>The canvas example loads on deliberate interaction. No animation or runtime payload is required to read this page.</p>
+      </div>
+    </div>
+  </div>
+</section>

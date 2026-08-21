@@ -1,0 +1,71 @@
+---
+import { benchmarkPublished, benchmarkWorkloads, currentBenchmarks } from "../../lib/homepage-benchmarks";
+---
+<section class="www-section" id="evidence">
+  <header class="www-section-head">
+    <div>
+      <p class="hara-v2-kicker">04 · Evidence</p>
+      <h2>Performance claims remain adjacent to method and source.</h2>
+    </div>
+    <p>
+      Hara publishes timing boundaries, machine and toolchain details, raw samples, checksums, and source revisions. Missing or incomparable results remain visible instead of becoming zero or a winner.
+    </p>
+  </header>
+
+  <div class="www-evidence-grid">
+    <article><span>01 · Equivalent work</span><h3>{benchmarkWorkloads} verified workloads</h3><p>Arrays, persistent data, recursion, backtracking, branching, range processing, and matrix work retain expected results across runtimes.</p><a href="/benchmarks/">Open workload matrix →</a></article>
+    <article><span>02 · Timing boundary</span><h3>Preparation is not execution</h3><p>Startup, preparation, first invocation, warm-up, and steady-state execution are recorded separately where supported.</p><a href="/benchmarks/#methodology">Read the method →</a></article>
+    <article><span>03 · Reproduction</span><h3>Source and samples are inspectable</h3><p>Machine details, toolchain versions, commands, raw samples, checksums, and revisions are retained with each report.</p><a href={currentBenchmarks.canonical_url}>Inspect current evidence →</a></article>
+  </div>
+
+  <aside class="www-evidence-note">
+    <div><p class="hara-v2-kicker">Production evidence</p><strong>Published {benchmarkPublished}</strong></div>
+    <p>{currentBenchmarks.comparison_runtimes} comparison runtimes · {benchmarkWorkloads} workloads · HTTP fixture {currentBenchmarks.http.server}{currentBenchmarks.http.route}</p>
+    <code>{currentBenchmarks.schema}</code>
+  </aside>
+</section>
+
+<section class="www-section" id="start">
+  <header class="www-section-head">
+    <div>
+      <p class="hara-v2-kicker">05 · Start</p>
+      <h2>Choose a browser, local, or guided path.</h2>
+    </div>
+    <p>These are alternative entry points. An account is not required to read the language material, inspect evidence, or run a local installation.</p>
+  </header>
+
+  <div class="www-start-grid">
+    <article>
+      <header><span>01</span><p class="hara-v2-kicker">Browser</p></header>
+      <h3>Open the Playground</h3>
+      <p>Evaluate forms in a browser session without installing the native runtime.</p>
+      <code>playground.hara-lang.org</code>
+      <a href="https://playground.hara-lang.org/">Open the Playground →</a>
+    </article>
+    <article>
+      <header><span>02</span><p class="hara-v2-kicker">Local</p></header>
+      <h3>Install Hara</h3>
+      <p>Install the native command-line runtime on macOS or Linux with Homebrew.</p>
+      <code>brew install hara-lang/tap/hara</code>
+      <a href="/docs/start/orientation/">Read installation guidance →</a>
+    </article>
+    <article>
+      <header><span>03</span><p class="hara-v2-kicker">Guided</p></header>
+      <h3>Learn the language model</h3>
+      <p>Begin with values and forms, then continue into runtime-driven development and a complete application.</p>
+      <code>/docs/learn-programming/</code>
+      <a href="/docs/learn-programming/">Read the first lesson →</a>
+    </article>
+  </div>
+</section>
+
+<section class="www-closing" aria-labelledby="www-closing-title">
+  <div>
+    <p class="hara-v2-kicker">Hara programming language</p>
+    <h2 id="www-closing-title">Read the source. Name the runtime. Follow the evidence.</h2>
+  </div>
+  <div>
+    <a class="hara-v2-button" data-variant="primary" href="https://playground.hara-lang.org/">Try Hara</a>
+    <a class="hara-v2-button" href="/docs/start/orientation/">Read the orientation</a>
+  </div>
+</section>

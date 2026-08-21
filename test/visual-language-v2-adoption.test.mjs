@@ -5,7 +5,7 @@ import test from "node:test";
 import { siteNavigationMode } from "../src/scripts/site-navigation.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const acceptedRevision = "a2ab66d0fde79edb1cee46b79528098b3fda68cf";
+const acceptedRevision = "b512a12e8d7191c9092d195ca0ddc894b0ba54d2";
 
 test("CI and production deploy pin the accepted merged visual-language revision", async () => {
   const [ci, deploy] = await Promise.all([
@@ -15,7 +15,7 @@ test("CI and production deploy pin the accepted merged visual-language revision"
   for (const workflow of [ci, deploy]) {
     assert.match(workflow, /repository: hara-lang\/visual-language/);
     assert.match(workflow, new RegExp(`ref: ${acceptedRevision}`));
-    assert.doesNotMatch(workflow, /ref: (?:c49ad17d5052c8eeca0aff4a6146ff60b89ce88f|9a88bddd7a539d7aa790e316ee169e8cc81886a4)/);
+    assert.doesNotMatch(workflow, /ref: (?:a2ab66d0fde79edb1cee46b79528098b3fda68cf|c49ad17d5052c8eeca0aff4a6146ff60b89ce88f|9a88bddd7a539d7aa790e316ee169e8cc81886a4)/);
   }
 });
 
@@ -76,7 +76,8 @@ test("package preparation verifies and materialises the accepted published bound
     "./astro/v2/PageHeader.astro",
     "V2-THEME.md",
     "V2-GUIDE.md",
-    "V2-DATA-VISUALISATION.md"
+    "V2-DATA-VISUALISATION.md",
+    "V2-WWW.md"
   ]) {
     assert.match(script, new RegExp(value.replaceAll(".", "\\.")));
   }
@@ -87,7 +88,7 @@ test("package preparation verifies and materialises the accepted published bound
   assert.match(tsconfig, /"packages\/visual-language\/\*\*"/);
 });
 
-test("the product bridge consumes shared tokens and preserves focus, touch, disclosure and reduced motion", async () => {
+test("the product bridge preserves focus, touch, disclosure and reduced motion", async () => {
   const css = await read("src/styles/v2-adoption.css");
   assert.match(css, /\.site-skip-link/);
   assert.match(css, /\.site-skip-link:focus-visible/);
@@ -100,10 +101,17 @@ test("the product bridge consumes shared tokens and preserves focus, touch, disc
   assert.doesNotMatch(css, /--hara-v2-[A-Za-z0-9_-]+\s*:/, "WWW may consume but not redefine protected v2 tokens");
 });
 
-test("the adoption note records the exact pin, preserved boundaries and remaining issue work", async () => {
+test("the adoption note records the exact pin, ownership boundaries and remaining route work", async () => {
   const document = await read("VISUAL-LANGUAGE-V2-ADOPTION.md");
   assert.match(document, new RegExp(acceptedRevision));
-  for (const phrase of ["identity popup", "install-copy", "live-card", "canonical URLs", "do not close", "merged Visual Language revisions only"]) {
-    assert.match(document, new RegExp(phrase, "i"));
-  }
+  for (const phrase of [
+    "V2-WWW.md",
+    "identity popup",
+    "install-copy",
+    "live-card",
+    "canonical URLs",
+    "static fallback",
+    "merged Visual Language revisions only",
+    "Remaining issue #29 work"
+  ]) assert.match(document, new RegExp(phrase, "i"));
 });
