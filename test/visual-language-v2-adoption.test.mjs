@@ -103,7 +103,7 @@ test("the product bridge consumes shared tokens and preserves focus, touch, disc
 test("the adoption note records the exact pin, preserved boundaries and remaining issue work", async () => {
   const document = await read("VISUAL-LANGUAGE-V2-ADOPTION.md");
   assert.match(document, new RegExp(acceptedRevision));
-  for (const phrase of ["identity popup", "install-copy", "live-card", "canonical URLs", "does not close", "merged Visual Language revisions only"]) {
+  for (const phrase of ["identity popup", "install-copy", "live-card", "canonical URLs", "do not close", "merged Visual Language revisions only"]) {
     assert.match(document, new RegExp(phrase, "i"));
   }
 });
