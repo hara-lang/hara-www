@@ -10,7 +10,16 @@ const installed = resolve(site, "node_modules/@hara-lang/visual-language");
 const requiredExports = [
   "./astro/ThemeToggle.astro",
   "./astro/HaraMark.astro",
-  "./astro/Motif.astro"
+  "./astro/Motif.astro",
+  "./astro/v2/Shell.astro",
+  "./astro/v2/Header.astro",
+  "./astro/v2/PageHeader.astro",
+  "./v2.css",
+  "./theme.js"
+];
+const requiredFiles = [
+  "V2-THEME.md",
+  "V2-GUIDE.md"
 ];
 
 async function exists(path) {
@@ -47,6 +56,11 @@ for (const name of requiredExports) {
     throw new Error(`@hara-lang/visual-language is missing ${name}`);
   }
 }
+for (const path of requiredFiles) {
+  if (!(await exists(resolve(target, path)))) {
+    throw new Error(`@hara-lang/visual-language is missing adopted v2 contract ${path}`);
+  }
+}
 
 if (await exists(dirname(installed))) {
   let installedPath = null;
@@ -71,4 +85,4 @@ if (await exists(dirname(installed))) {
   }
 }
 
-console.log(`using @hara-lang/visual-language ${manifest.version} from ${target}`);
+console.log(`using @hara-lang/visual-language ${manifest.version} v2 contract from ${target}`);
