@@ -40,6 +40,12 @@
       "sourceGitBlobSha": "3137f69570bc6111987797202db42ac53ab0a6df",
       "target": "src/content/docs/docs/development.md",
       "title": "Hara developer guide"
+    },
+    {
+      "source": "docs/concepts/runtime-driven-development.md",
+      "sourceGitBlobSha": "ff9be6a3bc8ae8cd44ee6e8b9ee29db1f6aaa518",
+      "target": "src/content/docs/docs/concepts/runtime-driven-development.md",
+      "title": "Runtime-driven development"
     }
   ]
 }
