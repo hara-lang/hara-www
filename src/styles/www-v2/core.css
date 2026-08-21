@@ -1,0 +1,150 @@
+/*
+ * Production Hara WWW composition.
+ *
+ * Shared Visual Language v2 owns tokens and primitives. This file owns only
+ * the public homepage's composition and browser-kernel integration.
+ */
+
+.www-v2-main {
+  min-width: 0;
+  min-height: 100vh;
+  padding-top: 64px;
+  color: var(--hara-v2-ink);
+  background:
+    linear-gradient(var(--hara-v2-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hara-v2-grid) 1px, transparent 1px),
+    var(--hara-v2-paper),
+    var(--hara-v2-canvas);
+  background-size: 32px 32px, 32px 32px, 180px 180px, auto;
+}
+
+.www-v2-main *,
+.www-v2-main *::before,
+.www-v2-main *::after {
+  box-sizing: border-box;
+}
+
+.www-v2-main :where(h1, h2, h3, p) {
+  margin-top: 0;
+}
+
+.www-v2-main :where(a, button):focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
+
+.www-v2-main .hara-v2-button {
+  min-height: 40px;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel);
+  font: 680 .72rem var(--hara-v2-font-body);
+}
+
+.www-v2-main .hara-v2-button[data-variant="ghost"] {
+  color: var(--hara-v2-muted);
+  border-color: transparent;
+  background: transparent;
+}
+
+.www-v2-main .hara-v2-kicker {
+  margin-bottom: .45rem;
+  color: var(--hara-v2-signal);
+  font: 680 .62rem var(--hara-v2-font-code);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.www-v2-subnav {
+  position: sticky;
+  z-index: 42;
+  top: 64px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: stretch;
+  min-height: 48px;
+  padding-inline: var(--hara-v2-page);
+  border-bottom: 1px solid var(--hara-v2-line-strong);
+  background: color-mix(in srgb, var(--hara-v2-canvas-clean) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.www-v2-subnav > strong {
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  border-right: 1px solid var(--hara-v2-line);
+  font-size: .68rem;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+
+.www-v2-subnav > div {
+  display: flex;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.www-v2-subnav > div::-webkit-scrollbar {
+  display: none;
+}
+
+.www-v2-subnav a {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-height: 47px;
+  padding: .7rem .82rem;
+  color: var(--hara-v2-muted);
+  border-right: 1px solid var(--hara-v2-line);
+  font-size: .68rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.www-v2-subnav a:hover {
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-hover);
+}
+
+.www-v2-subnav > code {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  color: var(--hara-v2-faint);
+  border-left: 1px solid var(--hara-v2-line);
+  font: 560 .58rem var(--hara-v2-font-code);
+}
+
+
+.www-v2-section {
+  padding: clamp(5rem, 9vw, 9rem) var(--hara-v2-page) 0;
+  scroll-margin-top: 128px;
+}
+
+.www-v2-section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid var(--hara-v2-line-strong);
+}
+
+.www-v2-section-head h2 {
+  max-width: 850px;
+  margin-bottom: 0;
+  font: 750 clamp(1.9rem, 3.8vw, 3.7rem) / .98 var(--hara-v2-font-heading);
+  letter-spacing: -.052em;
+  text-wrap: balance;
+}
+
+.www-v2-section-head > p {
+  max-width: 620px;
+  margin-bottom: 0;
+  color: var(--hara-v2-muted);
+  font-size: .84rem;
+  line-height: 1.67;
+}

@@ -1,5 +1,4 @@
-/* Public-site product controls that remain owned by hara-www. Shared document
-   geometry and responsive navigation live in the v2 adoption layer. */
+/* Public-site product controls that remain owned by hara-www. */
 .header-actions {
   display: flex;
   align-items: center;
@@ -10,25 +9,45 @@
 .sign-in {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: .42rem .7rem;
-  color: var(--hara-text);
-  border: 1px solid var(--hara-line);
-  border-radius: var(--hara-v2-radius);
-  background: var(--hara-surface);
-  font-size: .78rem;
-  font-weight: 620;
+  min-height: 38px;
+  padding: .44rem .72rem;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel);
+  font-size: .72rem;
+  font-weight: 650;
   text-decoration: none;
   white-space: nowrap;
+  clip-path: polygon(
+    var(--hara-v2-cut-small) 0,
+    100% 0,
+    100% calc(100% - var(--hara-v2-cut-small)),
+    calc(100% - var(--hara-v2-cut-small)) 100%,
+    0 100%,
+    0 var(--hara-v2-cut-small)
+  );
 }
 
-.sign-in:hover { background: var(--hara-surface-raised); }
+.sign-in:hover {
+  border-color: color-mix(in srgb, var(--hara-v2-signal) 48%, var(--hara-v2-line-strong));
+  background: var(--hara-v2-panel-raised);
+}
+
+.sign-in:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
 
 @media (max-width: 760px) {
-  .sign-in { min-height: 44px; padding-inline: .65rem; }
+  .sign-in {
+    min-height: 44px;
+    padding-inline: .65rem;
+  }
 }
 
 @media (max-width: 520px) {
   .site-header .hara-theme-toggle [data-hara-theme-label],
-  .sign-in span { display: none; }
+  .sign-in span {
+    display: none;
+  }
 }

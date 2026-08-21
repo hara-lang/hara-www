@@ -1,8 +1,6 @@
 ---
 import ThemeToggle from "@hara-lang/visual-language/astro/ThemeToggle.astro";
 import HaraMark from "@hara-lang/visual-language/astro/HaraMark.astro";
-import "@hara-lang/visual-language/theme.css";
-import "@hara-lang/visual-language/motifs.css";
 import "@hara-lang/visual-language/v2.css";
 import "../styles/site.css";
 import "../styles/shell.css";
@@ -13,7 +11,7 @@ const {
   title = "Hara",
   description = "A small, high-performance Lisp for learning to build software from first principles.",
   image = "/og-hara.jpg",
-  imageAlt = "Hara — simple to pick up, fast enough to keep"
+  imageAlt = "Hara programming language — readable forms and explicit runtimes"
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
@@ -31,6 +29,7 @@ const isCurrent = (href: string) => href.startsWith("/") && (currentPath === hre
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="description" content={description} />
     <meta name="hara-identity-mode" content="popup" />
     <meta name="theme-color" content="#080a0d" />
@@ -89,7 +88,7 @@ const isCurrent = (href: string) => href.startsWith("/") && (currentPath === hre
     </div>
     <footer class="site-footer">
       <span>Hara</span>
-      <p>Start simple. Build forever.</p>
+      <p>Programming language · forms, runtimes, libraries, and source records.</p>
       <p>
         <a href="https://opensource.greenways.ai/open-source/">A Greenways Open Source Project</a>
         <span aria-hidden="true">·</span>

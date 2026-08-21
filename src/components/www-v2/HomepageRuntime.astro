@@ -1,0 +1,103 @@
+<script>
+  import { mountLiveCard } from "@hara-lang/live";
+  import { createLiveKernel } from "@hara-lang/live/kernel";
+  import pongSource from "../../../sources/pong.hal?raw";
+
+  const runtimeResources = {
+    "studio.store": "/runtime/studio/hal/store.hal",
+    "studio.fs": "/runtime/studio/hal/fs.hal",
+    "studio.node": "/runtime/studio/hal/node.hal",
+    "studio.draw": "/runtime/studio/hal/draw.hal",
+    "std.substrate.core": "/runtime/std/substrate/core.hal",
+    "std.substrate.frame": "/runtime/std/substrate/frame.hal",
+    "std.substrate.json": "/runtime/std/substrate/json.hal",
+    "std.substrate.protocol": "/runtime/std/substrate/protocol.hal",
+    "std.substrate.pubsub": "/runtime/std/substrate/pubsub.hal",
+    "std.substrate.request": "/runtime/std/substrate/request.hal",
+    "std.substrate.router": "/runtime/std/substrate/router.hal",
+    "std.substrate.space": "/runtime/std/substrate/space.hal",
+    "std.substrate.transport-memory": "/runtime/std/substrate/transport_memory.hal",
+    "std.substrate.util": "/runtime/std/substrate/util.hal",
+    "std.substrate.util-handlers": "/runtime/std/substrate/util_handlers.hal",
+    "std.substrate": "/runtime/std/substrate.hal"
+  };
+  let browserKernelPromise: ReturnType<typeof createLiveKernel> | null = null;
+  const browserKernel = {
+    async createSession(name: string, options: { filesystem?: string } = {}) {
+      browserKernelPromise ??= createLiveKernel({
+        runtimeBase: "/runtime",
+        kernelModuleUrl: "/runtime/browser-kernel.js",
+        resources: runtimeResources
+      });
+      const kernel = await browserKernelPromise;
+      return kernel.createSession(name, options);
+    },
+    close() {
+      void browserKernelPromise?.then((kernel) => kernel.close());
+    }
+  };
+
+  const learnSnippets = [
+    { id: "read", title: "Read", kind: "console" as const, source: `(+ 19 23)` },
+    { id: "transform", title: "Transform", kind: "console" as const, source: `(def player
+  {:name "Nova"
+   :score 0})
+
+(assoc player :score 10)` },
+    { id: "state", title: "State", kind: "console" as const, source: `(def game
+  (atom {:turn :x
+         :moves []}))
+
+(swap! game update :moves conj [1 1])
+(deref game)` }
+  ];
+  const learnMount = document.querySelector<HTMLElement>("[data-live-learn]");
+  if (learnMount) {
+    mountLiveCard(learnMount, {
+      snippets: learnSnippets,
+      activeSnippet: "read",
+      kernel: browserKernel,
+      runtimeBase: "/runtime"
+    });
+  }
+
+  const canvasMount = document.querySelector<HTMLElement>("[data-live-canvas]");
+  if (canvasMount) {
+    mountLiveCard(canvasMount, {
+      snippets: [{ id: "canvas-pong", title: "Pong", kind: "canvas", source: pongSource }],
+      activeSnippet: "canvas-pong",
+      kernel: browserKernel,
+      runtimeBase: "/runtime"
+    });
+  }
+
+  const kernelTabs = [...document.querySelectorAll<HTMLButtonElement>("[data-kernel-tab]")];
+  const kernelTablist = document.querySelector<HTMLElement>(".kernel-mode-tabs");
+  const selectKernelMode = (mode: string, focus = false) => {
+    for (const tab of kernelTabs) {
+      const selected = tab.dataset.kernelTab === mode;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected && focus) tab.focus();
+    }
+    document.querySelectorAll<HTMLElement>("[data-kernel-mode]").forEach((panel) => {
+      panel.hidden = panel.dataset.kernelMode !== mode;
+    });
+  };
+  for (const tab of kernelTabs) {
+    tab.addEventListener("click", () => selectKernelMode(tab.dataset.kernelTab ?? "java"));
+  }
+  kernelTablist?.addEventListener("keydown", (event) => {
+    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const current = Math.max(0, kernelTabs.findIndex((tab) => tab === document.activeElement));
+    const forward = event.key === "ArrowDown" || event.key === "ArrowRight";
+    const nextIndex = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? kernelTabs.length - 1
+        : (current + (forward ? 1 : -1) + kernelTabs.length) % kernelTabs.length;
+    const next = kernelTabs[nextIndex];
+    if (next) selectKernelMode(next.dataset.kernelTab ?? "java", true);
+  });
+</script>
