@@ -34,6 +34,12 @@
       "sourceGitBlobSha": "930f5fa64d4005293a3df8e2cb338d130f431d91",
       "target": "src/content/docs/docs/projects/index.md",
       "title": "Projects, packages, and visual workspaces"
+    },
+    {
+      "source": "docs/development.md",
+      "sourceGitBlobSha": "3137f69570bc6111987797202db42ac53ab0a6df",
+      "target": "src/content/docs/docs/development.md",
+      "title": "Hara developer guide"
     }
   ]
 }
