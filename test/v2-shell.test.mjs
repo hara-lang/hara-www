@@ -15,6 +15,7 @@ test("Hara WWW adopts the v2 visual-language shell", () => {
   assert.match(header, /class="hara-v2-brand" href="https:\/\/hara-lang\.org\/"/);
   assert.match(header, /data-site-navigation-trigger/);
   assert.match(header, /data-site-navigation/);
+  assert.match(header, /data-hara-account/);
 });
 
 test("v2 adoption leaves the homepage content full-width inside the shell", () => {
@@ -22,4 +23,6 @@ test("v2 adoption leaves the homepage content full-width inside the shell", () =
   assert.match(shell, /\.hara-www-shell \.hara-v2-main > \.hara-v2-content \{ width: 100%; \}/);
   assert.match(shell, /@media \(max-width: 820px\)/);
   assert.match(shell, /data-navigation-open="true"/);
+  assert.match(shell, /right: auto;/);
+  assert.match(shell, /left: 0;/);
 });

@@ -5,7 +5,7 @@ import test from "node:test";
 const runtimeUrl = new URL("../src/components/www-v2/HomepageRuntime.astro", import.meta.url);
 const playUrl = new URL("../src/components/www-v2/PlaySection.astro", import.meta.url);
 
-test("the homepage runtime mounts one simple console surface", async () => {
+test("the homepage runtime mounts the example surface without environment chrome", async () => {
   const [runtime, play] = await Promise.all([
     readFile(runtimeUrl, "utf8"),
     readFile(playUrl, "utf8")
@@ -13,6 +13,7 @@ test("the homepage runtime mounts one simple console surface", async () => {
   assert.match(runtime, /createLiveKernel/);
   assert.match(runtime, /data-live-play/);
   assert.match(runtime, /activeSnippet: "read"/);
-  assert.match(play, /Try it here/);
+  assert.match(play, /data-live-example-select/);
+  assert.match(play, /Choose a starting point/);
   assert.doesNotMatch(runtime, /kernel-mode-tabs|data-kernel-tab|data-live-canvas/);
 });

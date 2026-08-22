@@ -5,10 +5,10 @@ const communityLinks = [
   { label: "Hara blog", detail: "A slower weekly read", href: "/blog/" }
 ];
 
-const clojureLinks = [
+const lispLinks = [
   { label: "Clojure Q&A", href: "https://ask.clojure.org/" },
   { label: "ClojureVerse", href: "https://clojureverse.org/" },
-  { label: "User groups", href: "https://clojure.org/community/user_groups" }
+  { label: "Lisp communities", href: "https://www.reddit.com/r/lisp/" }
 ];
 ---
 <section class="www-v2-section www-v2-connect" id="community" aria-labelledby="www-v2-community-title">
@@ -37,10 +37,10 @@ const clojureLinks = [
 
     <article class="www-v2-community-card">
       <p class="hara-v2-kicker">The wider Lisp conversation</p>
-      <h3>What are people saying about Clojure?</h3>
-      <p>Hara shares a family resemblance with Clojure. These are good places to listen to the questions, practices, and debates around it.</p>
+      <h3>What are people saying about Lisp?</h3>
+      <p>Hara is part of a living Lisp family. Listen to the questions, practices, and debates that shape how people make with it.</p>
       <div class="www-v2-link-list">
-        {clojureLinks.map((link) => (
+        {lispLinks.map((link) => (
           <a href={link.href} target="_blank" rel="noreferrer">
             <span><strong>{link.label}</strong></span>
             <span aria-hidden="true">↗</span>

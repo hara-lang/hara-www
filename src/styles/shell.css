@@ -19,6 +19,28 @@
   cursor: pointer;
 }
 
+.hara-www-account {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.hara-www-identity {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.hara-www-account .hara-v2-profile-link {
+  color: var(--hara-v2-muted);
+  font-size: .7rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.hara-www-account .hara-v2-profile-link:hover { color: var(--hara-v2-ink); }
+
 .hara-www-header .site-navigation-trigger i {
   position: relative;
   width: 14px;
@@ -65,8 +87,9 @@
     position: fixed;
     z-index: 41;
     top: var(--hara-v2-header-height);
-    right: 14px;
-    left: 14px;
+    right: auto;
+    left: 0;
+    width: min(20rem, calc(100vw - 2rem));
     display: none;
     flex-direction: column;
     gap: 0;
@@ -86,6 +109,12 @@
 
   .hara-www-header .hara-v2-ecosystem-nav a:last-child { border-bottom: 0; }
   .hara-www-header .hara-v2-ecosystem-nav a::after { display: none; }
+}
+
+@media (max-width: 520px) {
+  .hara-www-account .hara-v2-profile-link { display: none; }
+  .hara-www-header .site-navigation-trigger span { display: none; }
+  .hara-www-header .site-navigation-trigger { padding-inline: .58rem; }
 }
 
 /* Public-site product controls that remain owned by hara-www. */
