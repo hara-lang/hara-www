@@ -68,10 +68,10 @@ at `https://hara-docs.netlify.app/`; MkDocs is not the published artifact.
 Pull requests and the `testing` branch perform the same validation without
 replacing production.
 
-Astro is configured with `site: https://www.hara-lang.org` and `base: /docs`.
+Astro is configured with `site: https://hara-lang.org` and `base: /docs`.
 The deploy artifact is rooted at `/`, while generated canonical links,
 navigation, Pagefind, CSS, JavaScript, images, live-card modules, and WASM URLs
-remain below `https://www.hara-lang.org/docs/`. Origin rewrites make both
+remain below `https://hara-lang.org/docs/`. Origin rewrites make both
 `https://hara-docs.netlify.app/` and `https://hara-docs.netlify.app/docs/`
 serve the same artifact. The origin also proxies `/runtime/*` to the canonical
 Hara runtime so runnable examples can be inspected there directly.
@@ -90,7 +90,7 @@ DISABLE_MKDOCS_2_WARNING=true mkdocs build --clean --site-dir site-mkdocs
 
 git clone https://github.com/hara-lang/visual-language \
   astro/packages/visual-language
-(cd astro/packages/visual-language && git checkout c49ad17d5052c8eeca0aff4a6146ff60b89ce88f)
+(cd astro/packages/visual-language && git checkout a2ab66d0fde79edb1cee46b79528098b3fda68cf)
 npm install --prefix astro --no-audit --no-fund
 npm test --prefix astro
 npm run build --prefix astro
