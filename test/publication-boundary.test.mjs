@@ -4,7 +4,7 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-test("delegates documentation publication while retaining the canonical proxy", async () => {
+test("moves legacy documentation paths to Learn", async () => {
   const packageJson = JSON.parse(await read("../package.json"));
   const config = await read("../astro.config.mjs");
   const redirects = await read("../public/_redirects");
@@ -17,12 +17,12 @@ test("delegates documentation publication while retaining the canonical proxy", 
   assert.equal(packageJson.scripts["validate:docs"], undefined);
   assert.equal(packageJson.dependencies["@astrojs/starlight"], undefined);
   assert.doesNotMatch(config, /starlight|docsSidebar|docsRedirects|remarkHaraEval/);
-  assert.match(redirects, /^\/docs https:\/\/hara-docs\.netlify\.app\/ 200!$/m);
-  assert.match(redirects, /^\/docs\/\* https:\/\/hara-docs\.netlify\.app\/:splat 200!$/m);
+  assert.match(redirects, /^\/docs https:\/\/learn\.hara-lang\.org\/ 301!$/m);
+  assert.match(redirects, /^\/docs\/\* https:\/\/learn\.hara-lang\.org\/ 301!$/m);
   assert.doesNotMatch(`${deploy}\n${ci}`, /repository: hara-lang\/hara-docs/);
   assert.doesNotMatch(`${assembly}\n${paths}`, /DOCS_ROOT|website\/hara-docs|rsync[^\n]*docs/);
   assert.match(deploy, /verify-docs-navigation\.sh/);
-  assert.match(deploy, /verify-docs-kernel\.mjs/);
+  assert.doesNotMatch(deploy, /verify-docs-kernel\.mjs/);
 });
 
 test("delegates benchmark rendering while retaining the canonical path", async () => {
