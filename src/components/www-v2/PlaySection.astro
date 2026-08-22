@@ -3,26 +3,41 @@
     <div class="www-v2-play__copy">
       <p class="hara-v2-kicker">Hara · play</p>
       <h1 id="www-v2-play-title">Make something small.</h1>
-      <p>Open the Studio, try a form, and keep the result.</p>
+      <p>Try a form, see it move, and keep the result.</p>
       <div class="www-v2-actions">
         <a class="hara-v2-button" data-variant="primary" href="https://play.hara-lang.org/">Open Play <span aria-hidden="true">→</span></a>
         <a class="hara-v2-button" href="https://build.hara-lang.org/">Build with Hara</a>
       </div>
     </div>
-    <div class="www-v2-play__gradient" aria-hidden="true">
-      <span class="www-v2-play__gradient-orbit"></span>
-      <span class="www-v2-play__gradient-orbit"></span>
-      <span class="www-v2-play__gradient-label">(+ 2 3)</span>
+    <div class="www-v2-play__shader" data-live-shader>
+      <div class="www-v2-play__shader-label">
+        <span>Early Hara shader</span>
+        <strong>Ocean</strong>
+        <code>sources/ocean.hal</code>
+      </div>
+      <div class="www-v2-play__shader-mount" data-live-shader-mount>
+        <p class="www-v2-shader-placeholder">Loading a live Hara canvas…</p>
+      </div>
     </div>
   </header>
 
   <article class="www-v2-play__console" aria-labelledby="www-v2-console-title">
     <header>
       <div>
-        <p class="hara-v2-kicker">Try it here</p>
-        <h2 id="www-v2-console-title">One expression.</h2>
+        <p class="hara-v2-kicker">Play with examples</p>
+        <h2 id="www-v2-console-title">Choose a starting point.</h2>
       </div>
-      <a href="https://play.hara-lang.org/">Open Play <span aria-hidden="true">↗</span></a>
+      <div class="www-v2-play__example-picker">
+        <label for="www-v2-example-select">Example</label>
+        <select id="www-v2-example-select" data-live-example-select>
+          <option value="read">Read</option>
+          <option value="make">Make</option>
+          <option value="compose">Compose</option>
+          <option value="animate">Animate</option>
+          <option value="ocean">Ocean shader</option>
+        </select>
+        <a href="https://play.hara-lang.org/">Open Play <span aria-hidden="true">↗</span></a>
+      </div>
     </header>
     <div class="www-v2-play__mount" data-live-play></div>
     <noscript>

@@ -27,9 +27,6 @@ const { nav = [] as NavItem[] } = Astro.props;
   </nav>
 
   <div class="hara-v2-header-actions">
-    <a class="hara-v2-profile-link" href="/me">Profile</a>
-    <div data-hara-identity></div>
-    <ThemeToggle />
     <button
       class="site-navigation-trigger"
       type="button"
@@ -40,6 +37,11 @@ const { nav = [] as NavItem[] } = Astro.props;
       <span>Menu</span>
       <i aria-hidden="true"></i>
     </button>
+    <ThemeToggle />
+    <div class="hara-www-account" data-hara-account>
+      <a class="hara-v2-profile-link" href="/me">Profile</a>
+      <div class="hara-www-identity" data-hara-identity></div>
+    </div>
   </div>
 
   <button

@@ -12,7 +12,7 @@
   color: var(--hara-v2-ink);
   background:
     radial-gradient(circle at 78% 8%, color-mix(in srgb, #4d9cff 18%, transparent), transparent 24rem),
-    radial-gradient(circle at 10% 30%, color-mix(in srgb, #b86bff 10%, transparent), transparent 22rem),
+    radial-gradient(circle at 10% 30%, color-mix(in srgb, #5268d8 12%, transparent), transparent 22rem),
     var(--hara-v2-canvas);
 }
 
@@ -92,7 +92,7 @@
 .www-v2-main .hara-v2-button[data-variant="primary"] {
   color: #fff;
   border-color: transparent;
-  background: linear-gradient(120deg, #4d9cff, #8b62ff 58%, #d36bff);
+  background: linear-gradient(120deg, #4d9cff, #5c7df0 58%, #5268d8);
   box-shadow: 0 10px 30px color-mix(in srgb, #4d9cff 22%, transparent);
 }
 
@@ -149,52 +149,51 @@
   line-height: 1.6;
 }
 
-.www-v2-play__gradient {
+.www-v2-play__shader {
   position: relative;
   min-height: min(570px, 58svh);
   overflow: hidden;
   border: 1px solid var(--hara-v2-line);
   background:
-    radial-gradient(circle at 57% 39%, color-mix(in srgb, #69c7ff 70%, transparent) 0 1px, transparent 2px),
-    radial-gradient(ellipse at 45% 46%, color-mix(in srgb, #4d9cff 30%, transparent), transparent 42%),
-    linear-gradient(135deg, color-mix(in srgb, #4d9cff 20%, var(--hara-v2-panel)), color-mix(in srgb, #d36bff 14%, var(--hara-v2-panel-raised)) 52%, var(--hara-v2-canvas-clean));
+    radial-gradient(circle at 75% 18%, color-mix(in srgb, #5c7df0 34%, transparent), transparent 14rem),
+    linear-gradient(135deg, color-mix(in srgb, #163a7a 35%, var(--hara-v2-panel)), var(--hara-v2-canvas-clean) 68%);
   clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
 }
 
-.www-v2-play__gradient::before,
-.www-v2-play__gradient::after {
+.www-v2-play__shader-label {
   position: absolute;
-  inset: 12% 8%;
-  border: 1px solid color-mix(in srgb, #a9ccff 45%, transparent);
-  border-radius: 50%;
-  content: "";
-  transform: rotate(-16deg) scaleY(.42);
+  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  gap: .2rem;
+  color: var(--hara-v2-muted);
+  font: 600 .62rem var(--hara-v2-font-code);
+  text-align: right;
 }
 
-.www-v2-play__gradient::after {
-  inset: 24% 17%;
-  border-color: color-mix(in srgb, #d36bff 45%, transparent);
-  transform: rotate(28deg) scaleY(.55);
+.www-v2-play__shader-label strong {
+  color: var(--hara-v2-ink);
+  font: 720 1.25rem / 1 var(--hara-v2-font-heading);
+  letter-spacing: -.04em;
 }
 
-.www-v2-play__gradient-orbit {
-  position: absolute;
-  width: 42%;
-  aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, #fff 45%, transparent);
-  border-radius: 50%;
-  opacity: .45;
+.www-v2-play__shader-label code {
+  color: var(--hara-v2-faint);
+  font-size: .58rem;
 }
 
-.www-v2-play__gradient-orbit:first-child { top: 19%; left: 20%; }
-.www-v2-play__gradient-orbit:nth-child(2) { right: 11%; bottom: 14%; width: 30%; opacity: .27; }
-
-.www-v2-play__gradient-label {
+.www-v2-play__shader-mount {
   position: absolute;
-  right: 1.2rem;
-  bottom: 1.1rem;
-  color: color-mix(in srgb, #fff 78%, transparent);
-  font: 650 .72rem var(--hara-v2-font-code);
+  inset: 0;
+  display: grid;
+  align-items: end;
+}
+
+.www-v2-shader-placeholder {
+  padding: 1rem;
+  color: var(--hara-v2-muted);
+  font: 600 .7rem var(--hara-v2-font-code);
 }
 
 .www-v2-play__console {
@@ -211,6 +210,30 @@
   gap: 1rem;
   padding: 1rem 1.1rem;
   border-bottom: 1px solid var(--hara-v2-line);
+}
+
+.www-v2-play__example-picker {
+  display: flex;
+  align-items: end;
+  gap: .65rem;
+}
+
+.www-v2-play__example-picker label {
+  color: var(--hara-v2-faint);
+  font: 600 .6rem var(--hara-v2-font-code);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.www-v2-play__example-picker select {
+  min-height: 36px;
+  max-width: 13rem;
+  padding: .4rem 2rem .4rem .65rem;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-panel-raised);
+  font: 650 .7rem var(--hara-v2-font-body);
 }
 
 .www-v2-play__console h2 {
@@ -239,4 +262,48 @@
 .www-v2-play__mount {
   min-height: 250px;
   padding: 1rem;
+}
+
+.www-v2-play__shader .hara-live-card {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.www-v2-play__shader .hara-live-card-header {
+  position: absolute;
+  z-index: 3;
+  right: .65rem;
+  bottom: .65rem;
+  left: .65rem;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.www-v2-play__shader .hara-live-card-status {
+  margin-right: auto;
+  color: color-mix(in srgb, #fff 76%, transparent);
+}
+
+.www-v2-play__shader .hara-live-card-editor,
+.www-v2-play__shader .hara-live-card-tabs,
+.www-v2-play__shader .hara-live-card-eval,
+.www-v2-play__shader .hara-live-card-playground {
+  display: none;
+}
+
+.www-v2-play__shader .hara-live-card-canvas-panel {
+  height: min(570px, 58svh);
+  min-height: 300px;
+  border: 0;
+}
+
+.www-v2-play__shader .hara-live-card-canvas-meta,
+.www-v2-play__shader .hara-live-card-resizer {
+  display: none;
 }

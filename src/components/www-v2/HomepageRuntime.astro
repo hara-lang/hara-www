@@ -1,6 +1,7 @@
 <script>
   import { mountLiveCard } from "@hara-lang/live";
   import { createLiveKernel } from "@hara-lang/live/kernel";
+  import { PONG_SOURCE } from "@hara-lang/live/pong";
 
   const runtimeResources = {
     "studio.store": "/runtime/studio/hal/store.hal",
@@ -36,19 +37,66 @@
     }
   };
 
-  const playSnippets = [
-    { id: "read", title: "Read", kind: "console" as const, source: `(+ 19 23)` },
-    { id: "make", title: "Make", kind: "console" as const, source: `(def greeting "hello")
+  const loadShaderSource = async () => {
+    try {
+      const response = await fetch("/sources/ocean.hal");
+      return response.ok ? await response.text() : null;
+    } catch {
+      return null;
+    }
+  };
 
-(str greeting ", Hara")` }
-  ];
-  const playMount = document.querySelector<HTMLElement>("[data-live-play]");
-  if (playMount) {
-    mountLiveCard(playMount, {
-      snippets: playSnippets,
-      activeSnippet: "read",
-      kernel: browserKernel,
-      runtimeBase: "/runtime"
-    });
-  }
+  const selectExample = (root: HTMLElement, id: string) => {
+    [...root.querySelectorAll<HTMLButtonElement>("[data-snippet-id]")]
+      .find((button) => button.dataset.snippetId === id)
+      ?.click();
+  };
+
+  const initialisePlay = async () => {
+    const shaderSource = await loadShaderSource();
+    const playMount = document.querySelector<HTMLElement>("[data-live-play]");
+    const shaderMount = document.querySelector<HTMLElement>("[data-live-shader-mount]");
+    const selector = document.querySelector<HTMLSelectElement>("[data-live-example-select]");
+    const playSnippets = [
+      { id: "read", title: "Read", kind: "console" as const, source: `(+ 19 23)` },
+      { id: "make", title: "Make", kind: "console" as const, source: `(def greeting "hello")
+
+(str greeting ", Hara")` },
+      { id: "compose", title: "Compose", kind: "console" as const, source: `(def scores [4 8 15 16 23 42])
+
+(map (fn [score] (* score 2)) scores)` },
+      { id: "animate", title: "Animate", kind: "canvas" as const, source: PONG_SOURCE },
+      ...(shaderSource ? [{ id: "ocean", title: "Ocean shader", kind: "canvas" as const, source: shaderSource }] : [])
+    ];
+
+    if (!shaderSource) selector?.querySelector("option[value=\"ocean\"]")?.remove();
+
+    if (playMount) {
+      mountLiveCard(playMount, {
+        snippets: playSnippets,
+        activeSnippet: "read",
+        kernel: browserKernel,
+        runtimeBase: "/runtime"
+      });
+      selector?.addEventListener("change", () => selectExample(playMount, selector.value));
+    }
+
+    if (shaderMount) {
+      const shaderCard = mountLiveCard(shaderMount, {
+        snippets: [{
+          id: "ocean",
+          title: "Ocean shader",
+          kind: "canvas" as const,
+          source: shaderSource ?? PONG_SOURCE
+        }],
+        activeSnippet: "ocean",
+        kernel: browserKernel,
+        runtimeBase: "/runtime"
+      });
+      shaderMount.querySelector(".www-v2-shader-placeholder")?.remove();
+      void shaderCard.run().catch(() => {});
+    }
+  };
+
+  void initialisePlay();
 </script>
