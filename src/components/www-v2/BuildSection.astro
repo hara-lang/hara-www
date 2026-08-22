@@ -1,0 +1,27 @@
+---
+const destinations = [
+  { label: "API", detail: "Names, functions, and contracts", href: "https://build.hara-lang.org/developers" },
+  { label: "Guides", detail: "Runtime, packages, and projects", href: "https://hara-lang.org/docs/" },
+  { label: "Benchmarks", detail: "Measured, inspectable evidence", href: "https://hara-lang.org/benchmarks/" }
+];
+---
+<section class="www-v2-section www-v2-build" id="build" aria-labelledby="www-v2-build-title">
+  <header class="www-v2-section-head">
+    <div>
+      <p class="hara-v2-kicker">Hara · build</p>
+      <h2 id="www-v2-build-title">The deeper parts are here.</h2>
+    </div>
+    <p>Use Build when you need the language, runtime, package, and evidence details.</p>
+  </header>
+
+  <div class="www-v2-learn__paths">
+    {destinations.map((destination, index) => (
+      <article>
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <h3>{destination.label}</h3>
+        <p>{destination.detail}</p>
+        <a href={destination.href}>{destination.label} <span aria-hidden="true">↗</span></a>
+      </article>
+    ))}
+  </div>
+</section>

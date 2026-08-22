@@ -4,9 +4,9 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("the homepage has one short path through Play, Learn, and Connect", async () => {
+test("the homepage has one short path through Play, Learn, community, and Build", async () => {
   const homepage = await read("src/pages/index.astro");
-  const markers = ["<PlaySection", "<LearnSection", "<ConnectSection"];
+  const markers = ["<PlaySection", "<LearnSection", "<CommunitySection", "<BuildSection"];
   const positions = markers.map((marker) => homepage.indexOf(marker));
   positions.forEach((position, index) => assert.notEqual(position, -1, `missing ${markers[index]}`));
   assert.ok(positions[0] < positions[1] && positions[1] < positions[2]);
@@ -14,17 +14,17 @@ test("the homepage has one short path through Play, Learn, and Connect", async (
 });
 
 test("the homepage speaks to community and includes an official blog route", async () => {
-  const [learn, connect] = await Promise.all([
+  const [learn, community] = await Promise.all([
     read("src/components/www-v2/LearnSection.astro"),
-    read("src/components/www-v2/ConnectSection.astro")
+    read("src/components/www-v2/CommunitySection.astro")
   ]);
   assert.match(learn, /Official blog/);
-  assert.match(learn, /world\.hara-lang\.org\/announcements/);
-  assert.match(connect, /Hara World/);
-  assert.match(connect, /What are people saying about Clojure\?/);
-  assert.match(connect, /ask\.clojure\.org/);
-  assert.match(connect, /data-hara-poll/);
-  assert.match(connect, /localStorage/);
+  assert.match(learn, /learn\.hara-lang\.org\/articles/);
+  assert.match(community, /Hara Learn/);
+  assert.match(community, /What are people saying about Clojure\?/);
+  assert.match(community, /ask\.clojure\.org/);
+  assert.match(community, /data-hara-poll/);
+  assert.match(community, /localStorage/);
 });
 
 test("the initial live surface is a small editable expression", async () => {

@@ -2,19 +2,21 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import PlaySection from "../components/www-v2/PlaySection.astro";
 import LearnSection from "../components/www-v2/LearnSection.astro";
-import ConnectSection from "../components/www-v2/ConnectSection.astro";
+import CommunitySection from "../components/www-v2/CommunitySection.astro";
+import BuildSection from "../components/www-v2/BuildSection.astro";
 import HomepageRuntime from "../components/www-v2/HomepageRuntime.astro";
 import "@hara-lang/live/style.css";
 import "../styles/www-v2.css";
 ---
 <SiteLayout
-  title="Hara — learn, make, share"
-  description="Hara is a Lisp for learning, making, and sharing with an open community."
+  title="Hara"
+  description="Hara is a Lisp for making software, learning in public, and sharing the work."
 >
   <div class="www-v2-main">
     <PlaySection />
     <LearnSection />
-    <ConnectSection />
+    <CommunitySection />
+    <BuildSection />
   </div>
   <HomepageRuntime />
 </SiteLayout>

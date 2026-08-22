@@ -174,3 +174,62 @@
   gap: .65rem;
   margin-top: 1.1rem;
 }
+
+.www-v2-page {
+  min-height: 70vh;
+}
+
+.www-v2-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  justify-content: flex-end;
+}
+
+.www-v2-profile-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: start;
+  margin-top: 2rem;
+  padding: clamp(1.3rem, 4vw, 2.6rem);
+  border: 1px solid var(--hara-v2-line-strong);
+  background:
+    radial-gradient(circle at 82% 12%, color-mix(in srgb, #d36bff 22%, transparent), transparent 14rem),
+    linear-gradient(120deg, color-mix(in srgb, #4d9cff 12%, transparent), transparent 58%),
+    var(--hara-v2-panel-raised);
+}
+
+.www-v2-profile-card__mark {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #4d9cff, #d36bff);
+  font: 760 1.8rem var(--hara-v2-font-heading);
+}
+
+.www-v2-profile-card h2 {
+  margin: 0 0 .55rem;
+  font: 730 clamp(1.45rem, 3vw, 2.5rem) / 1 var(--hara-v2-font-heading);
+  letter-spacing: -.05em;
+}
+
+.www-v2-profile-card p:not(.hara-v2-kicker) {
+  max-width: 620px;
+  margin: 0;
+  color: var(--hara-v2-muted);
+  font-size: .8rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .www-v2-page__actions {
+    justify-content: flex-start;
+  }
+
+  .www-v2-profile-card {
+    grid-template-columns: 1fr;
+  }
+}

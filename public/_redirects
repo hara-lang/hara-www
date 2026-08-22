@@ -1,3 +1,4 @@
+https://www.hara-lang.org/* https://hara-lang.org/:splat 301!
 /docs https://hara-docs.netlify.app/ 200!
 /docs/ https://hara-docs.netlify.app/ 200!
 /docs/* https://hara-docs.netlify.app/:splat 200!

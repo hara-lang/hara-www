@@ -12,7 +12,7 @@ test("Hara WWW adopts the v2 visual-language shell", () => {
   assert.match(layout, /WwwHeader/);
   assert.match(layout, /data-hara-v2-site="www"/);
   assert.match(header, /class="hara-v2-header hara-www-header"/);
-  assert.match(header, /class="hara-v2-brand" href="\/"/);
+  assert.match(header, /class="hara-v2-brand" href="https:\/\/hara-lang\.org\/"/);
   assert.match(header, /data-site-navigation-trigger/);
   assert.match(header, /data-site-navigation/);
 });

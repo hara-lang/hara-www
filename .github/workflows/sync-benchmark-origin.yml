@@ -45,7 +45,7 @@ jobs:
           test -s site/homepage.json
           test -s site/data/runs.json
           grep -Fq '<title>Hara Benchmarks</title>' site/index.html
-          grep -Fq 'https://www.hara-lang.org/benchmarks/' site/index.html
+          grep -Fq 'https://hara-lang.org/benchmarks/' site/index.html
           grep -Fq 'hara.benchmarks-homepage/v1' site/homepage.json
           ! grep -R -F '/benchmarks/benchmarks/' site
 
@@ -74,7 +74,7 @@ jobs:
             if fetch "$BENCHMARK_ORIGIN/" /tmp/origin-root.html \
               && fetch "$BENCHMARK_ORIGIN/benchmarks/" /tmp/origin-nested.html \
               && grep -Fq '<title>Hara Benchmarks</title>' /tmp/origin-root.html \
-              && grep -Fq 'https://www.hara-lang.org/benchmarks/' /tmp/origin-root.html \
+              && grep -Fq 'https://hara-lang.org/benchmarks/' /tmp/origin-root.html \
               && cmp -s /tmp/origin-root.html /tmp/origin-nested.html; then
               break
             fi
