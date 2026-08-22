@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const base = new URL(process.argv[2] ?? "https://www.hara-lang.org/");
+const base = new URL(process.argv[2] ?? "https://hara-lang.org/");
 const workspace = resolve(process.env.HARA_WORKSPACE_ROOT ?? ".workspace");
 const web = resolve(workspace, "technology/hara/core/rust/web");
 const { HtaContext } = await import(pathToFileURL(resolve(web, "hta.js")).href);

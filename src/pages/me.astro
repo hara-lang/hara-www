@@ -1,0 +1,30 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout title="Profile" description="Your Hara identity, public profile, and community work.">
+  <main class="www-v2-page">
+    <section class="www-v2-section" aria-labelledby="profile-title">
+      <div class="www-v2-section__header">
+        <div>
+          <p class="hara-v2-kicker">Hara / profile</p>
+          <h1 id="profile-title">Your profile.</h1>
+          <p class="www-v2-lede">Your Hara identity is shared across the ecosystem. Public community details are managed in Learn, where profile changes remain reviewable.</p>
+        </div>
+        <div class="www-v2-page__actions">
+          <a class="hara-v2-button hara-v2-button--primary" href="https://learn.hara-lang.org/me">Open Learn profile <span aria-hidden="true">↗</span></a>
+          <a class="hara-v2-button" href="https://id.hara-lang.org/">Identity settings <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <div class="www-v2-profile-card" data-hara-identity-profile>
+        <div class="www-v2-profile-card__mark" aria-hidden="true">H</div>
+        <div>
+          <p class="hara-v2-kicker">Current identity</p>
+          <h2 data-hara-profile-name>Sign in to see your Hara identity.</h2>
+          <p data-hara-profile-copy>The shared identity client will show the account currently active in this browser.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</SiteLayout>

@@ -29,7 +29,7 @@ test("the shared layout directly consumes v2 without replacing identity, live or
   assert.match(layout, /data-hara-v2-site="www"/);
   assert.match(header, /data-hara-identity/);
   assert.match(header, /<ThemeToggle \/>/);
-  assert.match(header, /href="\/"/);
+  assert.match(header, /href="https:\/\/hara-lang\.org\/"/);
   assert.match(layout, /identity-loader\.js/);
   assert.match(layout, /install-copy\.js/);
   assert.match(layout, /live-surface\.css/);
@@ -40,7 +40,7 @@ test("the v2 shared shell owns the WWW primary and context navigation", async ()
   const layout = await read("src/layouts/SiteLayout.astro");
   assert.match(layout, /<V2Shell sidebar=\{false\} aside=\{false\}/);
   assert.match(layout, /<WwwHeader slot="header" nav=\{primaryNavigation\} \/>/);
-  assert.match(layout, /\{ label: "Play", href: "\/\#play" \}[\s\S]*?\{ label: "Learn", href: "\/\#learn" \}[\s\S]*?\{ label: "Connect", href: "\/\#connect" \}[\s\S]*?specs\.hara-lang\.org[\s\S]*?world\.hara-lang\.org/);
+  assert.match(layout, /\{ label: "Play", href: "https:\/\/play\.hara-lang\.org\/" \}[\s\S]*?\{ label: "Learn", href: "https:\/\/learn\.hara-lang\.org\/" \}[\s\S]*?\{ label: "Build", href: "https:\/\/build\.hara-lang\.org\/" \}/);
 });
 
 test("the navigation controller switches at the shared compact boundary without moving focus on open", async () => {

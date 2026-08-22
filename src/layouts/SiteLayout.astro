@@ -8,20 +8,17 @@ import "../styles/v2-adoption.css";
 import "@hara-lang/visual-language/theme.js";
 
 const {
-  title = "Hara — learn, make, share",
-  description = "Hara is a Lisp for learning, making, and sharing with an open community.",
+  title = "Hara",
+  description = "Hara is a Lisp for making software, learning in public, and sharing the work.",
   image = "/og-hara.jpg",
   imageAlt = "Hara programming language — readable forms and explicit runtimes"
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
 const primaryNavigation = [
-  { label: "Play", href: "/#play" },
-  { label: "Learn", href: "/#learn" },
-  { label: "Connect", href: "/#connect" },
-  { label: "Docs", href: "/docs/" },
-  { label: "Specs", href: "https://specs.hara-lang.org/", external: true },
-  { label: "World", href: "https://world.hara-lang.org/", external: true }
+  { label: "Play", href: "https://play.hara-lang.org/" },
+  { label: "Learn", href: "https://learn.hara-lang.org/" },
+  { label: "Build", href: "https://build.hara-lang.org/" }
 ];
 ---
 <!doctype html>

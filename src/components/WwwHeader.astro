@@ -11,11 +11,9 @@ type NavItem = {
 const { nav = [] as NavItem[] } = Astro.props;
 ---
 <header class="hara-v2-header hara-www-header" data-site-header data-navigation-open="false">
-  <a class="hara-v2-brand" href="/" aria-label="Hara home">
+  <a class="hara-v2-brand" href="https://hara-lang.org/" aria-label="Hara home">
     <HaraMark size={28} title="Hara" />
     <span class="hara-v2-wordmark">Hara</span>
-    <span class="hara-v2-brand-divider" aria-hidden="true">/</span>
-    <span class="hara-v2-brand-section">WWW</span>
   </a>
 
   <nav class="hara-v2-ecosystem-nav" id="hara-www-navigation" data-site-navigation aria-label="Hara site navigation">
@@ -29,6 +27,7 @@ const { nav = [] as NavItem[] } = Astro.props;
   </nav>
 
   <div class="hara-v2-header-actions">
+    <a class="hara-v2-profile-link" href="/me">Profile</a>
     <div data-hara-identity></div>
     <ThemeToggle />
     <button

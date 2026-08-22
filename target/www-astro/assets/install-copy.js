@@ -1,5 +1,5 @@
 (() => {
-  const commandSelector = ".hero-install code";
+  const commandSelector = "[data-install-command] code";
   const resetDelay = 1800;
 
   const legacyCopy = (text) => {
@@ -30,12 +30,12 @@
     if (!command || !parent || parent.querySelector("[data-install-copy]")) return;
 
     const commandRow = document.createElement("div");
-    commandRow.className = "hero-install-command";
+    commandRow.className = "install-command-row";
     code.replaceWith(commandRow);
     commandRow.append(code);
 
     const button = document.createElement("button");
-    button.className = "hero-install-copy";
+    button.className = "install-command-copy";
     button.type = "button";
     button.dataset.installCopy = "";
     button.setAttribute("aria-label", "Copy Homebrew install command");

@@ -1,4 +1,4 @@
-name: Deploy www.hara-lang.org
+name: Deploy hara-lang.org
 on:
   push:
     branches: [main, testing]
@@ -59,9 +59,9 @@ jobs:
       - name: Verify testing
         if: github.ref_name == 'testing'
         run: |
-          bash .github/scripts/verify-benchmark-observatory.sh https://www.testing.hara-lang.org/benchmarks/
-          bash .github/scripts/verify-docs-navigation.sh https://www.testing.hara-lang.org/docs/
-          node .github/scripts/verify-docs-kernel.mjs https://www.testing.hara-lang.org/
+          bash .github/scripts/verify-benchmark-observatory.sh https://testing.hara-lang.org/benchmarks/
+          bash .github/scripts/verify-docs-navigation.sh https://testing.hara-lang.org/docs/
+          node .github/scripts/verify-docs-kernel.mjs https://testing.hara-lang.org/
       - name: Deploy main
         if: github.ref_name == 'main'
         run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "main ${GITHUB_SHA}"
@@ -71,6 +71,6 @@ jobs:
       - name: Verify production
         if: github.ref_name == 'main'
         run: |
-          bash .github/scripts/verify-benchmark-observatory.sh https://www.hara-lang.org/benchmarks/
-          bash .github/scripts/verify-docs-navigation.sh https://www.hara-lang.org/docs/
-          node .github/scripts/verify-docs-kernel.mjs https://www.hara-lang.org/
+          bash .github/scripts/verify-benchmark-observatory.sh https://hara-lang.org/benchmarks/
+          bash .github/scripts/verify-docs-navigation.sh https://hara-lang.org/docs/
+          node .github/scripts/verify-docs-kernel.mjs https://hara-lang.org/

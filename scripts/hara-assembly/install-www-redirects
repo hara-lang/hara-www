@@ -7,7 +7,7 @@ OUT="${1:-$ROOT/core/target/www}"
 mkdir -p "$OUT"
 cat > "$OUT/_redirects" <<'EOF'
 # The benchmark observatory is published independently by hara-lang/hara-benchmarks.
-# Keep the public URL canonical on www.hara-lang.org while proxying that live bundle.
+# Keep the public URL canonical on hara-lang.org while proxying that live bundle.
 /benchmarks https://benchmarks.hara-lang.org/ 200!
 /benchmarks/ https://benchmarks.hara-lang.org/ 200!
 /benchmarks/* https://benchmarks.hara-lang.org/:splat 200!

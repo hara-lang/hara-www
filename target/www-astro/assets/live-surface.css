@@ -1,89 +1,86 @@
-/* Hara visual-language bridge for every @hara-lang/live surface.
+/* Visual Language v2 bridge for every @hara-lang/live surface.
    The package keeps portable defaults; the canonical site supplies identity. */
 
 body .hara-live-card {
-  --hara-live-bg: var(--hara-bg-clean);
-  --hara-live-panel: var(--hara-surface-raised);
-  --hara-live-ink: var(--hara-text);
-  --hara-live-muted: var(--hara-muted);
-  --hara-live-accent: var(--hara-signal);
-  --hara-live-accent-2: color-mix(in srgb, var(--hara-signal) 62%, var(--hara-text));
-  --hara-live-border: var(--hara-line);
-  --hara-live-error: var(--hara-danger);
-  --hara-live-mono-font: var(--hara-font-mono);
+  --hara-live-bg: var(--hara-v2-canvas-clean);
+  --hara-live-panel: var(--hara-v2-panel-raised);
+  --hara-live-ink: var(--hara-v2-ink);
+  --hara-live-muted: var(--hara-v2-muted);
+  --hara-live-accent: var(--hara-v2-signal);
+  --hara-live-accent-2: color-mix(in srgb, var(--hara-v2-signal) 62%, var(--hara-v2-ink));
+  --hara-live-border: var(--hara-v2-line);
+  --hara-live-error: var(--hara-v2-danger);
+  --hara-live-mono-font: var(--hara-v2-font-code);
 
-  border-radius: var(--hara-radius-md);
-  background: color-mix(in srgb, var(--hara-bg-clean) 96%, transparent);
-  box-shadow: var(--hara-shadow);
+  border-radius: var(--hara-v2-radius);
+  background: color-mix(in srgb, var(--hara-v2-canvas-clean) 96%, transparent);
+  box-shadow: var(--hara-v2-shadow);
 }
 
 body .hara-live-card-header {
-  background: color-mix(in srgb, var(--hara-surface-solid) 92%, transparent);
+  background: color-mix(in srgb, var(--hara-v2-panel-raised) 92%, transparent);
 }
 
 body .hara-live-card-tabs {
-  background: color-mix(in srgb, var(--hara-surface-raised) 72%, var(--hara-bg-clean));
+  background: color-mix(in srgb, var(--hara-v2-panel) 72%, var(--hara-v2-canvas-clean));
 }
 
 body .hara-live-card-tabs button[aria-selected="true"] {
-  background: var(--hara-bg-clean);
+  background: var(--hara-v2-canvas-clean);
 }
 
 body .hara-live-card-run {
   color: #fff;
-  background: var(--hara-signal);
-  border-color: var(--hara-signal);
+  border-color: var(--hara-v2-signal);
+  background: var(--hara-v2-signal);
 }
 
 body .hara-live-card-eval,
 body .hara-live-card-playground {
-  background: color-mix(in srgb, var(--hara-surface-solid) 84%, transparent);
+  background: color-mix(in srgb, var(--hara-v2-panel-raised) 84%, transparent);
 }
 
 body .hara-live-card-editor,
 body .hara-live-card-output {
-  background: var(--hara-bg-clean);
+  background: var(--hara-v2-canvas-clean);
 }
 
 body .hara-live-card-resizer,
 body .hara-live-card-canvas-meta {
-  background-color: var(--hara-surface-raised);
+  background-color: var(--hara-v2-panel);
 }
 
 body .hara-live-card .code-highlight .comment {
-  color: var(--hara-faint);
+  color: var(--hara-v2-faint);
 }
 
 body .hara-live-card .code-highlight .string {
-  color: color-mix(in srgb, var(--hara-warning) 72%, var(--hara-text));
+  color: color-mix(in srgb, var(--hara-v2-warning) 72%, var(--hara-v2-ink));
 }
 
-body .hara-live-card .code-highlight .keyword {
-  color: var(--hara-signal);
-}
-
+body .hara-live-card .code-highlight .keyword,
 body .hara-live-card .code-highlight .paren-0 {
-  color: var(--hara-signal);
+  color: var(--hara-v2-signal);
 }
 
 body .hara-live-card .code-highlight .paren-1 {
-  color: color-mix(in srgb, var(--hara-success) 76%, var(--hara-text));
+  color: color-mix(in srgb, var(--hara-v2-success) 76%, var(--hara-v2-ink));
 }
 
 body .hara-live-card .code-highlight .paren-2 {
-  color: color-mix(in srgb, var(--hara-warning) 74%, var(--hara-text));
+  color: color-mix(in srgb, var(--hara-v2-warning) 74%, var(--hara-v2-ink));
 }
 
 body .hara-live-card .code-highlight .paren-3 {
-  color: color-mix(in srgb, var(--hara-signal) 54%, var(--hara-text));
+  color: color-mix(in srgb, var(--hara-v2-signal) 54%, var(--hara-v2-ink));
 }
 
 body .hara-live-card .code-highlight .paren-4 {
-  color: color-mix(in srgb, var(--hara-success) 48%, var(--hara-text));
+  color: color-mix(in srgb, var(--hara-v2-success) 48%, var(--hara-v2-ink));
 }
 
 body .hara-live-card .code-highlight .paren-5 {
-  color: var(--hara-muted);
+  color: var(--hara-v2-muted);
 }
 
 body .hara-live-card-canvas {
@@ -93,7 +90,7 @@ body .hara-live-card-canvas {
 .code-stage-card > .hara-live-card,
 .live-stage > .hara-live-card,
 .sl-markdown-content .hara-live-card {
-  border-color: var(--hara-line-strong);
+  border-color: var(--hara-v2-line-strong);
 }
 
 .sl-markdown-content .hara-live-card {
