@@ -6,6 +6,12 @@ OUT="${1:-$ROOT/core/target/www}"
 
 mkdir -p "$OUT"
 cat > "$OUT/_redirects" <<'EOF'
+# Documentation now has product-owned Learn and Build surfaces. Keep the old
+# apex path as a permanent transition to Learn.
+/docs https://learn.hara-lang.org/ 301!
+/docs/ https://learn.hara-lang.org/ 301!
+/docs/* https://learn.hara-lang.org/ 301!
+
 # The benchmark observatory is published independently by hara-lang/hara-benchmarks.
 # Keep the public URL canonical on hara-lang.org while proxying that live bundle.
 /benchmarks https://benchmarks.hara-lang.org/ 200!
