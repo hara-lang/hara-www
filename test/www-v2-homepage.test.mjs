@@ -40,7 +40,7 @@ test("the live surface offers examples and reuses an early Hara shader", async (
   assert.doesNotMatch(play, /Backend|Session|Authority|network:none|filesystem:none/);
   assert.match(runtime, /mountLiveCard/);
   assert.match(runtime, /PONG_SOURCE/);
-  assert.match(runtime, /sources\/ocean\.hal/);
+  assert.match(runtime, /examples\/studio-backgrounds\/src\/ocean\.hal/);
   assert.doesNotMatch(runtime, /data-kernel-tab|data-live-canvas/);
 });
 

@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const site = fileURLToPath(new URL("../", import.meta.url));
 const workspace = resolve(process.env.HARA_WORKSPACE_ROOT || resolve(site, "../.."));
-const pongUrl = new URL("../sources/pong.hal", import.meta.url);
+const pongUrl = new URL("../examples/studio-backgrounds/src/pong.hal", import.meta.url);
+const studioProjectUrl = new URL("../examples/studio-backgrounds/project.edn", import.meta.url);
+const studioWorkspaceUrl = new URL("../examples/studio-backgrounds/workspace.edn", import.meta.url);
 const runtimeUrl = new URL("../src/components/www-v2/HomepageRuntime.astro", import.meta.url);
 const nodeHalUrl = resolve(workspace, "technology/hara/core/rust/web/studio/hal/node.hal");
 
@@ -44,6 +46,22 @@ test("Pong keeps namespace setup locally evaluable and sequences its frame loop"
   assertBalanced(source);
   assert.match(source, /^\(ns\+\)\n\n\(require \[studio\.draw :as draw\]\)/);
   assert.match(source, /\(node\/start/);
+});
+
+test("studio backgrounds use project-local source paths", async () => {
+  const [project, studioWorkspace] = await Promise.all([
+    readFile(studioProjectUrl, "utf8"),
+    readFile(studioWorkspaceUrl, "utf8")
+  ]);
+  assert.match(project, /:project\/source-paths \["src"\]/);
+  assert.doesNotMatch(studioWorkspace, /\.\.\/\.\.\/sources/);
+  const paths = [...studioWorkspace.matchAll(/:document\/path "([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(paths).size, paths.length);
+  paths.forEach((path) => assert.match(path, /^src\/[^/]+\.hal$/));
+  const sourceNames = (await readdir(new URL("../examples/studio-backgrounds/src/", import.meta.url)))
+    .filter((path) => path.endsWith(".hal"))
+    .sort();
+  paths.forEach((path) => assert.ok(sourceNames.includes(path.slice("src/".length))));
 });
 
 test("studio node registries are dereferenced exactly once", async () => {

@@ -93,7 +93,6 @@ mkdir -p "$OUT/runtime/host" "$OUT/runtime/packages/hta" "$OUT/runtime/studio/ha
 cp -R "$SITE_ROOT/target/www-astro/." "$OUT/"
 mkdir -p "$OUT/runtime/studio/capabilities"
 mkdir -p "$OUT/assets/wasm" "$OUT/assets/hara-amp" "$OUT/examples/hara-amp/src" "$OUT/examples/hara-animation/src"
-mkdir -p "$OUT/sources"
 mkdir -p "$OUT/vendor"
 
 cp "$SITE_ROOT/app.css" \
@@ -206,7 +205,9 @@ mkdir -p "$OUT/examples/studio-backgrounds"
 cp "$SITE_ROOT/examples/studio-backgrounds/project.edn" \
    "$SITE_ROOT/examples/studio-backgrounds/workspace.edn" \
    "$OUT/examples/studio-backgrounds/"
-cp "$SITE_ROOT/sources/"*.hal "$OUT/sources/"
+mkdir -p "$OUT/examples/studio-backgrounds/src"
+cp "$SITE_ROOT/examples/studio-backgrounds/src/"*.hal \
+   "$OUT/examples/studio-backgrounds/src/"
 cp -R "$SITE_ROOT/vendor/hara-ui" "$OUT/vendor/"
 
 bash "$WORKSPACE_ROOT/extensions/hara-runtime/scripts/build-demo-synth-wasm"

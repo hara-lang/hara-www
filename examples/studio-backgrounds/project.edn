@@ -2,6 +2,8 @@
  :hara/version "1.0.0"
  :project/id hara.studio.backgrounds
  :project/version "0.1.0"
- :project/source-paths ["../../sources"]
+ :project/source-paths ["src"]
+ :project/test-paths []
+ :project/extension-paths []
  :project/capabilities
  #{:studio/node-send :canvas/2d :canvas/webgl2 :input/keyboard :input/pointer}}

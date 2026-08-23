@@ -39,7 +39,7 @@
 
   const loadShaderSource = async () => {
     try {
-      const response = await fetch("/sources/ocean.hal");
+      const response = await fetch("/examples/studio-backgrounds/src/ocean.hal");
       return response.ok ? await response.text() : null;
     } catch {
       return null;
