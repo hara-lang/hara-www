@@ -7,10 +7,10 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "prepare:docs-import": "node scripts/import-docs.mjs",
     "verify:docs-import": "node scripts/import-docs.mjs --check",
-    "prepare:visual-language": "node scripts/prepare-visual-language.mjs",
+    "prepare:ui": "node scripts/prepare-ui.mjs",
     "prepare:benchmarks": "node scripts/prepare-benchmark-homepage.mjs",
-    "check": "npm run verify:docs-import && npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check",
-    "build": "npm run verify:docs-import && npm run prepare:visual-language && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "npm run verify:docs-import && npm run prepare:ui && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "build": "npm run verify:docs-import && npm run prepare:ui && npm run prepare:benchmarks && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "test": "node --test test/*.test.mjs packages/live/test/*.test.mjs"
   },
   "dependencies": {
@@ -18,7 +18,9 @@
     "@hara-lang/live": "file:packages/live",
     "@hara-lang/web-editor": "file:vendor/hara-ui/packages/web-editor",
     "@hara-lang/web-runtime": "file:vendor/hara-ui/packages/web-runtime",
-    "@hara-lang/visual-language": "file:packages/visual-language",
+    "@hara-lang/ui": "file:../../technology/hara-ui",
+    "@hara-lang/ui-astro": "file:../../technology/hara-ui/packages/ui-astro",
+    "@hara-lang/ui-tool": "file:../../technology/hara-ui/packages/ui-tool",
     "astro": "^5.16.0",
     "sharp": "^0.35.3"
   },

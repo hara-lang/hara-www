@@ -5,24 +5,22 @@ import test from "node:test";
 import { siteNavigationMode } from "../src/scripts/site-navigation.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const acceptedRevision = "b512a12e8d7191c9092d195ca0ddc894b0ba54d2";
-
-test("CI and production deploy pin the merged WWW-family visual-language revision", async () => {
+test("CI and production deploy source the shared Hara UI packages", async () => {
   const [ci, deploy] = await Promise.all([
     read(".github/workflows/site-ci.yml"),
     read(".github/workflows/pages-www.yml")
   ]);
   for (const workflow of [ci, deploy]) {
-    assert.match(workflow, /repository: hara-lang\/visual-language/);
-    assert.match(workflow, new RegExp(`ref: ${acceptedRevision}`));
-    assert.doesNotMatch(workflow, /ref: a2ab66d0fde79edb1cee46b79528098b3fda68cf/);
+    assert.match(workflow, /repository: hara-lang\/hara-ui/);
+    assert.match(workflow, /technology\/hara-ui/);
+    assert.doesNotMatch(workflow, /repository: hara-lang\/visual-language/);
   }
 });
 
 test("the shared layout directly consumes v2 without replacing identity, live or SEO contracts", async () => {
   const layout = await read("src/layouts/SiteLayout.astro");
   const header = await read("src/components/WwwHeader.astro");
-  assert.match(layout, /@hara-lang\/visual-language\/v2\.css/);
+  assert.match(layout, /@hara-lang\/ui\/v2\.css/);
   assert.doesNotMatch(layout, /@hara-lang\/visual-language\/motifs\.css/);
   assert.match(layout, /astro\/v2\/Shell\.astro/);
   assert.match(layout, /class="hara-v2 hara-www-site"/);
@@ -59,28 +57,23 @@ test("the navigation controller switches at the shared compact boundary without 
 
 test("package preparation verifies the WWW contract and shared production illustration", async () => {
   const [script, tsconfig] = await Promise.all([
-    read("scripts/prepare-visual-language.mjs"),
+    read("scripts/prepare-ui.mjs"),
     read("tsconfig.json")
   ]);
   for (const value of [
-    "./v2.css",
-    "./theme.js",
-    "./astro/v2/Shell.astro",
-    "./astro/v2/Header.astro",
-    "./astro/v2/PageHeader.astro",
-    "./astro/v2/FleetField.astro",
-    "V2-THEME.md",
-    "V2-GUIDE.md",
-    "V2-DATA-VISUALISATION.md",
-    "V2-WWW.md"
+    "@hara-lang/ui",
+    "@hara-lang/ui-astro",
+    "@hara-lang/ui-tool",
+    "manifest.files",
+    "technology/hara-ui"
   ]) {
     assert.match(script, new RegExp(value.replaceAll(".", "\\.")));
   }
   assert.match(script, /manifest\.files/);
   assert.match(script, /await cp\(from, to, \{ recursive: true, dereference: true \}\)/);
-  assert.match(script, /materialised @hara-lang\/visual-language/);
-  assert.doesNotMatch(script, /symlink\(relative\(dirname\(installed\)/, "the installed dependency must be a materialised package, not a source symlink");
-  assert.match(tsconfig, /"packages\/visual-language\/\*\*"/);
+  assert.match(script, /materialised/);
+  assert.doesNotMatch(script, /symlink\(/, "the installed dependency must be a materialised package, not a source symlink");
+  assert.doesNotMatch(tsconfig, /packages\/visual-language/);
 });
 
 test("the product bridge consumes shared tokens and preserves focus, touch, disclosure and reduced motion", async () => {
@@ -110,16 +103,16 @@ test("the product bridge consumes shared tokens and preserves focus, touch, disc
 
 test("the adoption note records the exact pin, preserved boundaries and remaining route work", async () => {
   const document = await read("VISUAL-LANGUAGE-V2-ADOPTION.md");
-  assert.match(document, new RegExp(acceptedRevision));
+  assert.match(document, /@hara-lang\/ui/);
   for (const phrase of [
     "identity popup",
     "install-copy",
     "live-card",
     "canonical URLs",
-    "V2-WWW.md",
+    "package-level downstream adoption contract",
     "Docs",
     "Benchmarks",
-    "Only merged Visual Language revisions are accepted"
+    "Only published Hara UI package revisions are accepted"
   ]) {
     assert.match(document, new RegExp(phrase, "i"));
   }

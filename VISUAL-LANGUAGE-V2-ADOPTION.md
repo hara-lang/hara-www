@@ -1,12 +1,12 @@
 # Visual Language v2 adoption for `hara-www`
 
-`hara-www` consumes the merged Visual Language v2 package at:
+`hara-www` consumes the independently packaged Hara UI shell from:
 
 ```text
-hara-lang/visual-language@b512a12e8d7191c9092d195ca0ddc894b0ba54d2
+hara-lang/hara-ui: @hara-lang/ui, @hara-lang/ui-astro, @hara-lang/ui-tool
 ```
 
-The pin is identical in pull-request CI and production deployment. Only merged Visual Language revisions are accepted. The package-preparation boundary verifies `V2-WWW.md`, the shared v2 stylesheet, the theme implementation, and the exported `FleetField` illustration before Astro compiles the site.
+The package source is the same in pull-request CI and production deployment. Only published Hara UI package revisions are accepted. The package-preparation boundary materialises the foundation, Astro, and tool packages before Astro compiles the site.
 
 ## Current adoption boundary
 
@@ -45,12 +45,12 @@ Live execution remains an enhancement. Static explanation, source, runtime contr
 
 ## Styling ownership
 
-Visual Language v2 owns:
+`@hara-lang/ui` and its adapters own:
 
 - colour, typography, spacing, focus, cut geometry, motion, and responsive tokens;
 - common buttons, badges, panels, fields, tables, and theme behaviour;
 - the shared Hara mark and fleet-field graphic; and
-- the `V2-WWW.md` downstream adoption contract.
+- the shared shell and package-level downstream adoption contract.
 
 `hara-www` owns:
 
@@ -99,4 +99,4 @@ npm test
 npm run build
 ```
 
-CI additionally checks the production assembly boundary against the Hara workspace and uses the exact Visual Language revision recorded above.
+CI additionally checks the production assembly boundary against the Hara workspace and materialises the exact Hara UI package sources recorded above.

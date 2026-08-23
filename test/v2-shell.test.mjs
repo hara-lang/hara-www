@@ -7,7 +7,7 @@ const header = await readFile(new URL("../src/components/WwwHeader.astro", impor
 const shell = await readFile(new URL("../src/styles/shell.css", import.meta.url), "utf8");
 
 test("Hara WWW adopts the v2 visual-language shell", () => {
-  assert.match(layout, /@hara-lang\/visual-language\/v2\.css/);
+  assert.match(layout, /@hara-lang\/ui\/v2\.css/);
   assert.match(layout, /astro\/v2\/Shell\.astro/);
   assert.match(layout, /WwwHeader/);
   assert.match(layout, /data-hara-v2-site="www"/);

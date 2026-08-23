@@ -27,9 +27,9 @@ jobs:
         with: {repository: hara-lang/hara-extensions, path: .workspace/extensions}
       - uses: actions/checkout@v4
         with:
-          repository: hara-lang/visual-language
-          ref: b512a12e8d7191c9092d195ca0ddc894b0ba54d2
-          path: packages/visual-language
+          repository: hara-lang/hara-ui
+          ref: main
+          path: .workspace/technology/hara-ui
       - uses: dtolnay/rust-toolchain@stable
         with: {targets: wasm32-unknown-unknown}
       - uses: actions/setup-java@v4
