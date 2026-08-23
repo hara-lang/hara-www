@@ -80,7 +80,7 @@ cp "$SITE_ROOT/examples/starter/src/main.hal" "$STAGE/examples/starter/src/"
 
 cp "$SITE_ROOT/examples/browser-game/project.edn" "$SITE_ROOT/examples/browser-game/workspace.edn" \
    "$STAGE/examples/game/"
-cp "$SITE_ROOT/sources/tron.hal" "$STAGE/examples/game/src/tron.hal"
+cp "$SITE_ROOT/examples/studio-backgrounds/src/tron.hal" "$STAGE/examples/game/src/tron.hal"
 
 cp "$SITE_ROOT/examples/hara-amp/project.edn" "$SITE_ROOT/examples/hara-amp/workspace.edn" \
    "$STAGE/examples/music/"

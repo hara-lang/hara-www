@@ -588,11 +588,12 @@ async function loadBackgroundWorkspace() {
       - categoryRank(String(mapValue(right, "document/category"))));
   for (const documentValue of documents) {
     if (keywordName(mapValue(documentValue, "document/role")) !== "studio/background") continue;
+    const documentPath = String(mapValue(documentValue, "document/path"));
     const descriptor = {
       id: String(mapValue(documentValue, "document/id")),
       title: String(mapValue(documentValue, "document/title")),
       category: String(mapValue(documentValue, "document/category") ?? "Other"),
-      path: String(mapValue(documentValue, "document/path")).replace("../../sources/", "./sources/"),
+      path: `${BACKGROUND_WORKSPACE}${documentPath}`,
       node: String(mapValue(documentValue, "document/node")),
       canvas: String(mapValue(documentValue, "document/canvas"))
     };

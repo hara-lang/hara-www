@@ -9,7 +9,7 @@
  [{:document/id "document/background/tron"
    :document/title "Tron"
    :document/category "Simulation"
-   :document/path "../../sources/tron.hal"
+   :document/path "src/tron.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/tron"
@@ -17,7 +17,7 @@
   {:document/id "document/background/boids"
    :document/title "Boids"
    :document/category "Simulation"
-   :document/path "../../sources/boids.hal"
+   :document/path "src/boids.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/boids"
@@ -25,7 +25,7 @@
   {:document/id "document/background/double-pendulum"
    :document/title "Double Pendulum"
    :document/category "Simulation"
-   :document/path "../../sources/double-pendulum.hal"
+   :document/path "src/double-pendulum.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/double-pendulum"
@@ -33,7 +33,7 @@
   {:document/id "document/background/fire"
    :document/title "Fire"
    :document/category "Basic"
-   :document/path "../../sources/fire.hal"
+   :document/path "src/fire.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/fire"
@@ -41,7 +41,7 @@
   {:document/id "document/background/aurora"
    :document/title "Aurora"
    :document/category "Basic"
-   :document/path "../../sources/aurora.hal"
+   :document/path "src/aurora.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/aurora"
@@ -49,7 +49,7 @@
   {:document/id "document/background/pulse"
    :document/title "Pulse"
    :document/category "Basic"
-   :document/path "../../sources/pulse.hal"
+   :document/path "src/pulse.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/pulse"
@@ -57,7 +57,7 @@
   {:document/id "document/background/stars"
    :document/title "Stars"
    :document/category "Basic"
-   :document/path "../../sources/stars.hal"
+   :document/path "src/stars.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/stars"
@@ -65,7 +65,7 @@
   {:document/id "document/background/crt-patterns"
    :document/title "CRT Patterns"
    :document/category "Shapes"
-   :document/path "../../sources/crt-patterns.hal"
+   :document/path "src/crt-patterns.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/crt-patterns"
@@ -73,7 +73,7 @@
   {:document/id "document/background/subterranean"
    :document/title "Subterranean"
    :document/category "Shapes"
-   :document/path "../../sources/subterranean.hal"
+   :document/path "src/subterranean.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/subterranean"
@@ -81,7 +81,7 @@
   {:document/id "document/background/octagrams"
    :document/title "Octagrams"
    :document/category "Shapes"
-   :document/path "../../sources/octagrams.hal"
+   :document/path "src/octagrams.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/octagrams"
@@ -89,7 +89,7 @@
   {:document/id "document/background/mirror-fog"
    :document/title "Mirror Fog"
    :document/category "Nature"
-   :document/path "../../sources/mirror-fog.hal"
+   :document/path "src/mirror-fog.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/mirror-fog"
@@ -97,7 +97,7 @@
   {:document/id "document/background/ocean"
    :document/title "Ocean"
    :document/category "Nature"
-   :document/path "../../sources/ocean.hal"
+   :document/path "src/ocean.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/ocean"
@@ -105,7 +105,7 @@
   {:document/id "document/background/plasma-storm"
    :document/title "Plasma Storm"
    :document/category "Nature"
-   :document/path "../../sources/plasma-storm.hal"
+   :document/path "src/plasma-storm.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/plasma-storm"
@@ -113,7 +113,7 @@
   {:document/id "document/background/universe-within"
    :document/title "Universe Within"
    :document/category "Shapes"
-   :document/path "../../sources/universe-within.hal"
+   :document/path "src/universe-within.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/universe-within"
@@ -121,7 +121,7 @@
   {:document/id "document/background/audio-tunnel"
    :document/title "Audio Tunnel"
    :document/category "Shapes"
-   :document/path "../../sources/audio-tunnel.hal"
+   :document/path "src/audio-tunnel.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/audio-tunnel"
@@ -129,7 +129,7 @@
   {:document/id "document/background/sunlit-landscape"
    :document/title "Sunlit Landscape"
    :document/category "Nature"
-   :document/path "../../sources/sunlit-landscape.hal"
+   :document/path "src/sunlit-landscape.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/sunlit-landscape"
@@ -137,7 +137,7 @@
   {:document/id "document/background/desert-sand"
    :document/title "Desert Sand"
    :document/category "Nature"
-   :document/path "../../sources/desert-sand.hal"
+   :document/path "src/desert-sand.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/desert-sand"
@@ -145,7 +145,7 @@
   {:document/id "document/background/rain-ripples"
    :document/title "Rain Ripples"
    :document/category "Nature"
-   :document/path "../../sources/rain-ripples.hal"
+   :document/path "src/rain-ripples.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/rain-ripples"
@@ -153,7 +153,7 @@
   {:document/id "document/background/ants"
    :document/title "Ants"
    :document/category "Simulation"
-   :document/path "../../sources/ants.hal"
+   :document/path "src/ants.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/ants"
@@ -161,7 +161,7 @@
   {:document/id "document/background/space-invaders"
    :document/title "Space Invaders"
    :document/category "Simulation"
-   :document/path "../../sources/space-invaders.hal"
+   :document/path "src/space-invaders.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/space-invaders"
@@ -169,7 +169,7 @@
   {:document/id "document/background/pong"
    :document/title "Pong"
    :document/category "Simulation"
-   :document/path "../../sources/pong.hal"
+   :document/path "src/pong.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/pong"
@@ -177,7 +177,7 @@
   {:document/id "document/background/off"
    :document/title "Off"
    :document/category "Controls"
-   :document/path "../../sources/off.hal"
+   :document/path "src/off.hal"
    :document/role :studio/background
    :document/anonymous true
    :document/node "node/background/off"
