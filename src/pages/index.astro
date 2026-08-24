@@ -7,10 +7,18 @@ import BuildSection from "../components/www-v2/BuildSection.astro";
 import HomepageRuntime from "../components/www-v2/HomepageRuntime.astro";
 import "@hara-lang/live/style.css";
 import "../styles/www-v2.css";
+
+const homepageSections = [
+  { id: "play", label: "Play" },
+  { id: "learn", label: "Learn" },
+  { id: "community", label: "Community" },
+  { id: "build", label: "Build" }
+];
 ---
 <SiteLayout
   title="Hara"
   description="Hara is a Lisp for making software, learning in public, and sharing the work."
+  sections={homepageSections}
 >
   <div class="www-v2-main">
     <PlaySection />
