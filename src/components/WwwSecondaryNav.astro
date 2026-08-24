@@ -1,0 +1,185 @@
+---
+type SectionItem = {
+  id: string;
+  label: string;
+};
+
+type RouteItem = {
+  href: string;
+  label: string;
+};
+
+const {
+  activePath = "/",
+  sections = [] as SectionItem[]
+} = Astro.props;
+
+const routes: RouteItem[] = [
+  { href: "/", label: "Home" },
+  { href: "/blog/", label: "Blog" },
+  { href: "https://hara-lang.org/docs/", label: "Docs" },
+  { href: "https://hara-lang.org/benchmarks/", label: "Benchmarks" }
+];
+
+const routeLabel = activePath.startsWith("/blog")
+  ? "Blog"
+  : activePath.startsWith("/me")
+    ? "Profile"
+    : "Hara";
+const hasSections = sections.length > 1;
+---
+<nav
+  class="hara-www-secondary hara-v2-context-nav"
+  aria-label="Hara page navigation"
+  data-www-secondary
+  data-route-open="false"
+  data-section-open="false"
+>
+  <div class="hara-www-secondary__line">
+    <a class="hara-www-secondary__home" href="/" aria-label="Hara home">
+      <span aria-hidden="true">←</span>
+      <span>Home</span>
+    </a>
+
+    <button
+      class="hara-www-secondary__trigger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="hara-www-route-menu"
+      aria-label="Show Hara routes"
+      data-www-route-trigger
+    >
+      <span>{routeLabel}</span>
+      <i aria-hidden="true"></i>
+    </button>
+
+    {hasSections && (
+      <button
+        class="hara-www-secondary__trigger hara-www-secondary__section-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="hara-www-section-menu"
+        aria-label="Show page sections"
+        data-www-section-trigger
+      >
+        <span data-www-section-current>{sections[0].label}</span>
+        <i aria-hidden="true"></i>
+      </button>
+    )}
+  </div>
+
+  <div class="hara-www-secondary__panel" id="hara-www-route-menu" data-www-route-menu aria-hidden="true">
+    <span class="hara-www-secondary__panel-label">Hara routes</span>
+    {routes.map((route) => (
+      <a
+        href={route.href}
+        aria-current={
+          (route.href === "/" && activePath === "/") ||
+          (route.href === "/blog/" && activePath.startsWith("/blog"))
+            ? "page"
+            : undefined
+        }
+      >
+        <span>{route.label}</span>
+      </a>
+    ))}
+  </div>
+
+  {hasSections && (
+    <div class="hara-www-secondary__panel" id="hara-www-section-menu" data-www-section-menu aria-hidden="true">
+      <span class="hara-www-secondary__panel-label">On this page</span>
+      {sections.map((section, index) => (
+        <a href={`#${section.id}`} aria-current={index === 0 ? "location" : undefined} data-www-section-link={section.id}>
+          <span>{section.label}</span>
+        </a>
+      ))}
+    </div>
+  )}
+</nav>
+
+<script>
+  const initialiseWwwSecondaryNavigation = () => {
+    document.querySelectorAll("[data-www-secondary]").forEach((nav) => {
+      if (!(nav instanceof HTMLElement) || nav.dataset.ready === "true") return;
+      const routeTrigger = nav.querySelector("[data-www-route-trigger]");
+      const routeMenu = nav.querySelector("[data-www-route-menu]");
+      const sectionTrigger = nav.querySelector("[data-www-section-trigger]");
+      const sectionMenu = nav.querySelector("[data-www-section-menu]");
+      const sectionCurrent = nav.querySelector("[data-www-section-current]");
+      if (!(routeTrigger instanceof HTMLButtonElement) || !(routeMenu instanceof HTMLElement)) return;
+
+      nav.dataset.ready = "true";
+
+      const setRouteOpen = (requestedOpen, restoreFocus = false) => {
+        const open = Boolean(requestedOpen);
+        nav.dataset.routeOpen = String(open);
+        routeTrigger.setAttribute("aria-expanded", String(open));
+        routeTrigger.setAttribute("aria-label", `${open ? "Hide" : "Show"} Hara routes`);
+        routeMenu.setAttribute("aria-hidden", String(!open));
+        if (open) setSectionOpen(false);
+        if (!open && restoreFocus) routeTrigger.focus();
+      };
+
+      const setSectionOpen = (requestedOpen, restoreFocus = false) => {
+        if (!(sectionTrigger instanceof HTMLButtonElement) || !(sectionMenu instanceof HTMLElement)) return;
+        const open = Boolean(requestedOpen);
+        nav.dataset.sectionOpen = String(open);
+        sectionTrigger.setAttribute("aria-expanded", String(open));
+        sectionTrigger.setAttribute("aria-label", `${open ? "Hide" : "Show"} page sections`);
+        sectionMenu.setAttribute("aria-hidden", String(!open));
+        if (open) setRouteOpen(false);
+        if (!open && restoreFocus) sectionTrigger.focus();
+      };
+
+      routeTrigger.addEventListener("click", () => setRouteOpen(nav.dataset.routeOpen !== "true"));
+      routeMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setRouteOpen(false)));
+
+      if (sectionTrigger instanceof HTMLButtonElement && sectionMenu instanceof HTMLElement) {
+        sectionTrigger.addEventListener("click", () => setSectionOpen(nav.dataset.sectionOpen !== "true"));
+        const sectionLinks = [...sectionMenu.querySelectorAll("[data-www-section-link]")];
+        const setCurrent = (id) => {
+          sectionLinks.forEach((link) => {
+            if (!(link instanceof HTMLAnchorElement)) return;
+            if (link.dataset.wwwSectionLink === id) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+          const active = sectionLinks.find((link) => link instanceof HTMLAnchorElement && link.dataset.wwwSectionLink === id);
+          if (sectionCurrent instanceof HTMLElement && active instanceof HTMLAnchorElement) {
+            sectionCurrent.textContent = active.textContent?.trim() || sectionCurrent.textContent;
+          }
+        };
+
+        sectionLinks.forEach((link) => link.addEventListener("click", () => {
+          if (link instanceof HTMLAnchorElement && link.dataset.wwwSectionLink) setCurrent(link.dataset.wwwSectionLink);
+          setSectionOpen(false);
+        }));
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((left, right) => left.boundingClientRect.top - right.boundingClientRect.top)[0];
+            if (visible?.target instanceof HTMLElement) setCurrent(visible.target.id);
+          }, { rootMargin: "-30% 0px -62% 0px", threshold: [0, .05, .25] });
+          sectionLinks.forEach((link) => {
+            if (!(link instanceof HTMLAnchorElement) || !link.dataset.wwwSectionLink) return;
+            const section = document.getElementById(link.dataset.wwwSectionLink);
+            if (section) observer.observe(section);
+          });
+        }
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        if (nav.dataset.sectionOpen === "true") setSectionOpen(false, true);
+        else if (nav.dataset.routeOpen === "true") setRouteOpen(false, true);
+      });
+
+      setRouteOpen(false);
+      setSectionOpen(false);
+    });
+  };
+
+  initialiseWwwSecondaryNavigation();
+  document.addEventListener("astro:page-load", initialiseWwwSecondaryNavigation);
+</script>
