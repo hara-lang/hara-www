@@ -142,13 +142,19 @@
 
 .hara-www-masthead .site-navigation-backdrop[hidden] { display: none; }
 
-/* All-width one-line secondary navigation -------------------------------- */
+/* All-width one-line secondary navigation --------------------------------
+ * The global Hara header is the only persistent navigation layer. The local
+ * row remains the positioning context for its disclosures but scrolls away.
+ */
 .hara-www-secondary {
-  z-index: 35;
+  position: relative;
+  top: auto;
+  z-index: 20;
+  isolation: isolate;
   min-height: 48px;
   max-height: 48px;
   overflow: visible;
-  background: color-mix(in srgb, var(--hara-v2-panel-raised) 98%, transparent);
+  background: var(--hara-v2-panel-raised);
   box-shadow: 0 1px 0 var(--hara-v2-sketch);
 }
 
@@ -217,7 +223,7 @@
 
 .hara-www-secondary__panel {
   position: absolute;
-  z-index: 38;
+  z-index: 2;
   top: 100%;
   left: clamp(12px, 2vw, 28px);
   display: none;
