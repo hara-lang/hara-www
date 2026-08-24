@@ -1,6 +1,7 @@
 ---
 import V2Shell from "@hara-lang/ui-astro/astro/v2/Shell.astro";
 import WwwHeader from "../components/WwwHeader.astro";
+import WwwSecondaryNav from "../components/WwwSecondaryNav.astro";
 import "@hara-lang/ui/v2.css";
 import "../styles/site.css";
 import "../styles/shell.css";
@@ -11,14 +12,20 @@ const {
   title = "Hara",
   description = "Hara is a Lisp for making software, learning in public, and sharing the work.",
   image = "/og-hara.jpg",
-  imageAlt = "Hara programming language — readable forms and explicit runtimes"
+  imageAlt = "Hara programming language — readable forms and explicit runtimes",
+  sections = []
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
-const primaryNavigation = [
+const activePath = Astro.url.pathname;
+const productNavigation = [
+  { label: "Home", href: "/" },
   { label: "Play", href: "https://play.hara-lang.org/" },
   { label: "Learn", href: "https://learn.hara-lang.org/" },
-  { label: "Build", href: "https://build.hara-lang.org/" }
+  { label: "Build", href: "https://build.hara-lang.org/" },
+  { label: "Docs", href: "https://hara-lang.org/docs/" },
+  { label: "Benchmarks", href: "https://hara-lang.org/benchmarks/" },
+  { label: "Blog", href: "/blog/" }
 ];
 ---
 <!doctype html>
@@ -56,7 +63,8 @@ const primaryNavigation = [
   </head>
   <body class="hara-v2 hara-www-site" data-hara-v2-site="www">
     <V2Shell sidebar={false} aside={false} class="hara-www-shell">
-      <WwwHeader slot="header" nav={primaryNavigation} />
+      <WwwHeader slot="header" nav={productNavigation} activePath={activePath} />
+      <WwwSecondaryNav slot="context" activePath={activePath} sections={sections} />
       <div class="hara-www-slot"><slot /></div>
       <footer slot="footer" class="site-footer">
         <span>Hara</span>
