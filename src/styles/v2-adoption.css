@@ -38,10 +38,10 @@
   outline-offset: 4px;
 }
 
-/* The one-line context shell is always present, so in-page targets clear
-   both the primary Hara header and the 48px secondary navigation row. */
+/* The global Hara header is the only persistent navigation layer. The local
+   context row scrolls away, so in-page targets clear the header only. */
 .hara-www-site :where(main, section, article)[id] {
-  scroll-margin-top: calc(var(--hara-v2-header-height) + 48px + 1rem);
+  scroll-margin-top: calc(var(--hara-v2-header-height) + 1rem);
 }
 
 html[data-site-navigation-open="true"] { overflow: hidden; }
