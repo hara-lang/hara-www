@@ -11,8 +11,9 @@ type RouteItem = {
 
 const {
   activePath = "/",
-  sections = [] as SectionItem[]
+  sections = []
 } = Astro.props;
+const sectionItems: SectionItem[] = sections as SectionItem[];
 
 const routes: RouteItem[] = [
   { href: "/", label: "Home" },
@@ -26,7 +27,7 @@ const routeLabel = activePath.startsWith("/blog")
   : activePath.startsWith("/me")
     ? "Profile"
     : "Hara";
-const hasSections = sections.length > 1;
+const hasSections = sectionItems.length > 1;
 ---
 <nav
   class="hara-www-secondary hara-v2-context-nav"
@@ -62,7 +63,7 @@ const hasSections = sections.length > 1;
         aria-label="Show page sections"
         data-www-section-trigger
       >
-        <span data-www-section-current>{sections[0].label}</span>
+        <span data-www-section-current>{sectionItems[0].label}</span>
         <i aria-hidden="true"></i>
       </button>
     )}
@@ -70,7 +71,7 @@ const hasSections = sections.length > 1;
 
   <div class="hara-www-secondary__panel" id="hara-www-route-menu" data-www-route-menu aria-hidden="true">
     <span class="hara-www-secondary__panel-label">Hara routes</span>
-    {routes.map((route) => (
+    {routes.map((route: RouteItem) => (
       <a
         href={route.href}
         aria-current={
@@ -88,7 +89,7 @@ const hasSections = sections.length > 1;
   {hasSections && (
     <div class="hara-www-secondary__panel" id="hara-www-section-menu" data-www-section-menu aria-hidden="true">
       <span class="hara-www-secondary__panel-label">On this page</span>
-      {sections.map((section, index) => (
+      {sectionItems.map((section: SectionItem, index: number) => (
         <a href={`#${section.id}`} aria-current={index === 0 ? "location" : undefined} data-www-section-link={section.id}>
           <span>{section.label}</span>
         </a>
@@ -110,7 +111,7 @@ const hasSections = sections.length > 1;
 
       nav.dataset.ready = "true";
 
-      const setRouteOpen = (requestedOpen, restoreFocus = false) => {
+      const setRouteOpen = (requestedOpen: boolean, restoreFocus = false) => {
         const open = Boolean(requestedOpen);
         nav.dataset.routeOpen = String(open);
         routeTrigger.setAttribute("aria-expanded", String(open));
@@ -120,7 +121,7 @@ const hasSections = sections.length > 1;
         if (!open && restoreFocus) routeTrigger.focus();
       };
 
-      const setSectionOpen = (requestedOpen, restoreFocus = false) => {
+      const setSectionOpen = (requestedOpen: boolean, restoreFocus = false) => {
         if (!(sectionTrigger instanceof HTMLButtonElement) || !(sectionMenu instanceof HTMLElement)) return;
         const open = Boolean(requestedOpen);
         nav.dataset.sectionOpen = String(open);
@@ -137,7 +138,7 @@ const hasSections = sections.length > 1;
       if (sectionTrigger instanceof HTMLButtonElement && sectionMenu instanceof HTMLElement) {
         sectionTrigger.addEventListener("click", () => setSectionOpen(nav.dataset.sectionOpen !== "true"));
         const sectionLinks = [...sectionMenu.querySelectorAll("[data-www-section-link]")];
-        const setCurrent = (id) => {
+        const setCurrent = (id: string) => {
           sectionLinks.forEach((link) => {
             if (!(link instanceof HTMLAnchorElement)) return;
             if (link.dataset.wwwSectionLink === id) link.setAttribute("aria-current", "location");
