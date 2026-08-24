@@ -1,5 +1,5 @@
 ---
-import HaraMark from "@hara-lang/ui-astro/astro/HaraMark.astro";
+import Header from "@hara-lang/ui-astro/astro/v2/Header.astro";
 import ThemeToggle from "@hara-lang/ui-astro/astro/ThemeToggle.astro";
 
 type NavItem = {
@@ -8,47 +8,77 @@ type NavItem = {
   external?: boolean;
 };
 
-const { nav = [] as NavItem[] } = Astro.props;
+const {
+  nav = [] as NavItem[],
+  activePath = "/"
+} = Astro.props;
 ---
-<header class="hara-v2-header hara-www-header" data-site-header data-navigation-open="false">
-  <a class="hara-v2-brand" href="https://hara-lang.org/" aria-label="Hara home">
-    <HaraMark size={28} title="Hara" />
-    <span class="hara-v2-wordmark">Hara</span>
-  </a>
-
-  <nav class="hara-v2-ecosystem-nav" id="hara-www-navigation" data-site-navigation aria-label="Hara site navigation">
-    {nav.map((item: NavItem) => (
-      <a
-        href={item.href}
-        target={item.external ? "_blank" : undefined}
-        rel={item.external ? "noreferrer" : undefined}
-      >{item.label}</a>
-    ))}
-  </nav>
-
-  <div class="hara-v2-header-actions">
-    <button
-      class="site-navigation-trigger"
-      type="button"
-      data-site-navigation-trigger
-      aria-expanded="false"
-      aria-controls="hara-www-navigation"
-    >
-      <span>Menu</span>
-      <i aria-hidden="true"></i>
-    </button>
+<div class="hara-www-masthead" data-site-header data-navigation-open="false">
+  <Header
+    homeHref="/"
+    nav={[]}
+    activePath={activePath}
+    label="Hara"
+    account="logged-in"
+    menuMode="product"
+    menuControls="hara-www-navigation"
+    menuLabel="Open Hara menu"
+    menuCloseLabel="Close Hara menu"
+  >
     <ThemeToggle />
     <div class="hara-www-account" data-hara-account>
       <a class="hara-v2-profile-link" href="/me">Profile</a>
       <div class="hara-www-identity" data-hara-identity></div>
     </div>
+  </Header>
+
+  <div
+    class="hara-www-product-menu"
+    id="hara-www-navigation"
+    data-site-navigation
+    aria-hidden="true"
+    hidden
+  >
+    <div class="hara-www-product-menu__head">
+      <div>
+        <span>Hara</span>
+        <strong>Programming language</strong>
+      </div>
+      <button type="button" data-site-navigation-close aria-label="Close Hara menu" title="Close Hara menu">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <nav aria-label="Hara product navigation">
+      {nav.map((item: NavItem) => (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noreferrer" : undefined}
+        >
+          <span>{item.label}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </nav>
   </div>
 
   <button
     class="site-navigation-backdrop"
     type="button"
     data-site-navigation-backdrop
-    aria-label="Close navigation"
+    aria-label="Close Hara menu"
     hidden
   ></button>
-</header>
+
+  <noscript>
+    <nav class="hara-www-product-menu-fallback" aria-label="Hara product navigation">
+      {nav.map((item: NavItem) => (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noreferrer" : undefined}
+        >{item.label}</a>
+      ))}
+    </nav>
+  </noscript>
+</div>
