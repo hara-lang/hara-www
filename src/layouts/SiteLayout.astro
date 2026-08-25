@@ -55,7 +55,13 @@ const primaryNavigation = [
     <script is:inline src="/assets/install-copy.js" defer></script>
   </head>
   <body class="hara-v2 hara-www-site" data-hara-v2-site="www">
-    <V2Shell sidebar={false} aside={false} class="hara-www-shell">
+    <V2Shell
+      sidebar={false}
+      aside={false}
+      variant="product"
+      class="hara-www-shell"
+      style="--hara-v2-page: clamp(18px, 3.8vw, 56px); --hara-v2-column: 1480px;"
+    >
       <WwwHeader slot="header" nav={primaryNavigation} />
       <div class="hara-www-slot"><slot /></div>
       <footer slot="footer" class="site-footer">
@@ -69,9 +75,4 @@ const primaryNavigation = [
       </footer>
     </V2Shell>
   </body>
-  <script>
-    import { initialiseSiteNavigation } from "../scripts/site-navigation.js";
-    initialiseSiteNavigation();
-    document.addEventListener("astro:page-load", () => initialiseSiteNavigation());
-  </script>
 </html>

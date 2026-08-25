@@ -1,6 +1,6 @@
 ---
-import HaraMark from "@hara-lang/ui-astro/astro/HaraMark.astro";
 import ThemeToggle from "@hara-lang/ui-astro/astro/ThemeToggle.astro";
+import V2Header from "@hara-lang/ui-astro/astro/v2/Header.astro";
 
 type NavItem = {
   href: string;
@@ -10,45 +10,15 @@ type NavItem = {
 
 const { nav = [] as NavItem[] } = Astro.props;
 ---
-<header class="hara-v2-header hara-www-header" data-site-header data-navigation-open="false">
-  <a class="hara-v2-brand" href="https://hara-lang.org/" aria-label="Hara home">
-    <HaraMark size={28} title="Hara" />
-    <span class="hara-v2-wordmark">Hara</span>
-  </a>
-
-  <nav class="hara-v2-ecosystem-nav" id="hara-www-navigation" data-site-navigation aria-label="Hara site navigation">
-    {nav.map((item: NavItem) => (
-      <a
-        href={item.href}
-        target={item.external ? "_blank" : undefined}
-        rel={item.external ? "noreferrer" : undefined}
-      >{item.label}</a>
-    ))}
-  </nav>
-
-  <div class="hara-v2-header-actions">
-    <button
-      class="site-navigation-trigger"
-      type="button"
-      data-site-navigation-trigger
-      aria-expanded="false"
-      aria-controls="hara-www-navigation"
-    >
-      <span>Menu</span>
-      <i aria-hidden="true"></i>
-    </button>
-    <ThemeToggle />
-    <div class="hara-www-account" data-hara-account>
-      <a class="hara-v2-profile-link" href="/me">Profile</a>
-      <div class="hara-www-identity" data-hara-identity></div>
-    </div>
-  </div>
-
-  <button
-    class="site-navigation-backdrop"
-    type="button"
-    data-site-navigation-backdrop
-    aria-label="Close navigation"
-    hidden
-  ></button>
-</header>
+<V2Header
+  class="hara-www-header"
+  homeHref="https://hara-lang.org/"
+  nav={nav}
+  activePath={Astro.url.pathname}
+  label="Hara WWW"
+  variant="product"
+  accountHref="https://id.hara-lang.org/"
+>
+  <ThemeToggle />
+  <div class="hara-www-identity" data-hara-identity></div>
+</V2Header>

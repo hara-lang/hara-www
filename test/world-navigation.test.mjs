@@ -7,6 +7,6 @@ const header = await readFile(new URL("../src/components/WwwHeader.astro", impor
 
 test("links Hara Learn from the primary navigation", () => {
   assert.match(layout, /\{ label: "Learn", href: "https:\/\/learn\.hara-lang\.org\/" \}/);
-  assert.match(header, /data-site-navigation/);
+  assert.match(header, /@hara-lang\/ui-astro\/astro\/v2\/Header\.astro/);
   assert.ok(header.includes("data-hara-identity"));
 });

@@ -11,18 +11,16 @@ test("Hara WWW adopts the v2 visual-language shell", () => {
   assert.match(layout, /astro\/v2\/Shell\.astro/);
   assert.match(layout, /WwwHeader/);
   assert.match(layout, /data-hara-v2-site="www"/);
-  assert.match(header, /class="hara-v2-header hara-www-header"/);
-  assert.match(header, /class="hara-v2-brand" href="https:\/\/hara-lang\.org\/"/);
-  assert.match(header, /data-site-navigation-trigger/);
-  assert.match(header, /data-site-navigation/);
-  assert.match(header, /data-hara-account/);
+  assert.match(header, /@hara-lang\/ui-astro\/astro\/v2\/Header\.astro/);
+  assert.match(header, /class="hara-www-header"/);
+  assert.match(header, /variant="product"/);
+  assert.match(header, /accountHref="https:\/\/id\.hara-lang\.org\//);
+  assert.match(header, /data-hara-identity/);
 });
 
 test("v2 adoption leaves the homepage content full-width inside the shell", () => {
   assert.match(shell, /\.hara-www-shell \.hara-v2-main \{ padding: 0; \}/);
   assert.match(shell, /\.hara-www-shell \.hara-v2-main > \.hara-v2-content \{ width: 100%; \}/);
-  assert.match(shell, /@media \(max-width: 820px\)/);
-  assert.match(shell, /data-navigation-open="true"/);
-  assert.match(shell, /right: auto;/);
-  assert.match(shell, /left: 0;/);
+  assert.match(shell, /\.hara-www-slot\s*\{/);
+  assert.match(shell, /\.hara-www-header \.hara-www-identity/);
 });

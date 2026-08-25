@@ -27,7 +27,7 @@ test("the shared layout directly consumes v2 without replacing identity, live or
   assert.match(layout, /data-hara-v2-site="www"/);
   assert.match(header, /data-hara-identity/);
   assert.match(header, /<ThemeToggle \/>/);
-  assert.match(header, /href="https:\/\/hara-lang\.org\/"/);
+  assert.match(header, /homeHref="https:\/\/hara-lang\.org\//);
   assert.match(layout, /identity-loader\.js/);
   assert.match(layout, /install-copy\.js/);
   assert.match(layout, /live-surface\.css/);
@@ -36,7 +36,7 @@ test("the shared layout directly consumes v2 without replacing identity, live or
 
 test("the v2 shared shell owns the WWW primary and context navigation", async () => {
   const layout = await read("src/layouts/SiteLayout.astro");
-  assert.match(layout, /<V2Shell sidebar=\{false\} aside=\{false\}/);
+  assert.match(layout, /<V2Shell[\s\S]*sidebar=\{false\}[\s\S]*aside=\{false\}/);
   assert.match(layout, /<WwwHeader slot="header" nav=\{primaryNavigation\} \/>/);
   assert.match(layout, /\{ label: "Play", href: "https:\/\/play\.hara-lang\.org\/" \}[\s\S]*?\{ label: "Learn", href: "https:\/\/learn\.hara-lang\.org\/" \}[\s\S]*?\{ label: "Build", href: "https:\/\/build\.hara-lang\.org\/" \}/);
 });
