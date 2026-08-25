@@ -5,5 +5,10 @@ export default defineConfig({
   site: "https://hara-lang.org",
   output: "static",
   outDir: "./target/www-astro",
-  integrations: [sitemap()]
+  integrations: [sitemap()],
+  vite: {
+    resolve: {
+      preserveSymlinks: true
+    }
+  }
 });
