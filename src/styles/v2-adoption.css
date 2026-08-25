@@ -38,105 +38,20 @@
   outline-offset: 4px;
 }
 
+/* The global Hara header is the only persistent navigation layer. The local
+   context row scrolls away, so in-page targets clear the header only. */
 .hara-www-site :where(main, section, article)[id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: calc(var(--hara-v2-header-height) + 1rem);
 }
 
-.hara-www-site .site-header {
-  z-index: 100;
-  min-height: 64px;
-  border-bottom-color: var(--hara-v2-line-strong);
-  background: color-mix(in srgb, var(--hara-v2-panel-raised) 96%, transparent);
-  box-shadow: 0 1px 0 var(--hara-v2-sketch);
-  backdrop-filter: blur(16px) saturate(108%);
-}
+html[data-site-navigation-open="true"] { overflow: hidden; }
 
-.hara-www-site .brand {
-  color: var(--hara-v2-ink);
-  font-family: var(--hara-v2-font-heading);
-  letter-spacing: -.025em;
-}
-
-.hara-www-site .site-header > nav {
-  align-self: stretch;
-  gap: 0;
-}
-
-.hara-www-site .site-header > nav a {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 100%;
-  padding: 0 clamp(.7rem, 1.4vw, 1.15rem);
-  color: var(--hara-v2-muted);
-  border-inline-start: 1px solid transparent;
-  border-inline-end: 1px solid transparent;
-  font-size: .78rem;
-  font-weight: 640;
-  text-decoration: none;
-}
-
-.hara-www-site .site-header > nav a:hover {
-  color: var(--hara-v2-ink);
-  background: var(--hara-v2-hover);
-}
-
-.hara-www-site .site-header > nav a[aria-current="page"] {
-  color: var(--hara-v2-ink);
-  border-inline-color: var(--hara-v2-line);
-  background: var(--hara-v2-panel);
-  box-shadow: inset 0 -2px var(--hara-v2-signal);
-}
-
-.site-navigation-trigger {
-  display: none;
-  grid-template-columns: auto auto 9px;
-  gap: .38rem;
-  align-items: center;
-  min-height: 38px;
-  padding: .45rem .58rem;
-  color: var(--hara-v2-ink);
-  border: 1px solid var(--hara-v2-line-strong);
-  border-radius: var(--hara-v2-radius);
-  background: var(--hara-v2-panel);
-  font: 680 .68rem var(--hara-v2-font-body);
-  cursor: pointer;
-}
-
-.site-navigation-trigger small {
-  color: var(--hara-v2-faint);
-  font: 650 .52rem var(--hara-v2-font-code);
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-
-.site-navigation-trigger i {
-  width: 7px;
-  height: 7px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform var(--hara-v2-motion) var(--hara-v2-ease);
-}
-
-.site-navigation-trigger[aria-expanded="true"] i {
-  transform: translateY(2px) rotate(225deg);
-}
-
-.site-navigation-backdrop {
-  position: fixed;
-  z-index: -1;
-  inset: 64px 0 0;
-  padding: 0;
-  border: 0;
-  background: color-mix(in srgb, var(--hara-v2-canvas-clean) 58%, transparent);
-  backdrop-filter: blur(3px);
-  cursor: default;
-}
-
-.site-navigation-backdrop[hidden] { display: none; }
-
-.hara-www-site .site-header :is(a, button):focus-visible,
+.hara-www-site :where(
+  .hara-v2-header,
+  .hara-www-secondary,
+  .hara-www-product-menu,
+  .site-footer
+) :is(a, button):focus-visible,
 .hara-www-site .site-footer a:focus-visible {
   outline: 2px solid var(--hara-v2-signal);
   outline-offset: 3px;
@@ -147,84 +62,17 @@
 }
 
 @media (max-width: 760px) {
-  html[data-site-navigation-open="true"] { overflow: hidden; }
-
-  .hara-www-site .site-header {
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: .7rem;
-    padding-inline: 14px;
-  }
-
-  .hara-www-site .brand span { display: inline; }
-
-  .site-navigation-trigger { display: inline-grid; }
-
-  .hara-www-site .site-header > nav {
-    position: fixed;
-    z-index: 102;
-    top: 64px;
-    right: 0;
-    left: 0;
-    display: grid;
-    gap: 0;
-    align-content: start;
-    padding: 0 14px 14px;
-    overflow: visible;
-    border-bottom: 1px solid var(--hara-v2-line-strong);
-    background: color-mix(in srgb, var(--hara-v2-panel-raised) 98%, transparent);
-    box-shadow: var(--hara-v2-shadow);
-  }
-
-  html[data-site-navigation-ready="true"] .site-header[data-navigation-open="false"] > nav {
-    display: none;
-  }
-
-  .hara-www-site .site-header > nav a {
-    justify-content: space-between;
-    min-height: 48px;
-    padding: .72rem .78rem;
-    border: 1px solid var(--hara-v2-line);
-    border-top: 0;
-    background: var(--hara-v2-panel);
-    font-size: .78rem;
-  }
-
-  .hara-www-site .site-header > nav a:first-child {
-    border-top: 1px solid var(--hara-v2-line);
-  }
-
-  .hara-www-site .site-header > nav a::after {
-    color: var(--hara-v2-faint);
-    content: "↗";
-    font: .66rem var(--hara-v2-font-code);
-  }
-
-  .hara-www-site .site-header > nav a[href^="/"]::after { content: "→"; }
-
-  .hara-www-site .site-header > nav a[aria-current="page"] {
-    border-color: var(--hara-v2-line-strong);
-    box-shadow: inset 3px 0 var(--hara-v2-signal);
-  }
-
-  .hara-www-site .site-header :is(a, button),
+  .hara-www-site :where(
+    .hara-v2-header,
+    .hara-www-secondary,
+    .hara-www-product-menu,
+    .site-footer
+  ) :is(a, button),
   .hara-www-site .site-footer a {
     min-height: 44px;
   }
-
-  .hara-www-site :where(main, section, article)[id] {
-    scroll-margin-top: 5rem;
-  }
-}
-
-@media (max-width: 430px) {
-  .hara-www-site .brand span,
-  .site-navigation-trigger small { display: none; }
-
-  .site-navigation-trigger { grid-template-columns: auto 9px; }
-  .header-actions { gap: .3rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-skip-link,
-  .site-navigation-trigger i { transition: none; }
+  .site-skip-link { transition: none; }
 }

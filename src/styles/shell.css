@@ -1,13 +1,381 @@
-/* WWW owns page composition and identity content; v2 owns shell geometry. */
+/* The shared v2 shell owns the outer navigation; keep the WWW homepage
+   composition full-width inside its main content column. */
 .hara-www-shell .hara-v2-main { padding: 0; }
 .hara-www-shell .hara-v2-main > .hara-v2-content { width: 100%; }
 .hara-www-slot { min-width: 0; }
 .hara-www-shell .site-footer { min-height: 100px; }
 
-.hara-www-header .hara-www-identity {
-  display: contents;
+/* Primary product menu ----------------------------------------------------- */
+.hara-www-masthead { position: relative; z-index: 40; }
+
+.hara-www-account {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.hara-www-identity {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.hara-www-account .hara-v2-profile-link {
+  color: var(--hara-v2-muted);
+  font-size: .7rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.hara-www-account .hara-v2-profile-link:hover { color: var(--hara-v2-ink); }
+
+.hara-www-product-menu {
+  position: fixed;
+  z-index: 43;
+  top: var(--hara-v2-header-height);
+  left: 20px;
+  width: min(360px, calc(100vw - 40px));
+  max-height: min(70svh, 560px);
+  overflow: auto;
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel-raised);
+  box-shadow: var(--hara-v2-shadow);
+}
+
+.hara-www-product-menu[hidden] { display: none; }
+
+.hara-www-product-menu__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 58px;
+  padding: .65rem .7rem .65rem .9rem;
+  border-bottom: 1px solid var(--hara-v2-line);
+}
+
+.hara-www-product-menu__head > div {
+  display: grid;
+  gap: .12rem;
+}
+
+.hara-www-product-menu__head span {
+  color: var(--hara-v2-faint);
+  font: 680 .58rem var(--hara-v2-font-code);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hara-www-product-menu__head strong {
+  color: var(--hara-v2-ink);
+  font: 720 .82rem var(--hara-v2-font-body);
+}
+
+.hara-www-product-menu__head button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line-strong);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-panel);
+  cursor: pointer;
+}
+
+.hara-www-product-menu nav {
+  display: grid;
+  gap: 1px;
+  padding: 8px;
+}
+
+.hara-www-product-menu nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  min-height: 46px;
+  padding: .68rem .75rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel);
+  font: 650 .74rem var(--hara-v2-font-body);
+  text-decoration: none;
+}
+
+.hara-www-product-menu nav a:hover,
+.hara-www-product-menu nav a:focus-visible {
+  color: var(--hara-v2-ink);
+  border-color: var(--hara-v2-line-strong);
+  background: var(--hara-v2-hover);
+}
+
+.hara-www-product-menu nav a:focus-visible,
+.hara-www-product-menu__head button:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: -3px;
+}
+
+.hara-www-product-menu-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  padding: .75rem var(--hara-v2-page);
+  border-bottom: 1px solid var(--hara-v2-line);
+}
+
+.hara-www-product-menu-fallback a { color: var(--hara-v2-ink); }
+
+.hara-www-masthead .site-navigation-backdrop {
+  position: fixed;
+  z-index: 42;
+  inset: var(--hara-v2-header-height) 0 0;
+  border: 0;
+  background: color-mix(in srgb, var(--hara-v2-canvas-clean) 62%, transparent);
+  backdrop-filter: blur(3px);
+  cursor: default;
+}
+
+.hara-www-masthead .site-navigation-backdrop[hidden] { display: none; }
+
+/* All-width one-line secondary navigation --------------------------------
+ * The global Hara header is the only persistent navigation layer. The local
+ * row remains the positioning context for its disclosures but scrolls away.
+ */
+.hara-www-secondary {
+  position: relative;
+  top: auto;
+  z-index: 20;
+  isolation: isolate;
+  min-height: 48px;
+  max-height: 48px;
+  overflow: visible;
+  background: var(--hara-v2-panel-raised);
+  box-shadow: 0 1px 0 var(--hara-v2-sketch);
+}
+
+.hara-www-secondary__line {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 48px;
+  max-height: 48px;
+  padding-inline: clamp(12px, 2vw, 28px);
+}
+
+.hara-www-secondary__home,
+.hara-www-secondary__trigger {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 48px;
+  max-height: 48px;
+  color: var(--hara-v2-muted);
+  border: 0;
+  border-right: 1px solid var(--hara-v2-line);
+  background: transparent;
+  font: 660 .7rem var(--hara-v2-font-body);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hara-www-secondary__home {
+  flex: 0 0 auto;
+  gap: .4rem;
+  max-width: 132px;
+  padding: 0 .75rem;
+}
+
+.hara-www-secondary__trigger {
+  flex: 0 1 auto;
+  justify-content: space-between;
+  gap: .6rem;
+  width: clamp(170px, 22vw, 250px);
+  padding: 0 .75rem;
+  cursor: pointer;
+}
+
+.hara-www-secondary__home span:last-child,
+.hara-www-secondary__trigger > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hara-www-secondary__trigger i {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform var(--hara-v2-motion) ease;
+}
+
+.hara-www-secondary[data-route-open="true"] [data-www-route-trigger] i,
+.hara-www-secondary[data-section-open="true"] [data-www-section-trigger] i {
+  transform: rotate(225deg) translate(-1px, -1px);
+}
+
+.hara-www-secondary__panel {
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  left: clamp(12px, 2vw, 28px);
+  display: none;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  width: min(340px, calc(100vw - 56px));
+  max-height: min(62svh, 440px);
+  padding: 8px;
+  overflow: auto;
+  border: 1px solid var(--hara-v2-line-strong);
+  border-top: 0;
+  background: var(--hara-v2-panel);
+  box-shadow: var(--hara-v2-shadow);
+}
+
+.hara-www-secondary[data-route-open="true"] [data-www-route-menu],
+.hara-www-secondary[data-section-open="true"] [data-www-section-menu] {
+  display: grid;
+}
+
+.hara-www-secondary__panel-label {
+  padding: .5rem .65rem .35rem;
+  color: var(--hara-v2-faint);
+  font: 680 .56rem var(--hara-v2-font-code);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hara-www-secondary__panel a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .58rem .72rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel-raised);
+  font: 650 .72rem var(--hara-v2-font-body);
+  text-decoration: none;
+}
+
+.hara-www-secondary__panel a[aria-current] {
+  color: var(--hara-v2-signal);
+  border-color: var(--hara-v2-signal);
+  box-shadow: inset 3px 0 var(--hara-v2-signal);
+}
+
+.hara-www-secondary__home:focus-visible,
+.hara-www-secondary__trigger:focus-visible,
+.hara-www-secondary__panel a:focus-visible {
+  position: relative;
+  z-index: 2;
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: -3px;
+}
+
+@media (max-width: 840px) {
+  .hara-www-product-menu {
+    right: 0;
+    left: 0;
+    width: 100%;
+    max-height: min(72svh, 600px);
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .hara-www-secondary__line { padding-inline: 12px; }
+  .hara-www-secondary__home { max-width: 104px; padding-inline: .6rem; }
+  .hara-www-secondary__trigger { flex: 1 1 0; width: auto; padding-inline: .6rem; }
+
+  .hara-www-secondary__panel {
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px 12px 12px;
+    border-right: 0;
+    border-left: 0;
+  }
 }
 
 @media (max-width: 520px) {
-  .hara-www-header .hara-www-identity { display: none; }
+  .hara-www-account .hara-v2-profile-link { display: none; }
+  .hara-www-secondary__line { padding-inline: 8px; }
+  .hara-www-secondary__home { max-width: 84px; padding-inline: .45rem; }
+  .hara-www-secondary__trigger { padding-inline: .5rem; }
+}
+
+@media (max-width: 340px) {
+  .hara-www-secondary__home {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .hara-www-secondary__home span:last-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-www-secondary__trigger i { transition: none; }
+}
+
+/* Public-site product controls that remain owned by hara-www. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: .42rem;
+}
+
+.sign-in {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: .44rem .72rem;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  background: var(--hara-v2-panel);
+  font-size: .72rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  clip-path: polygon(
+    var(--hara-v2-cut-small) 0,
+    100% 0,
+    100% calc(100% - var(--hara-v2-cut-small)),
+    calc(100% - var(--hara-v2-cut-small)) 100%,
+    0 100%,
+    0 var(--hara-v2-cut-small)
+  );
+}
+
+.sign-in:hover {
+  border-color: color-mix(in srgb, var(--hara-v2-signal) 48%, var(--hara-v2-line-strong));
+  background: var(--hara-v2-panel-raised);
+}
+
+.sign-in:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .sign-in {
+    min-height: 44px;
+    padding-inline: .65rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header .hara-theme-toggle [data-hara-theme-label],
+  .sign-in span {
+    display: none;
+  }
 }
