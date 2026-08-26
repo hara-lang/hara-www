@@ -9,6 +9,8 @@ const loader = await readFile(new URL("../public/assets/identity-loader.js", imp
 test("opts every www page into the shared popup GitHub sign-in mode", () => {
   assert.match(layout, /<meta name="hara-identity-mode" content="popup" \/>/);
   assert.match(header, /data-hara-identity/);
+  assert.match(header, /accountHref=\{accountHref\.href\}/);
+  assert.match(header, /new URL\("\/github\/start", "https:\/\/id\.hara-lang\.org\//);
   assert.match(layout, /identity-loader\.js/);
   assert.match(loader, /identity-client\.js/);
 });

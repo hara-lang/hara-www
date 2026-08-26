@@ -138,6 +138,7 @@ cp "$ROOT/core/rust/web/hta.js" \
    "$ROOT/core/rust/web/package-cache.js" \
    "$OUT/runtime/"
 cp "$ROOT/core/rust/web/packages/hta/"*.js "$OUT/runtime/packages/hta/"
+cp "$ROOT/core/rust/web/packages/hta/"*.mjs "$OUT/runtime/packages/hta/"
 node "$SITE_ROOT/scripts/hara-assembly/build-www-harp.mjs" "$OUT/runtime/kernel.harp" \
   "std.foundation=$ROOT/core/java/target/classes/std/foundation.halc" \
   "std.substrate.protocol=$HALC_OUT/substrate-protocol.halc" \

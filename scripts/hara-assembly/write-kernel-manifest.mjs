@@ -15,7 +15,7 @@ const variants = {
 };
 for (const value of Object.values(variants)) {
   const bytes = await readFile(resolve(directory, value.file));
-  value.url = `/runtime/${value.file}`;
+  value.url = `/runtime/${value.file}?v=20260826-hta4`;
   value.sha256 = createHash("sha256").update(bytes).digest("hex");
   value.bytes = { raw: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, brotli: brotliCompressSync(bytes).length };
 }
@@ -30,10 +30,11 @@ const bootstrap = {
     brotli: brotliCompressSync(foundationBytes).length
   }
 };
-// Keep the transfer guard strict while allowing the current exact-numeric core
-// and Foundation namespace-resource support. Preserve a small margin above the
-// measured 858 KB gzip / 624 KB Brotli CI artifacts so future growth remains visible.
-if (variants.core.bytes.gzip > 900_000 || variants.core.bytes.brotli > 650_000) {
+// Keep the transfer guard strict while allowing the current browser runtime,
+// including the expanded HTA and Foundation namespace support. Preserve a
+// small margin above the measured 932 KB gzip / 667 KB Brotli artifact so
+// future growth remains visible.
+if (variants.core.bytes.gzip > 1_000_000 || variants.core.bytes.brotli > 700_000) {
   throw new Error(`hara-wasm-core exceeds its transfer budget: ${JSON.stringify(variants.core.bytes)}`);
 }
 const manifest = { schema: "hara-kernel-manifest/v1", version, htaAbi: 3, bootstrap, variants };

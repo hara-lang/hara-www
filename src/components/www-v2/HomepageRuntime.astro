@@ -6,7 +6,7 @@
   const runtimeResources = {
     "studio.store": "/runtime/studio/hal/store.hal",
     "studio.fs": "/runtime/studio/hal/fs.hal",
-    "studio.node": "/runtime/studio/hal/node.hal",
+    "studio.node": "/runtime/studio/hal/node.hal?v=20260826-hta4",
     "studio.draw": "/runtime/studio/hal/draw.hal",
     "std.substrate.core": "/runtime/std/substrate/core.hal",
     "std.substrate.frame": "/runtime/std/substrate/frame.hal",
@@ -21,12 +21,18 @@
     "std.substrate.util-handlers": "/runtime/std/substrate/util_handlers.hal",
     "std.substrate": "/runtime/std/substrate.hal"
   };
+  const localHost = location.hostname === "localhost" || location.hostname.endsWith(".localhost");
+  const liveRuntimeBase = localHost
+    ? "/runtime-live"
+    : "/runtime";
   let browserKernelPromise: ReturnType<typeof createLiveKernel> | null = null;
   const browserKernel = {
     async createSession(name: string, options: { filesystem?: string } = {}) {
       browserKernelPromise ??= createLiveKernel({
         runtimeBase: "/runtime",
-        kernelModuleUrl: "/runtime/browser-kernel.js",
+        kernelModuleUrl: "/runtime/browser-kernel.js?v=20260826-hta4",
+        manifestUrl: "/runtime/kernel-manifest.json?v=20260826-hta4",
+        workerUrl: "/runtime/hta-worker.js?v=20260826-hta4",
         resources: runtimeResources
       });
       const kernel = await browserKernelPromise;
@@ -76,7 +82,7 @@
         snippets: playSnippets,
         activeSnippet: "read",
         kernel: browserKernel,
-        runtimeBase: "/runtime"
+        runtimeBase: liveRuntimeBase
       });
       selector?.addEventListener("change", () => selectExample(playMount, selector.value));
     }
@@ -91,7 +97,7 @@
         }],
         activeSnippet: "ocean",
         kernel: browserKernel,
-        runtimeBase: "/runtime"
+        runtimeBase: liveRuntimeBase
       });
       shaderMount.querySelector(".www-v2-shader-placeholder")?.remove();
       void shaderCard.run().catch(() => {});

@@ -1,4 +1,4 @@
-import { HtaContext } from "/runtime/hta.js?v=20260803-modular-kernel";
+import { HtaContext } from "/runtime/hta.js?v=20260826-hta4";
 import { createHostServices } from "/runtime/studio/host-services.js";
 
 export function prepareLiveEval(source) {

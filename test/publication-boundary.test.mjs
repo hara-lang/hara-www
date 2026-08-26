@@ -60,7 +60,7 @@ test("keeps homepage live examples on website-owned runtime routes", async () =>
   assert.match(page, /import HomepageRuntime from "\.\.\/components\/www-v2\/HomepageRuntime\.astro"/);
   assert.match(page, /<HomepageRuntime \/>/);
   assert.match(runtime, /createLiveKernel/);
-  assert.match(runtime, /kernelModuleUrl: "\/runtime\/browser-kernel\.js"/);
+  assert.match(runtime, /kernelModuleUrl: "\/runtime\/browser-kernel\.js(?:\?v=[^"]+)?"/);
   assert.match(runtime, /"studio\.store": "\/runtime\/studio\/hal\/store\.hal"/);
   assert.match(runtime, /"studio\.fs": "\/runtime\/studio\/hal\/fs\.hal"/);
   assert.doesNotMatch(runtime, /\/docs-assets\//);
