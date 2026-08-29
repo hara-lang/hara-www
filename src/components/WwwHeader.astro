@@ -12,6 +12,9 @@ const {
   nav = [] as NavItem[],
   activePath = "/"
 } = Astro.props;
+const accountReturnTo = new URL(Astro.url.pathname, Astro.site);
+const accountHref = new URL("/github/start", "https://id.hara-lang.org/");
+accountHref.searchParams.set("returnTo", accountReturnTo.href);
 ---
 <div class="hara-www-masthead" data-site-header data-navigation-open="false">
   <Header
@@ -20,6 +23,7 @@ const {
     activePath={activePath}
     label="Hara"
     account="logged-in"
+    accountHref={accountHref.href}
     menuMode="product"
     menuControls="hara-www-navigation"
     menuLabel="Open Hara menu"
