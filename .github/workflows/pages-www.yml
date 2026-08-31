@@ -46,7 +46,7 @@ jobs:
         run: npm ci
       - name: Build and assemble site
         env:
-          HARA_GITHUB_OAUTH_CLIENT_ID: ${{ vars.HARA_GITHUB_OAUTH_CLIENT_ID }}
+          HARA_GITHUB_OAUTH_CLIENT_ID: ${{ vars.HARA_IDENTITY_GITHUB_OAUTH_CLIENT_ID }}
         run: scripts/hara-assembly/build-www
       - name: Test assembled site
         run: npm test
@@ -54,8 +54,8 @@ jobs:
         if: github.ref_name == 'testing'
         run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "testing ${GITHUB_SHA}"
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_TESTING_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.HARA_NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ vars.HARA_WWW_NETLIFY_TESTING_SITE_ID }}
       - name: Verify testing
         if: github.ref_name == 'testing'
         run: |
@@ -65,8 +65,8 @@ jobs:
         if: github.ref_name == 'main'
         run: npx --yes netlify-cli deploy --prod --dir .workspace/technology/hara/core/target/www --message "main ${GITHUB_SHA}"
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.HARA_NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ vars.HARA_WWW_NETLIFY_PRODUCTION_SITE_ID }}
       - name: Verify production
         if: github.ref_name == 'main'
         run: |

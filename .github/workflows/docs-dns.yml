@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.HARA_NETLIFY_AUTH_TOKEN }}
       NETLIFY_ACCOUNT_SLUG: zcaudate
       NETLIFY_DNS_ZONE: hara-lang.org
       DOCS_HOSTNAME: docs.hara-lang.org
