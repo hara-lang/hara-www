@@ -14,7 +14,10 @@ jobs:
       - uses: actions/checkout@v4
         with: {submodules: recursive}
       - uses: actions/checkout@v4
-        with: {repository: hara-lang/hara, path: .workspace/technology/hara}
+        with:
+          repository: hara-lang/hara
+          ref: 83f8a43767b98c85ff8a1dc2b127403a35807cee
+          path: .workspace/technology/hara
       - uses: actions/checkout@v4
         with: {repository: hara-lang/hara-specs-registry, path: .workspace/technology/hara-specs-registry}
       - uses: actions/checkout@v4
@@ -24,6 +27,10 @@ jobs:
           repository: hara-lang/hara-ui
           ref: main
           path: .workspace/technology/hara-ui
+      - name: Expose shared UI package for npm file dependencies
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/../../technology"
+          ln -sfn "$GITHUB_WORKSPACE/.workspace/technology/hara-ui" "$GITHUB_WORKSPACE/../../technology/hara-ui"
       - uses: actions/setup-node@v4
         with:
           node-version: 22
