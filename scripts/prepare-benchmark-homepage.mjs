@@ -11,7 +11,7 @@ function validate(value) {
   if (!value || value.schema !== "hara.benchmarks-homepage/v1") {
     throw new Error("benchmark homepage feed has the wrong schema");
   }
-  if (value.canonical_url !== "https://hara-lang.org/benchmarks/") {
+  if (value.canonical_url !== "https://www.hara-lang.org/benchmarks/") {
     throw new Error("benchmark homepage feed has the wrong canonical URL");
   }
   if (!Number.isInteger(value.workloads) || value.workloads < 1) {
