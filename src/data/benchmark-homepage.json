@@ -1,6 +1,6 @@
 {
   "schema": "hara.benchmarks-homepage/v1",
-  "canonical_url": "https://hara-lang.org/benchmarks/",
+  "canonical_url": "https://www.hara-lang.org/benchmarks/",
   "published": "6 Aug 2026, 02:52 am UTC",
   "workloads": 8,
   "comparison_runtimes": 13,
