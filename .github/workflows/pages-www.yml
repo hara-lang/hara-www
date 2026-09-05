@@ -19,12 +19,13 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-      # Keep the production assembler on the last complete Hara runtime tree
-      # while the source/runtime repository split gets a native website build.
+      # The assembler still needs the complete runtime tree. This immutable
+      # Hara CI snapshot keeps the website build reproducible while the
+      # source/runtime repository split gets a native website build.
       - uses: actions/checkout@v4
         with:
           repository: hara-lang/hara
-          ref: 83f8a43767b98c85ff8a1dc2b127403a35807cee
+          ref: 6c14b353920a7d379af60a85938a7231528eeeb1
           path: .workspace/technology/hara
       - uses: actions/checkout@v4
         with: {repository: hara-lang/hara-specs-registry, path: .workspace/technology/hara-specs-registry}
