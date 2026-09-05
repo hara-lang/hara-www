@@ -26,7 +26,7 @@ jobs:
       url: https://hara-benchmarks.netlify.app/
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.HARA_NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ vars.HARA_BENCHMARKS_NETLIFY_PRODUCTION_SITE_ID }}
+      NETLIFY_SITE_ID: 7d87b558-d5b4-4d05-b3c9-7a52d3f05dc8
       BENCHMARK_ORIGIN: https://hara-benchmarks.netlify.app
     steps:
       - name: Checkout verified benchmark artifact

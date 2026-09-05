@@ -2,6 +2,8 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": { "allowJs": true, "checkJs": false },
   "exclude": [
-    "target/**"
+    "target/**",
+    "vendor/hara-ui/**",
+    "node_modules/**"
   ]
 }
